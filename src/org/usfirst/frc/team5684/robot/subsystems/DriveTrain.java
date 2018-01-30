@@ -9,6 +9,7 @@ import org.usfirst.frc.team5684.robot.commands.DriveWithTwoJoysticks;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
@@ -22,31 +23,40 @@ public class DriveTrain extends Subsystem {
 	private double positiveB;
 	private double negativeM;
 	private double negativeB;
-	private Encoder left;
-	private Encoder right;
-	double maxPeriod=.1;
-	int minRate=10;
-	double distancePerPulse=.05;
-	int samplesToAverage=7;
+	private Encoder leftEncoder;
+	private Encoder rightEncoder;
+	double maxPeriod = .1;
+	int minRate = 10;
+	double distancePerPulse = .05;
+	int samplesToAverage = 7;
+	public static final double WHEEL_DIAMETER = 6;
+	public static final double velF = 1.4;
+	private static final double velP = 0.8999999999999999;
+	private static final double cvelI = 0;
+	private static final double velD = 0.03125000000025;
+	private static final double posP = 0.4;
+	private static final double posI = 0.0;
+	private static final double posD = 0.0;
+	private Victor left = new Victor(RobotMap.leftWheels);
+	private Victor right = new Victor(RobotMap.rightWheels);
 	public DriveTrain() {
-		
-		drive = new RobotDrive(RobotMap.leftWheels, RobotMap.rightWheels);
+
 		deadZone = .1;
 		positiveM = ((1 - 0) / (1 - deadZone));
 		positiveB = (1 - positiveM);
 		negativeM = ((-1 - 0) / (-1 + deadZone));
 		negativeB = (1 - negativeM);
-    	left= new Encoder(8, 9, true, Encoder.EncodingType.k4X);
-    	left.setMaxPeriod(maxPeriod);
-     	left.setMinRate(minRate);
-     	left.setDistancePerPulse(RobotMap.distancePerWheelPulse);
-     	left.setSamplesToAverage(samplesToAverage);
-     	left.reset();
-     	right=new Encoder(6,7,true,Encoder.EncodingType.k4X);
-        right.setMaxPeriod(maxPeriod);
-     	right.setMinRate(minRate);
-     	right.setDistancePerPulse(RobotMap.distancePerWheelPulse);
-     	right.setSamplesToAverage(samplesToAverage);
+		leftEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
+		leftEncoder.setMaxPeriod(maxPeriod);
+		leftEncoder.setMinRate(minRate);
+		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
+		leftEncoder.setSamplesToAverage(samplesToAverage);
+		leftEncoder.reset();
+		rightEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		rightEncoder.setMaxPeriod(maxPeriod);
+		rightEncoder.setMinRate(minRate);
+		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
+		rightEncoder.setSamplesToAverage(samplesToAverage);
 	}
 
 	// Put methods for controlling this subsystem
@@ -57,15 +67,15 @@ public class DriveTrain extends Subsystem {
 		// setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new DriveWithTwoJoysticks());
 		drive.setSafetyEnabled(false);
-		
+
 	}
 
 	public void drive(Joystick leftStick, Joystick rightStick) {
 
-//		System.out.println("RIGHT+++++++++++++++++++++++++++++++++++++");
-//		reportEncoder(right);
-		//System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
-		reportEncoder(left);
+		// System.out.println("RIGHT+++++++++++++++++++++++++++++++++++++");
+		// reportEncoder(right);
+		// System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
+		reportEncoder(leftEncoder);
 		double forwardMovement = leftStick.getY();
 		double turnMovement = rightStick.getX();
 		if (Math.abs(forwardMovement) > deadZone) {
@@ -82,40 +92,38 @@ public class DriveTrain extends Subsystem {
 		} else {
 			turnMovement = 0;
 		}
-		drive.arcadeDrive(forwardMovement, turnMovement);
 	}
-	
-	public void moveMotors(double speed){
-		drive.tankDrive(speed,speed);
+
+	public void setVoltage(double voltage) {
+		left.set(voltage);
+		right.set(voltage);
 	}
-	
-	public double getLeftDistance()
-	{
-		return left.getDistance();
+
+	public double getLeftDistance() {
+		return leftEncoder.getDistance();
 	}
-	public double getRightDistance()
-	{
-		return right.getDistance();
+
+	public double getRightDistance() {
+		return rightEncoder.getDistance();
 	}
-	
-	public void resetEncoder()
-	{
-		left.reset();
-		right.reset();
+
+	public void resetEncoder() {
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
 	private void reportEncoder(Encoder enc) {
-	//	System.out.println("Raw is :" + enc.getRaw() + ":");
-		//System.out.println("Distance is :" + enc.getDistance() + ":");
-	//	System.out.println("Direction is :" + enc.getDirection() + ":");
-		//System.out.println("Stopped is :" + enc.getStopped() + ":");
-		//System.out.println("Rate is :" + enc.getRate() + ":");
-		
-		System.out.println(System.currentTimeMillis() +"\t\t" + enc.getRate());
+		// System.out.println("Raw is :" + enc.getRaw() + ":");
+		// System.out.println("Distance is :" + enc.getDistance() + ":");
+		// System.out.println("Direction is :" + enc.getDirection() + ":");
+		// System.out.println("Stopped is :" + enc.getStopped() + ":");
+		// System.out.println("Rate is :" + enc.getRate() + ":");
+
+		System.out.println(System.currentTimeMillis() + "\t\t" + enc.getRate());
 
 	}
 
 	public LiveWindowSendable getLeftEncoder() {
-		return left;
+		return leftEncoder;
 	}
 }
