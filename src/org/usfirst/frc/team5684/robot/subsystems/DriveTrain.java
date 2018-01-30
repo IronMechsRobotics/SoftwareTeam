@@ -64,8 +64,8 @@ public class DriveTrain extends Subsystem {
 
 //		System.out.println("RIGHT+++++++++++++++++++++++++++++++++++++");
 //		reportEncoder(right);
-//		System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
-//		reportEncoder(left);
+		//System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
+		reportEncoder(left);
 		double forwardMovement = leftStick.getY();
 		double turnMovement = rightStick.getX();
 		if (Math.abs(forwardMovement) > deadZone) {
@@ -105,11 +105,13 @@ public class DriveTrain extends Subsystem {
 	}
 
 	private void reportEncoder(Encoder enc) {
-		System.out.println("Raw is :" + enc.getRaw() + ":");
-		System.out.println("Distance is :" + enc.getDistance() + ":");
-		System.out.println("Direction is :" + enc.getDirection() + ":");
-		System.out.println("Stopped is :" + enc.getStopped() + ":");
-		System.out.println("Rate is :" + enc.getRate() + ":");
+	//	System.out.println("Raw is :" + enc.getRaw() + ":");
+		//System.out.println("Distance is :" + enc.getDistance() + ":");
+	//	System.out.println("Direction is :" + enc.getDirection() + ":");
+		//System.out.println("Stopped is :" + enc.getStopped() + ":");
+		//System.out.println("Rate is :" + enc.getRate() + ":");
+		
+		System.out.println(System.currentTimeMillis() +"\t\t" + enc.getRate());
 
 	}
 
