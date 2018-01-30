@@ -19,11 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
-	//make a statement like this for each new subsystem
+	// make a statement like this for each new subsystem
 	public static DriveTrain drivetrain;
 	public static Arm arm;
 	public static IO io;
 	String autoSelected;
+	public static ADIS16448_IMU gyro;
+	public long startTime;
+	public long endTime;
+	public long time;
+	public static boolean hasSeenAutonmous = false;
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	/**
@@ -35,6 +40,8 @@ public class Robot extends IterativeRobot {
 		drivetrain = new DriveTrain();
 		arm = new Arm();
 		io = new IO();
+		gyro = new ADIS16448_IMU();
+		time = System.currentTimeMillis();
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
@@ -56,7 +63,26 @@ public class Robot extends IterativeRobot {
 		autoSelected = chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
+		hasSeenAutonmous = true;
+		hasSeenAutonmous = true;
+		startTime = System.currentTimeMillis();
+		endTime = startTime + 1000 * 15;
+
 		System.out.println("Auto selected: " + autoSelected);
+	}
+
+	public void disabledInit() {
+
+	}
+
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
+			System.out.println("Recalibrate");
+			time = System.currentTimeMillis();
+			gyro.calibrate();
+		}
 	}
 
 	/**
@@ -82,7 +108,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
 
 	/**
 	 * This function is called periodically during test mode
@@ -91,4 +116,3 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 	}
 }
-
