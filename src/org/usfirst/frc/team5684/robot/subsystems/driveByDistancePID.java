@@ -35,6 +35,6 @@ public class driveByDistancePID extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
-    	driveTrain.moveMotors(output);
+    	driveTrain.setVoltage(output);
     }
 }

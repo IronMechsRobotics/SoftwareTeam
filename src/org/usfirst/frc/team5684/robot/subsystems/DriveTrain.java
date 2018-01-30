@@ -3,7 +3,9 @@ package org.usfirst.frc.team5684.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 import org.usfirst.frc.team5684.robot.commands.DriveWithTwoJoysticks;
 
@@ -37,10 +39,16 @@ public class DriveTrain extends Subsystem {
 	private static final double posP = 0.4;
 	private static final double posI = 0.0;
 	private static final double posD = 0.0;
-	private Victor left = new Victor(RobotMap.leftWheels);
-	private Victor right = new Victor(RobotMap.rightWheels);
-	public DriveTrain() {
+	private static final double MAX_SPEED = 130;
+	private Victor left;
+	private Victor right;
+	private boolean correcting = false;
+	private setSpeedPID leftPID;
+	private setSpeedPID rightPID;
 
+	public DriveTrain() {
+		left  = new Victor(RobotMap.leftWheels);
+		right= = new Victor(RobotMap.rightWheels);
 		deadZone = .1;
 		positiveM = ((1 - 0) / (1 - deadZone));
 		positiveB = (1 - positiveM);
@@ -57,6 +65,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
+		leftPID = new setSpeedPID(left,leftEncoder,"Left");
+		rightPID = new setSpeedPID(right,rightEncoder,"Right");
 	}
 
 	// Put methods for controlling this subsystem
@@ -94,6 +104,81 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
+	/**
+	 * This a a method that should be able to drive using the encoders. A lot of
+	 * debugging to do here.
+	 * 
+	 * @param moveValue
+	 *            - forward speed
+	 * @param rotateValue
+	 *            - turning speed
+	 */
+	public void driveEncoder(double moveValue, double rotateValue) {
+		if (rotateValue == 0 && moveValue != 0) {
+			if (!this.correcting) {
+				// TODO must create turnPID
+				this.resetGyro();
+				// this.turnPId.reset();
+				// this.turnPid.enable();
+				// this.turnPid.setSetpoint(0);
+				this.correcting = true;
+			}
+			// rotateValue= this.turnPID.get() + turnF;
+		} else if (this.correcting) {
+			this.correcting = false;
+		}
+
+		double leftMotorSpeed;
+		double rightMotorSpeed;
+
+		if (moveValue > 0.0) {
+			if (rotateValue > 0.0) {
+				leftMotorSpeed = moveValue - rotateValue;
+				rightMotorSpeed = Math.max(moveValue, -rotateValue);
+			} else {
+				rightMotorSpeed = moveValue + rotateValue;
+				leftMotorSpeed = Math.max(moveValue, -rotateValue);
+			}
+		} else {
+			if (rotateValue > 0.0) {
+				leftMotorSpeed = -Math.max(-moveValue, rotateValue);
+				rightMotorSpeed = moveValue + rotateValue;
+			} else {
+				leftMotorSpeed = moveValue - rotateValue;
+				rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
+			}
+		}
+		
+		if(this.driveBySpeed){
+			this.driveSpeed(-leftMotorSpeed*MAX_SPEED, rightMotorSpeed * MAX_SPEED);
+		}
+		else
+		{
+			this.setPercentVBus(-leftMotorSpeed, rightMotorSpeed);
+		}
+		
+		SmartDashboard.putNumber("Move Output",moveValue);
+		SmartDashboard.putNumber("Turn Output",rotateValue);
+		
+		//SmartDashboard.putNumber("Turn setpoint",this.turnPID.getSetpoint());
+		SmartDashboard.putNumber("Turn Output",rotateValue);
+		
+	}
+	
+	public void driveSpeed(double left, double right)
+	{
+		leftPID.setSetpoint(left);
+		rightPID.setSetpoint(right);
+		leftPID.enable();
+		rightPID.enable();
+	}
+
+	public void resetGyro() {
+		if (Robot.gyro != null) {
+			Robot.gyro.reset();
+		}
+	}
+
 	public void setVoltage(double voltage) {
 		left.set(voltage);
 		right.set(voltage);
@@ -105,6 +190,14 @@ public class DriveTrain extends Subsystem {
 
 	public double getRightDistance() {
 		return rightEncoder.getDistance();
+	}
+
+	public double getLeftSpeed() {
+		return leftEncoder.getRate();
+	}
+
+	public double getRightSpeed() {
+		return rightEncoder.getRate();
 	}
 
 	public void resetEncoder() {
