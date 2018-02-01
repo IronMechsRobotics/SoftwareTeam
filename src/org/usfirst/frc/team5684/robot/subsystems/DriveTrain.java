@@ -43,12 +43,13 @@ public class DriveTrain extends Subsystem {
 	private Victor left;
 	private Victor right;
 	private boolean correcting = false;
+	private boolean driveBySpeed = true;
 	private setSpeedPID leftPID;
 	private setSpeedPID rightPID;
 
 	public DriveTrain() {
 		left  = new Victor(RobotMap.leftWheels);
-		right= = new Victor(RobotMap.rightWheels);
+		right= new Victor(RobotMap.rightWheels);
 		deadZone = .1;
 		positiveM = ((1 - 0) / (1 - deadZone));
 		positiveB = (1 - positiveM);
@@ -151,10 +152,6 @@ public class DriveTrain extends Subsystem {
 		
 		if(this.driveBySpeed){
 			this.driveSpeed(-leftMotorSpeed*MAX_SPEED, rightMotorSpeed * MAX_SPEED);
-		}
-		else
-		{
-			this.setPercentVBus(-leftMotorSpeed, rightMotorSpeed);
 		}
 		
 		SmartDashboard.putNumber("Move Output",moveValue);
