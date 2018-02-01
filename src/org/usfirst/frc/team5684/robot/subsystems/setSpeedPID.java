@@ -19,6 +19,8 @@ public class setSpeedPID extends PIDSubsystem {
 		this.enc = enc;
 		this.setOutputRange(-.4, .4);
 		this.setAbsoluteTolerance(1);
+		this.setContinuous(true);
+
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
 		// to
