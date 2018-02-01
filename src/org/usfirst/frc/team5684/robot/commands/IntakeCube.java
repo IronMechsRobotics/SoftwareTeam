@@ -12,7 +12,7 @@ public class IntakeCube extends Command {
 	public IntakeCube() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.cubeIntakeSystem);
+		//requires(Robot.cubeIntakeSystem);
 	}
 
 	// Called just before this Command runs the first time

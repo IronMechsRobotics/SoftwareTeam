@@ -3,6 +3,7 @@ package org.usfirst.frc.team5684.robot.commands;
 import org.usfirst.frc.team5684.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -46,6 +47,8 @@ public class DrivebyJoystick extends Command {
 		}
 
 		Robot.drivetrain.drive(move, rotate);
+		SmartDashboard.putNumber("left Position", Robot.drivetrain.getLeftDistance());
+		SmartDashboard.putNumber("rigth Position", Robot.drivetrain.getRightDistance());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
