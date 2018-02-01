@@ -16,7 +16,7 @@ public class IO {
 	Button radTest = new JoystickButton(rightStick, 11);
 
 	public IO() {
-		radTest.toggleWhenPressed(new testVelPID());
+		radTest.toggleWhenPressed(new driveByDistance(Math.PI * 6));
 	}
 
 }

@@ -23,7 +23,6 @@ public class DriveTrain extends Subsystem {
 	private Encoder rightEncoder;
 	double maxPeriod = .1;
 	int minRate = 10;
-	double distancePerPulse = .05;
 	int samplesToAverage = 7;
 	public static final double WHEEL_DIAMETER = 6;
 	public static final double velF = 1.4;
@@ -47,13 +46,13 @@ public class DriveTrain extends Subsystem {
 		leftEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);
-		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
+		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseLeft);
 		leftEncoder.setSamplesToAverage(samplesToAverage);
 		leftEncoder.reset();
 		rightEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightEncoder.setMaxPeriod(maxPeriod);
 		rightEncoder.setMinRate(minRate);
-		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
+		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseRight);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
 		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
 		rightPID = new setSpeedPID(right, rightEncoder, "Right", velP, velI, velD, velF);
@@ -135,6 +134,7 @@ public class DriveTrain extends Subsystem {
 		SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
 		System.out.print(leftPID.getSmartDashboardType());
 	}
+
 	public void stopTest() {
 		leftPID.disable();
 	}
@@ -178,6 +178,14 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.reset();
 	}
 
+	public Victor getLeftMotor() {
+		return left;
+	}
+
+	public Victor getRightMotor() {
+		return right;
+	}
+
 	private void reportEncoder(Encoder enc) {
 		// System.out.println("Raw is :" + enc.getRaw() + ":");
 		// System.out.println("Distance is :" + enc.getDistance() + ":");
@@ -189,7 +197,11 @@ public class DriveTrain extends Subsystem {
 
 	}
 
-	public LiveWindowSendable getLeftEncoder() {
+	public Encoder getLeftEncoder() {
 		return leftEncoder;
+	}
+
+	public Encoder getRightEncoder() {
+		return rightEncoder;
 	}
 }
