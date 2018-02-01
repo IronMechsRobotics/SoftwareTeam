@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DrivebyJoystick extends Command {
-	private static double DEAD_BAND = 0.1;
-	private static double ROTATE_DEAD_BAND= 0.1;
+	private static double DEAD_BAND = 0.15;
+	private static double ROTATE_DEAD_BAND= 0.15;
 
 	public DrivebyJoystick() {
 		// Use requires() here to declare subsystem dependencies

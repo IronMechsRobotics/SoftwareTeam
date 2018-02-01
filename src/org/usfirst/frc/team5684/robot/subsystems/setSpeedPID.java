@@ -13,13 +13,11 @@ public class setSpeedPID extends PIDSubsystem {
 	private String name;
 
 	// Initialize your subsystem here
-	public setSpeedPID(Victor motor, Encoder enc, String name) {
-		super(name, 1.0, 0, 0);
+	public setSpeedPID(Victor motor, Encoder enc, String name, double P, double I, double D, double F) {
+		super(name, P, I, D, F);
 		this.motor = motor;
 		this.enc = enc;
-		this.setOutputRange(-.4, .4);
-		this.setAbsoluteTolerance(1);
-		this.setContinuous(true);
+		this.setOutputRange(-.2, .2);
 
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system

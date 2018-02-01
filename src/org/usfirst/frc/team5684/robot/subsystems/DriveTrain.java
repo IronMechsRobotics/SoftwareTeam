@@ -34,7 +34,7 @@ public class DriveTrain extends Subsystem {
 	public static final double WHEEL_DIAMETER = 6;
 	public static final double velF = 1.4;
 	private static final double velP = 0.8999999999999999;
-	private static final double cvelI = 0;
+	private static final double velI = 0;
 	private static final double velD = 0.03125000000025;
 	private static final double posP = 0.4;
 	private static final double posI = 0.0;
@@ -66,8 +66,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
-		leftPID = new setSpeedPID(left,leftEncoder,"Left");
-		rightPID = new setSpeedPID(right,rightEncoder,"Right");
+		leftPID = new setSpeedPID(left,leftEncoder,"Left",velP,velI,velD,velF);
+		rightPID = new setSpeedPID(right,rightEncoder,"Right",velP,velI,velD,velF);
 	}
 
 	// Put methods for controlling this subsystem
@@ -77,30 +77,7 @@ public class DriveTrain extends Subsystem {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 		setDefaultCommand(new DrivebyJoystick());
-		drive.setSafetyEnabled(false);
 
-	}
-
-	public void drive(double forwardMovement, double turnMovement) {
-
-		// System.out.println("RIGHT+++++++++++++++++++++++++++++++++++++");
-		// reportEncoder(right);
-		// System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
-		reportEncoder(leftEncoder);
-		if (Math.abs(forwardMovement) > deadZone) {
-			if (forwardMovement < 0) {
-				forwardMovement = forwardMovement * negativeM + negativeB;
-			} else {
-				forwardMovement = forwardMovement * positiveM + positiveB;
-			}
-		} else {
-			forwardMovement = 0;
-		}
-		if (Math.abs(turnMovement) > deadZone) {
-
-		} else {
-			turnMovement = 0;
-		}
 	}
 
 	/**
@@ -112,7 +89,7 @@ public class DriveTrain extends Subsystem {
 	 * @param rotateValue
 	 *            - turning speed
 	 */
-	public void driveEncoder(double moveValue, double rotateValue) {
+	public void drive(double moveValue, double rotateValue) {
 		if (rotateValue == 0 && moveValue != 0) {
 			if (!this.correcting) {
 				// TODO must create turnPID
@@ -157,6 +134,7 @@ public class DriveTrain extends Subsystem {
 		
 		//SmartDashboard.putNumber("Turn setpoint",this.turnPID.getSetpoint());
 		SmartDashboard.putNumber("Turn Output",rotateValue);
+
 		
 	}
 	
