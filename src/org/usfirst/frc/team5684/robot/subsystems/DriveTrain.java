@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
-import org.usfirst.frc.team5684.robot.commands.DriveWithTwoJoysticks;
+import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -76,19 +76,17 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new DriveWithTwoJoysticks());
+		setDefaultCommand(new DrivebyJoystick());
 		drive.setSafetyEnabled(false);
 
 	}
 
-	public void drive(Joystick leftStick, Joystick rightStick) {
+	public void drive(double forwardMovement, double turnMovement) {
 
 		// System.out.println("RIGHT+++++++++++++++++++++++++++++++++++++");
 		// reportEncoder(right);
 		// System.out.println("LEFT++++++++++++++++++++++++++++++++++++++");
 		reportEncoder(leftEncoder);
-		double forwardMovement = leftStick.getY();
-		double turnMovement = rightStick.getX();
 		if (Math.abs(forwardMovement) > deadZone) {
 			if (forwardMovement < 0) {
 				forwardMovement = forwardMovement * negativeM + negativeB;
