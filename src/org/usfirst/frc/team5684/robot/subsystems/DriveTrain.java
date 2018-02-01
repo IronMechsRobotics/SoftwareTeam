@@ -19,12 +19,6 @@ import edu.wpi.first.wpilibj.VictorSP;
  */
 public class DriveTrain extends Subsystem {
 
-	private static RobotDrive drive;
-	private double deadZone;
-	private double positiveM;
-	private double positiveB;
-	private double negativeM;
-	private double negativeB;
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 	double maxPeriod = .1;
@@ -48,13 +42,8 @@ public class DriveTrain extends Subsystem {
 	private setSpeedPID rightPID;
 
 	public DriveTrain() {
-		left  = new Victor(RobotMap.leftWheels);
-		right= new Victor(RobotMap.rightWheels);
-		deadZone = .1;
-		positiveM = ((1 - 0) / (1 - deadZone));
-		positiveB = (1 - positiveM);
-		negativeM = ((-1 - 0) / (-1 + deadZone));
-		negativeB = (1 - negativeM);
+		left = new Victor(RobotMap.leftWheels);
+		right = new Victor(RobotMap.rightWheels);
 		leftEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);
@@ -66,8 +55,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulse);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
-		leftPID = new setSpeedPID(left,leftEncoder,"Left",velP,velI,velD,velF);
-		rightPID = new setSpeedPID(right,rightEncoder,"Right",velP,velI,velD,velF);
+		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
+		rightPID = new setSpeedPID(right, rightEncoder, "Right", velP, velI, velD, velF);
 	}
 
 	// Put methods for controlling this subsystem
@@ -124,22 +113,33 @@ public class DriveTrain extends Subsystem {
 				rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
 			}
 		}
-		
-		if(this.driveBySpeed){
-			this.driveSpeed(-leftMotorSpeed*MAX_SPEED, rightMotorSpeed * MAX_SPEED);
-		}
-		
-		SmartDashboard.putNumber("Move Output",moveValue);
-		SmartDashboard.putNumber("Turn Output",rotateValue);
-		
-		//SmartDashboard.putNumber("Turn setpoint",this.turnPID.getSetpoint());
-		SmartDashboard.putNumber("Turn Output",rotateValue);
 
-		
+		if (this.driveBySpeed) {
+			this.driveSpeed(-leftMotorSpeed * MAX_SPEED, rightMotorSpeed * MAX_SPEED);
+		}
+
+		SmartDashboard.putNumber("Move Output", moveValue);
+		SmartDashboard.putNumber("Turn Output", rotateValue);
+
+		// SmartDashboard.putNumber("Turn setpoint",this.turnPID.getSetpoint());
+		SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
+		SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
+		System.out.print(leftPID.getSmartDashboardType());
+
 	}
-	
-	public void driveSpeed(double left, double right)
-	{
+
+	public void test(double speed) {
+		leftPID.setSetpoint(speed);
+		leftPID.enable();
+		SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
+		SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
+		System.out.print(leftPID.getSmartDashboardType());
+	}
+	public void stopTest() {
+		leftPID.disable();
+	}
+
+	public void driveSpeed(double left, double right) {
 		leftPID.setSetpoint(left);
 		rightPID.setSetpoint(right);
 		leftPID.enable();

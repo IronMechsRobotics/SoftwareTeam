@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
@@ -17,7 +18,7 @@ public class setSpeedPID extends PIDSubsystem {
 		super(name, P, I, D, F);
 		this.motor = motor;
 		this.enc = enc;
-		this.setOutputRange(-.2, .2);
+		this.setOutputRange(-1, 1);
 
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
@@ -41,5 +42,10 @@ public class setSpeedPID extends PIDSubsystem {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
 		motor.set(output);
+	}
+	
+	public PIDController getPIDController()
+	{
+		return this.getPIDController();
 	}
 }
