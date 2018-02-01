@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5684.robot;
 
-import org.usfirst.frc.team5684.robot.subsystems.Arm;
+import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -21,7 +21,6 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	// make a statement like this for each new subsystem
 	public static DriveTrain drivetrain;
-	public static Arm arm;
 	public static IO io;
 	String autoSelected;
 	public static ADIS16448_IMU gyro;
@@ -29,6 +28,7 @@ public class Robot extends IterativeRobot {
 	public long endTime;
 	public long time;
 	public static boolean hasSeenAutonmous = false;
+	public static CubeIntakeSystem cubeIntakeSystem;
 	SendableChooser<String> chooser = new SendableChooser<>();
 
 	/**
@@ -38,10 +38,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		drivetrain = new DriveTrain();
-		arm = new Arm();
 		io = new IO();
 		gyro = new ADIS16448_IMU();
 		time = System.currentTimeMillis();
+		cubeIntakeSystem = new CubeIntakeSystem();
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);

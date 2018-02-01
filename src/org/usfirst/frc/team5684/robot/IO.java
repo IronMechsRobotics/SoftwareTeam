@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5684.robot;
 
+import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.commands.testVelPID;
 
@@ -17,6 +18,7 @@ public class IO {
 
 	public IO() {
 		radTest.toggleWhenPressed(new driveByDistance(Math.PI * 6));
+		leftFire.whenPressed(new IntakeCube());
 	}
 
 }
