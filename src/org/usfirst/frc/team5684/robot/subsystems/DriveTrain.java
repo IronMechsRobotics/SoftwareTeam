@@ -48,12 +48,15 @@ public class DriveTrain extends Subsystem {
 		leftEncoder.setMinRate(minRate);
 		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseLeft);
 		leftEncoder.setSamplesToAverage(samplesToAverage);
-		leftEncoder.reset();
+		leftEncoder.setReverseDirection(false);
 		rightEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightEncoder.setMaxPeriod(maxPeriod);
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseRight);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
+		rightEncoder.setReverseDirection(true);
+		leftEncoder.reset();
+		rightEncoder.reset();
 		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
 		rightPID = new setSpeedPID(right, rightEncoder, "Right", velP, velI, velD, velF);
 	}
@@ -130,8 +133,8 @@ public class DriveTrain extends Subsystem {
 	public void test(double speed) {
 		leftPID.setSetpoint(speed);
 		leftPID.enable();
-		SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
-		SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
+		// SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
+		// SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
 		System.out.print(leftPID.getSmartDashboardType());
 	}
 

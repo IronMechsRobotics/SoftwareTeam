@@ -24,7 +24,7 @@ public class DrivebyJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double move = Robot.io.leftStick.getY();
+		/*double move = Robot.io.leftStick.getY();
 		double rotate = Robot.io.rightStick.getX();
 		boolean turbo = Robot.io.rightStick.getRawButton(1) || Robot.io.leftStick.getRawButton(1);
 		if (Math.abs(move) < DEAD_BAND) {
@@ -45,10 +45,11 @@ public class DrivebyJoystick extends Command {
 				rotate = map(rotate, 0, 0.3);
 			}
 		}
-
+		
 		Robot.drivetrain.drive(move, rotate);
 		SmartDashboard.putNumber("left Position", Robot.drivetrain.getLeftDistance());
 		SmartDashboard.putNumber("rigth Position", Robot.drivetrain.getRightDistance());
+		*/
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

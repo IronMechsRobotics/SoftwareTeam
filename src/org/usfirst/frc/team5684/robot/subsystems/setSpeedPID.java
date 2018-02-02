@@ -19,6 +19,7 @@ public class setSpeedPID extends PIDSubsystem {
 		this.motor = motor;
 		this.enc = enc;
 		this.setOutputRange(-1, 1);
+		this.getPIDController().setContinuous(true);
 
 		// Use these to get going:
 		// setSetpoint() - Sets where the PID controller should move the system
@@ -44,8 +45,8 @@ public class setSpeedPID extends PIDSubsystem {
 		motor.set(output);
 	}
 	
-	public PIDController getPIDController()
+	/*public PIDController getPIDController()
 	{
 		return this.getPIDController();
-	}
+	}*/
 }

@@ -17,7 +17,7 @@ public class driveByDistancePID extends PIDSubsystem {
     // Initialize your subsystem here
 	DriveTrain driveTrain;
     public driveByDistancePID(Victor motor, Encoder enc, String name) {
-    	super("DriveByDistance",.1,0,0);
+    	super("DriveByDistance",.15,0,0);
     	this.driveTrain=Robot.drivetrain;
 		this.motor = motor;
 		this.enc = enc;
@@ -34,7 +34,7 @@ public class driveByDistancePID extends PIDSubsystem {
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
     	
-        return driveTrain.getLeftDistance();
+        return this.enc.getDistance();
     }
 
     protected void usePIDOutput(double output) {
