@@ -48,13 +48,13 @@ public class DriveTrain extends Subsystem {
 		leftEncoder.setMinRate(minRate);
 		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseLeft);
 		leftEncoder.setSamplesToAverage(samplesToAverage);
-		leftEncoder.setReverseDirection(false);
+		leftEncoder.setReverseDirection(true);
 		rightEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightEncoder.setMaxPeriod(maxPeriod);
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseRight);
 		rightEncoder.setSamplesToAverage(samplesToAverage);
-		rightEncoder.setReverseDirection(true);
+		rightEncoder.setReverseDirection(false);
 		leftEncoder.reset();
 		rightEncoder.reset();
 		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
@@ -126,21 +126,10 @@ public class DriveTrain extends Subsystem {
 		// SmartDashboard.putNumber("Turn setpoint",this.turnPID.getSetpoint());
 		SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
 		SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
-		System.out.print(leftPID.getSmartDashboardType());
 
 	}
 
-	public void test(double speed) {
-		leftPID.setSetpoint(speed);
-		leftPID.enable();
-		// SmartDashboard.putNumber("LeftPid Position", leftPID.getPosition());
-		// SmartDashboard.putNumber("LeftPid setPoint", leftPID.getSetpoint());
-		System.out.print(leftPID.getSmartDashboardType());
-	}
 
-	public void stopTest() {
-		leftPID.disable();
-	}
 
 	public void driveSpeed(double left, double right) {
 		leftPID.setSetpoint(left);
@@ -189,12 +178,12 @@ public class DriveTrain extends Subsystem {
 		return right;
 	}
 
-	private void reportEncoder(Encoder enc) {
-		// System.out.println("Raw is :" + enc.getRaw() + ":");
-		// System.out.println("Distance is :" + enc.getDistance() + ":");
-		// System.out.println("Direction is :" + enc.getDirection() + ":");
-		// System.out.println("Stopped is :" + enc.getStopped() + ":");
-		// System.out.println("Rate is :" + enc.getRate() + ":");
+	public void reportEncoder(Encoder enc) {
+		 System.out.println("Raw is :" + enc.getRaw() + ":");
+		 System.out.println("Distance is :" + enc.getDistance() + ":");
+		 System.out.println("Direction is :" + enc.getDirection() + ":");
+		 System.out.println("Stopped is :" + enc.getStopped() + ":");
+		 System.out.println("Rate is :" + enc.getRate() + ":");
 
 		System.out.println(System.currentTimeMillis() + "\t\t" + enc.getRate());
 

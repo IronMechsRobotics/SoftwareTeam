@@ -3,6 +3,7 @@ package org.usfirst.frc.team5684.robot;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -30,6 +31,8 @@ public class Robot extends IterativeRobot {
 	public static boolean hasSeenAutonmous = false;
 	public static CubeIntakeSystem cubeIntakeSystem;
 	SendableChooser<String> chooser = new SendableChooser<>();
+	public DriverStation ds;
+	public boolean isBlue;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -45,6 +48,8 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		ds = DriverStation.getInstance();
+
 	}
 
 	/**
@@ -60,6 +65,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		// The very first thing you do is get which color you are.
+		if (ds.getAlliance() == DriverStation.Alliance.Blue) {
+			isBlue = true;
+		} else {
+			isBlue = false;
+		}
 		autoSelected = chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
@@ -114,5 +125,19 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+
+	public static boolean getIsBlue() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public static boolean getIsLeft() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public DriverStation  getDS() {
+		return ds;
 	}
 }
