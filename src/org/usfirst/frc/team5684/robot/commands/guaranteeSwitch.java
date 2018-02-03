@@ -8,47 +8,49 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class guaranteeSwitch extends CommandGroup {
-	private static final double  feet=Math.PI*6;
-	private static final double inches=feet/12.0;
-    public guaranteeSwitch() {
-    	boolean isBlue = Robot.getIsBlue();
-    	boolean isRed=!isBlue;
-    	boolean imLeft=Robot.getIsLeft();    
-    	boolean imRight=!imLeft;
-    	String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if(gameData.charAt(0) == 'L')
+public class GuaranteeSwitch extends CommandGroup {
+
+	private static final double feet = Math.PI * 6;
+	private static final double inches = feet / 12.0;
+	private static final int turnRight = -90;
+	private static final int turnLeft = 90;
+	private static final int distanceToSideDrop = 60;
+	private static final int distanceToPassSwitch = 108;
+	private static final int driveAlongSwitch = 144;
+
+	public GuaranteeSwitch() {
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+		String switchLocation = gameData.substring(0, 1);
+		System.out.println("SwitchLocatoin: " + switchLocation);
+		boolean isBlue = Robot.getIsBlue();
+		boolean isRed = !isBlue;
+		boolean imLeft = Robot.getIsLeft();
+		boolean imRight = !imLeft;
+		boolean switchRight = switchLocation.equals("R");
+		boolean switchLeft = !switchRight;
+		boolean bothRight = imRight && switchRight;
+		boolean bothLeft = imLeft && switchLeft;
+		boolean matchingSide = bothRight || bothLeft;
+		int amountToTurn = imLeft ? 90 : -90;
+		if (matchingSide)
+			// drive sort
+			this.addSequential(new driveByDistance(distanceToSideDrop));
+		else
+			// drive long (past switch)
+			this.addSequential(new driveByDistance(distanceToPassSwitch));
+		// Turn
+		this.addSequential(new TurnDegrees(amountToTurn));
+		if (!matchingSide)
+		// drive horizontal across field
 		{
-			//Put left auto code here
-		} else {
-			//Put right auto code here
+			this.addSequential(new driveByDistance(driveAlongSwitch));
+			this.addSequential(new TurnDegrees(amountToTurn));
 		}
-    	
-    	addParallel(new driveByDistance(4*feet));
-    	if (imLeft)
-    	{
- 
-    	}
-    	else
-    	{
-    		addParallel(new driveByDistance(10*feet));
-    	}
-        // Add Commands here:
-        // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
-        // these will run in order.
+		// TODO create DriveTillStopped
+		this.addSequential(new driveByDistance(1 * feet));
 
-        // To run multiple commands at the same time,
-        // use addParallel()
-        // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
-        // Command1 and Command2 will run in parallel.
-
-        // A command group will require all of the subsystems that each member
-        // would require.
-        // e.g. if Command1 requires chassis, and Command2 requires arm,
-        // a CommandGroup containing them would require both the chassis and the
-        // arm.
-    }
+		// Drop Cube
+		// TODO create drop cube
+		this.addSequential(new DropCube());
+	}
 }

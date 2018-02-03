@@ -1,10 +1,12 @@
 package org.usfirst.frc.team5684.robot;
 
+import org.usfirst.frc.team5684.robot.commands.GuaranteeSwitch;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,16 +25,17 @@ public class Robot extends IterativeRobot {
 	// make a statement like this for each new subsystem
 	public static DriveTrain drivetrain;
 	public static IO io;
-	String autoSelected;
 	public static ADIS16448_IMU gyro;
 	public long startTime;
 	public long endTime;
 	public long time;
 	public static boolean hasSeenAutonmous = false;
 	public static CubeIntakeSystem cubeIntakeSystem;
-	SendableChooser<String> chooser = new SendableChooser<>();
 	public DriverStation ds;
 	public boolean isBlue;
+	private Command selectedCommand;
+	private Command autonomousCommand;
+	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -45,11 +48,16 @@ public class Robot extends IterativeRobot {
 		gyro = new ADIS16448_IMU();
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		chooser.addDefault("GuaranteeSwitch", new GuaranteeSwitch());
+
+		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
 
+	}
+
+	public void robotPeriodic() {
+		this.selectedCommand = this.chooser.getSelected();
+		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
 	}
 
 	/**
@@ -71,15 +79,15 @@ public class Robot extends IterativeRobot {
 		} else {
 			isBlue = false;
 		}
-		autoSelected = chooser.getSelected();
+		this.autonomousCommand = this.selectedCommand;
+		if (this.autonomousCommand != null) {
+			this.autonomousCommand.start();
+		}
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		hasSeenAutonmous = true;
-		hasSeenAutonmous = true;
 		startTime = System.currentTimeMillis();
 		endTime = startTime + 1000 * 15;
-
-		System.out.println("Auto selected: " + autoSelected);
 	}
 
 	public void disabledInit() {
@@ -101,15 +109,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class Robot extends IterativeRobot {
 		return false;
 	}
 
-	public DriverStation  getDS() {
+	public DriverStation getDS() {
 		return ds;
 	}
 }
