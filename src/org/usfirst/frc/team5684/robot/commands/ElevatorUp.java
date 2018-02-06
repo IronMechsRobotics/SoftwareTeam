@@ -3,16 +3,17 @@ package org.usfirst.frc.team5684.robot.commands;
 import org.usfirst.frc.team5684.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class IntakeCube extends Command {
+public class ElevatorUp extends Command {
 
-	public IntakeCube() {
+	public ElevatorUp() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.cubeIntakeSystem);
+		requires(Robot.elevator);
 	}
 
 	// Called just before this Command runs the first time
@@ -21,8 +22,8 @@ public class IntakeCube extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.cubeIntakeSystem.setMotors(1);
-		System.out.println("FIRE");
+		Robot.elevator.setMotor(.5);
+		SmartDashboard.putNumber("Elevator Speed", Robot.elevator.getSpeed());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -32,8 +33,7 @@ public class IntakeCube extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.cubeIntakeSystem.setMotors(0);
-		System.out.println("DONE\n\\n\n\\n\n");
+		Robot.elevator.stopMotor();
 	}
 
 	// Called when another command which requires one or more of the same

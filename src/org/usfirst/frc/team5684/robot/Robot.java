@@ -1,9 +1,12 @@
 package org.usfirst.frc.team5684.robot;
 
 import org.usfirst.frc.team5684.robot.commands.GuaranteeSwitch;
+import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5684.robot.subsystems.ElevatorSubsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -30,11 +33,14 @@ public class Robot extends IterativeRobot {
 	public long endTime;
 	public long time;
 	public static boolean hasSeenAutonmous = false;
+	public static ElevatorSubsystem elevator;
 	public static CubeIntakeSystem cubeIntakeSystem;
 	public DriverStation ds;
 	public boolean isBlue;
 	private Command selectedCommand;
 	private Command autonomousCommand;
+	private DigitalInput switchOne;
+	
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -43,16 +49,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		switchOne = new DigitalInput(1);		
 		drivetrain = new DriveTrain();
-		io = new IO();
+		elevator = new ElevatorSubsystem();
 		gyro = new ADIS16448_IMU();
+		gyro.calibrate();
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
 		chooser.addDefault("GuaranteeSwitch", new GuaranteeSwitch());
-
+		chooser.addObject("Second Auto Option", new driveByDistance(10));
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
-
+		io = new IO();
 	}
 
 	public void robotPeriodic() {
@@ -96,6 +104,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		System.out.println(switchOne.get());
 		Scheduler.getInstance().run();
 		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
 			System.out.println("Recalibrate");

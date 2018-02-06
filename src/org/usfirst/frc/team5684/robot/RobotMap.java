@@ -14,5 +14,12 @@ public class RobotMap {
 	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
 	public static int rightSideCubeIntake = 2;
 	public static int leftSideCubeIntake = 3;
+	public static int LEFTWHEELA = 3;
+	public static int LEFTWHEELB = 3;
+	public static int RIGHTWHEELA = 3;
+	public static int RIGHTWHEELB = 3;
+	public static int ELEVATORENCODERA = 3;
+	public static int ELEVATORENCODERB = 4;
+	public static int ELEVATORMOTOR = 4;
 
 }

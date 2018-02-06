@@ -15,14 +15,18 @@ public class CubeIntakeSystem extends Subsystem {
 	private Spark leftSide;
 	private Spark rightSide;
 
+	public CubeIntakeSystem() {
+		leftSide = new Spark(RobotMap.leftSideCubeIntake);
+		rightSide = new Spark(RobotMap.rightSideCubeIntake);
+	}
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		leftSide = new Spark(RobotMap.leftSideCubeIntake);
-		leftSide = new Spark(RobotMap.rightSideCubeIntake);
 	}
 
 	public void setMotors(double speed) {
+		
 		leftSide.set(speed);
 		rightSide.set(speed);
 	}
