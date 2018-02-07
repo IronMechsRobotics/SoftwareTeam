@@ -29,8 +29,6 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static IO io;
 	public static ADIS16448_IMU gyro;
-	public long startTime;
-	public long endTime;
 	public long time;
 	public static boolean hasSeenAutonmous = false;
 	public static ElevatorSubsystem elevator;
@@ -39,8 +37,11 @@ public class Robot extends IterativeRobot {
 	public boolean isBlue;
 	private Command selectedCommand;
 	private Command autonomousCommand;
-	private DigitalInput switchOne;
-	
+	private DigitalInput locationSwitch;
+	private DigitalInput gyroCalibrateButton;
+	public long lastCalibration;
+	public boolean hasCalibrated;
+
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -49,7 +50,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		switchOne = new DigitalInput(1);		
+		hasCalibrated = false;
+		lastCalibration = 0;
+		locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
+		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
 		drivetrain = new DriveTrain();
 		elevator = new ElevatorSubsystem();
 		gyro = new ADIS16448_IMU();
@@ -61,9 +65,16 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
 		io = new IO();
+		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
+	}
+
+	public boolean wantToCalibrate() {
+		return !gyroCalibrateButton.get();
 	}
 
 	public void robotPeriodic() {
+
+
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
 	}
@@ -94,8 +105,6 @@ public class Robot extends IterativeRobot {
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 		hasSeenAutonmous = true;
-		startTime = System.currentTimeMillis();
-		endTime = startTime + 1000 * 15;
 	}
 
 	public void disabledInit() {
@@ -104,7 +113,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		System.out.println(switchOne.get());
+		if (( wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
+			gyro.calibrate();
+			lastCalibration = System.currentTimeMillis();
+			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
+			System.out.println("We've been here");
+		}
 		Scheduler.getInstance().run();
 		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
 			System.out.println("Recalibrate");

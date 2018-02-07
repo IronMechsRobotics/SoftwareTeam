@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5684.robot;
 
+import org.usfirst.frc.team5684.robot.commands.ElevatorDown;
 import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
 import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
@@ -22,8 +23,8 @@ public class IO {
 	public IO() {
 		radTest.whenPressed(new driveByDistance(10 * Math.PI * 6));
 		radTest2.toggleWhenPressed(new testDrivetrain());
-		rightFire.whenPressed(new IntakeCube());
-		leftFire.whenPressed(new ElevatorUp());
+		rightFire.whileHeld(new ElevatorDown());
+		leftFire.whileHeld(new ElevatorUp());
 	}
 
 }

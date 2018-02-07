@@ -12,11 +12,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ElevatorSubsystem extends Subsystem {
 
 	Encoder cim;
-	Spark motor;
+	Spark motor1;
+	Spark motor2;
 
 	public ElevatorSubsystem() {
-		cim = new Encoder(RobotMap.ELEVATORENCODERA, RobotMap.ELEVATORENCODERA);
-		motor = new Spark(RobotMap.ELEVATORMOTOR);
+		double maxPeriod = .1;
+		int minRate = 10;
+		int samplesToAverage = 7;
+		cim = new Encoder(RobotMap.ELEVATORENCODERA, RobotMap.ELEVATORENCODERB);
+		cim.setDistancePerPulse(5);
+		cim.setSamplesToAverage(7);
+		cim.setMaxPeriod(maxPeriod);
+		cim.setMinRate(minRate);
+		motor1 = new Spark(RobotMap.ELEVATORMOTORRIGHT);
+		motor2 = new Spark(RobotMap.ELEVATORMOTORLEFT);
 	}
 
 	public void initDefaultCommand() {
@@ -25,11 +34,13 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void setMotor(double speed) {
-		motor.set(speed);
+		motor1.set(speed);
+		motor2.set(-1*speed);
 	}
 
 	public void stopMotor() {
-		motor.set(0);
+		motor1.set(0);
+		motor2.set(0);
 	}
 
 	public double getSpeed() {

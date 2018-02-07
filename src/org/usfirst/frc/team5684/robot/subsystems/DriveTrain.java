@@ -41,8 +41,8 @@ public class DriveTrain extends Subsystem {
 	private setSpeedPID rightPID;
 
 	public DriveTrain() {
-		left = new Victor(RobotMap.leftWheels);
-		right = new Victor(RobotMap.rightWheels);
+		left = new Victor(RobotMap.leftWheelMotor);
+		right = new Victor(RobotMap.rightWheelMotor);
 		leftEncoder = new Encoder(RobotMap.LEFTWHEELA, RobotMap.LEFTWHEELB, true, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);

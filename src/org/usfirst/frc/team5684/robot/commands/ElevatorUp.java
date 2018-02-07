@@ -22,7 +22,7 @@ public class ElevatorUp extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(.5);
+		Robot.elevator.setMotor(.6);
 		SmartDashboard.putNumber("Elevator Speed", Robot.elevator.getSpeed());
 	}
 
