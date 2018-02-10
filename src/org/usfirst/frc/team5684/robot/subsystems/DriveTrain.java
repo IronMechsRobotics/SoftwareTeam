@@ -2,12 +2,14 @@ package org.usfirst.frc.team5684.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
+import org.usfirst.frc.team5684.robot.commands.SimpleDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -61,8 +63,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.reset();
 		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
 		rightPID = new setSpeedPID(right, rightEncoder, "Right", velP, velI, velD, velF);
-		
-		//us = new Ultrasonic(8,8);
+
+		// us = new Ultrasonic(8,8);
 	}
 
 	// Put methods for controlling this subsystem
@@ -71,7 +73,7 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new DrivebyJoystick());
+		setDefaultCommand(new SimpleDrive());
 
 	}
 
@@ -133,8 +135,6 @@ public class DriveTrain extends Subsystem {
 
 	}
 
-
-
 	public void driveSpeed(double left, double right) {
 		leftPID.setSetpoint(left);
 		rightPID.setSetpoint(right);
@@ -183,11 +183,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void reportEncoder(Encoder enc) {
-		 System.out.println("Raw is :" + enc.getRaw() + ":");
-		 System.out.println("Distance is :" + enc.getDistance() + ":");
-		 System.out.println("Direction is :" + enc.getDirection() + ":");
-		 System.out.println("Stopped is :" + enc.getStopped() + ":");
-		 System.out.println("Rate is :" + enc.getRate() + ":");
+		System.out.println("Raw is :" + enc.getRaw() + ":");
+		System.out.println("Distance is :" + enc.getDistance() + ":");
+		System.out.println("Direction is :" + enc.getDirection() + ":");
+		System.out.println("Stopped is :" + enc.getStopped() + ":");
+		System.out.println("Rate is :" + enc.getRate() + ":");
 
 		System.out.println(System.currentTimeMillis() + "\t\t" + enc.getRate());
 
@@ -199,5 +199,10 @@ public class DriveTrain extends Subsystem {
 
 	public Encoder getRightEncoder() {
 		return rightEncoder;
+	}
+
+	public void simpleDrive(double forward, double turn) {
+		DifferentialDrive drive = new DifferentialDrive(left, right);
+		drive.arcadeDrive(forward, turn, true);
 	}
 }
