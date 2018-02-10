@@ -9,6 +9,7 @@ import org.usfirst.frc.team5684.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -52,8 +53,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		hasCalibrated = false;
 		lastCalibration = 0;
-		locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
-		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
+		//locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
+		//gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
 		drivetrain = new DriveTrain();
 		elevator = new ElevatorSubsystem();
 		gyro = new ADIS16448_IMU();
@@ -69,7 +70,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public boolean wantToCalibrate() {
-		return !gyroCalibrateButton.get();
+		//return !gyroCalibrateButton.get();
+		return false;
 	}
 
 	public void robotPeriodic() {
@@ -119,6 +121,7 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
 			System.out.println("We've been here");
 		}
+//		SmartDashboard.putString("distance", us.getDistnace() + " inches");
 		Scheduler.getInstance().run();
 		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
 			System.out.println("Recalibrate");

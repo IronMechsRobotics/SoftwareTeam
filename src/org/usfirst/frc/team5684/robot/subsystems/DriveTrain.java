@@ -11,6 +11,7 @@ import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 
@@ -39,6 +40,7 @@ public class DriveTrain extends Subsystem {
 	private boolean driveBySpeed = true;
 	private setSpeedPID leftPID;
 	private setSpeedPID rightPID;
+	private Ultrasonic us;
 
 	public DriveTrain() {
 		left = new Victor(RobotMap.leftWheelMotor);
@@ -59,6 +61,8 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.reset();
 		leftPID = new setSpeedPID(left, leftEncoder, "Left", velP, velI, velD, velF);
 		rightPID = new setSpeedPID(right, rightEncoder, "Right", velP, velI, velD, velF);
+		
+		//us = new Ultrasonic(8,8);
 	}
 
 	// Put methods for controlling this subsystem

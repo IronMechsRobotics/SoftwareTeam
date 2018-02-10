@@ -19,8 +19,16 @@ public class ElevatorSubsystem extends Subsystem {
 		double maxPeriod = .1;
 		int minRate = 10;
 		int samplesToAverage = 7;
-		cim = new Encoder(RobotMap.ELEVATORENCODERA, RobotMap.ELEVATORENCODERB);
-		cim.setDistancePerPulse(5);
+		cim = new Encoder(RobotMap.ELEVATORENCODERA, RobotMap.ELEVATORENCODERB, true, Encoder.EncodingType.k4X);
+		double ticksPerMotorRev = 20.0 / 1;
+		//ticksPerMotorRev means 20 ticks per 1 revolution of the motor
+		double motorRevPerDrum = 1.0 / (1.0 / 16);
+		//for every time the motor goes around 16 times the drum spins once
+		double drumPerInch = 1 / (2.0 * Math.PI);
+		//for every time the drum spins once the elevator rises 2Pi inches
+		double inchesPerMotor = motorRevPerDrum*drumPerInch;
+		double distane = ticksPerMotorRev * motorRevPerDrum * drumPerInch;
+		cim.setDistancePerPulse(1.0 / distane);
 		cim.setSamplesToAverage(7);
 		cim.setMaxPeriod(maxPeriod);
 		cim.setMinRate(minRate);
@@ -35,7 +43,7 @@ public class ElevatorSubsystem extends Subsystem {
 
 	public void setMotor(double speed) {
 		motor1.set(speed);
-		motor2.set(-1*speed);
+		motor2.set(-1 * speed);
 	}
 
 	public void stopMotor() {
@@ -44,6 +52,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public double getSpeed() {
+		System.out.println(cim.getRaw());
 		return cim.getRate();
 	}
 }
