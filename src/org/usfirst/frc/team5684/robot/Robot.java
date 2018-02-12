@@ -5,7 +5,9 @@ import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5684.robot.subsystems.ElevatorSubsystem;
+import org.usfirst.frc.team5684.robot.subsystems.TurnSubsystem;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -30,7 +32,8 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static IO io;
 	public static ADIS16448_IMU gyro;
-	public long time;
+	public static TurnSubsystem turn;
+	
 	public static boolean hasSeenAutonmous = false;
 	public static ElevatorSubsystem elevator;
 	public static CubeIntakeSystem cubeIntakeSystem;
@@ -42,6 +45,8 @@ public class Robot extends IterativeRobot {
 	private DigitalInput gyroCalibrateButton;
 	public long lastCalibration;
 	public boolean hasCalibrated;
+	public AnalogInput us;
+	public long time;
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -66,6 +71,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
 		io = new IO();
+		us = new AnalogInput(RobotMap.ULTRASONIC);
+		turn = new TurnSubsystem();
 		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
 	}
 
@@ -76,9 +83,10 @@ public class Robot extends IterativeRobot {
 
 	public void robotPeriodic() {
 
-
+		
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
+		SmartDashboard.putNumber("us", us.getValue()*.1367-2.7992);
 	}
 
 	/**
@@ -121,7 +129,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
 			System.out.println("We've been here");
 		}
-//		SmartDashboard.putString("distance", us.getDistnace() + " inches");
 		Scheduler.getInstance().run();
 		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
 			System.out.println("Recalibrate");

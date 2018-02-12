@@ -22,7 +22,7 @@ public class IntakeCube extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.cubeIntakeSystem.setMotors(1);
-		System.out.println("FIRE");
+		System.out.println("Suck");
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,6 @@ public class IntakeCube extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeIntakeSystem.setMotors(0);
-		System.out.println("DONE\n\\n\n\\n\n");
 	}
 
 	// Called when another command which requires one or more of the same

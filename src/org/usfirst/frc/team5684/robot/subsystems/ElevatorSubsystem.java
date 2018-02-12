@@ -4,6 +4,7 @@ import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -12,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ElevatorSubsystem extends Subsystem {
 
 	Encoder cim;
-	Spark motor1;
+	Victor motor1;
 	Spark motor2;
 
 	public ElevatorSubsystem() {
@@ -32,7 +33,7 @@ public class ElevatorSubsystem extends Subsystem {
 		cim.setSamplesToAverage(7);
 		cim.setMaxPeriod(maxPeriod);
 		cim.setMinRate(minRate);
-		motor1 = new Spark(RobotMap.ELEVATORMOTORRIGHT);
+		motor1 = new Victor(RobotMap.ELEVATORMOTORRIGHT);
 		motor2 = new Spark(RobotMap.ELEVATORMOTORLEFT);
 	}
 

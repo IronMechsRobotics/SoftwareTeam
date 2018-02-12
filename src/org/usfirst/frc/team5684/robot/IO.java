@@ -3,6 +3,7 @@ package org.usfirst.frc.team5684.robot;
 import org.usfirst.frc.team5684.robot.commands.ElevatorDown;
 import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
 import org.usfirst.frc.team5684.robot.commands.IntakeCube;
+import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.commands.testDrivetrain;
 import org.usfirst.frc.team5684.robot.commands.testVelPID;
@@ -19,12 +20,17 @@ public class IO {
 	Button leftFire = new JoystickButton(leftStick, 1);
 	Button radTest = new JoystickButton(rightStick, 11);
 	Button radTest2 = new JoystickButton(rightStick, 12);
+	Button cubeIntake = new JoystickButton(rightStick, 3);
+	Button cubeOutput = new JoystickButton(rightStick, 4);
+	
 
 	public IO() {
 		radTest.whenPressed(new driveByDistance(10 * Math.PI * 6));
 		radTest2.toggleWhenPressed(new testDrivetrain());
-		rightFire.whileHeld(new ElevatorDown());
-		leftFire.whileHeld(new ElevatorUp());
+		leftFire.whileHeld(new ElevatorDown());
+		rightFire.whileHeld(new ElevatorUp());
+		cubeIntake.whileHeld(new IntakeCube());
+		cubeOutput.whileHeld(new OutputCube());
 	}
 
 }

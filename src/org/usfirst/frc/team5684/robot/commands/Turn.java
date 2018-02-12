@@ -8,37 +8,53 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ElevatorUp extends Command {
+public class Turn extends Command {
 
-	public ElevatorUp() {
+	private double setpoint;
+
+	public Turn(double setpoint) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		requires(Robot.elevator);
+		this.setpoint = setpoint;
+		requires(Robot.drivetrain);
+		// setTimeout(3);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.drivetrain.simpleDrive(0, 0);
+		double set = setpoint + Robot.gyro.getAngleX();
+		Robot.turn.setSetpoint(set);
+		Robot.turn.enable();
+		System.out.println("Current: " + Robot.gyro.getAngleX() + "\t Goal: " + Robot.turn.getSetpoint());
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(.75);
-		SmartDashboard.putNumber("Elevator Speed", Robot.elevator.getSpeed());
+		SmartDashboard.putNumber("Gyro Angle", Robot.gyro.getAngleX());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		if (Robot.turn.onTarget())
+			return true;
+		else
+			return false;
+
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.elevator.stopMotor();
+		Robot.drivetrain.simpleDrive(0, 0);
+		System.out.println("\t\t\tCurrent: " + Robot.gyro.getAngleX() + "\t Goal: " + Robot.turn.getSetpoint());
+		Robot.turn.disable();
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		this.end();
+
+		end();
 	}
 }

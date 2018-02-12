@@ -26,7 +26,7 @@ public class SimpleDrive extends Command {
 	protected void execute() {
 		Joystick left = Robot.io.leftStick;
 		Joystick right = Robot.io.rightStick;
-		Robot.drivetrain.simpleDrive(left.getRawAxis(0),right.getRawAxis(1));
+		Robot.drivetrain.simpleDrive(map(left.getRawAxis(1),-1,1,-.5,.5),map(right.getRawAxis(0),-1,1,-.5,.5));
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
