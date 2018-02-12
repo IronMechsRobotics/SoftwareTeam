@@ -4,6 +4,7 @@ import org.usfirst.frc.team5684.robot.Robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -27,6 +28,8 @@ public class SimpleDrive extends Command {
 		Joystick left = Robot.io.leftStick;
 		Joystick right = Robot.io.rightStick;
 		Robot.drivetrain.simpleDrive(map(left.getRawAxis(1),-1,1,-.5,.5),map(right.getRawAxis(0),-1,1,-.5,.5));
+		SmartDashboard.putNumber("LeftWheels",Robot.drivetrain.getLeftEncoder().getRate());
+		SmartDashboard.putNumber("RightWheels",Robot.drivetrain.getRightEncoder().getRate());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -46,13 +46,13 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		left = new Victor(RobotMap.LEFTWHEELMOTOR);
 		right = new Victor(RobotMap.RIGHTWHEELMOTOR);
-		leftEncoder = new Encoder(RobotMap.LEFTWHEELA, RobotMap.LEFTWHEELB, true, Encoder.EncodingType.k4X);
+		leftEncoder = new Encoder(RobotMap.LEFTWHEELENCODERA, RobotMap.LEFTWHEELENCODERB, true, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);
 		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseLeft);
 		leftEncoder.setSamplesToAverage(samplesToAverage);
 		leftEncoder.setReverseDirection(true);
-		rightEncoder = new Encoder(RobotMap.RIGHTWHEELA, RobotMap.RIGHTWHEELB, true, Encoder.EncodingType.k4X);
+		rightEncoder = new Encoder(RobotMap.RIGHTWHEELENCODERA, RobotMap.RIGHTWHEELENCODERB, true, Encoder.EncodingType.k4X);
 		rightEncoder.setMaxPeriod(maxPeriod);
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseRight);

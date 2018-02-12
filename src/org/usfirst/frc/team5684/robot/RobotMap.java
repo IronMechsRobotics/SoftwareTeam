@@ -11,10 +11,10 @@ public class RobotMap {
 	
 	//DIO ports
 	public static int NEARFARSWITCHb  = 0;
-	public static int LEFTWHEELA = 1;
-	public static int LEFTWHEELB = 2;
-	public static int RIGHTWHEELA = 3;
-	public static int RIGHTWHEELB = 4;
+	public static int LEFTWHEELENCODERA = 1;
+	public static int LEFTWHEELENCODERB = 2;
+	public static int RIGHTWHEELENCODERA = 3;
+	public static int RIGHTWHEELENCODERB = 4;
 	public static int ELEVATORENCODERA = 5;
 	public static int ELEVATORENCODERB = 6;
 	public static int LOCATIONSWITCH = 7;
