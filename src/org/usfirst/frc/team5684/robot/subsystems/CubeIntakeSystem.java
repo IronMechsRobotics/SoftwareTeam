@@ -16,8 +16,8 @@ public class CubeIntakeSystem extends Subsystem {
 	private Spark rightSide;
 
 	public CubeIntakeSystem() {
-		leftSide = new Spark(RobotMap.leftSideCubeIntake);
-		rightSide = new Spark(RobotMap.rightSideCubeIntake);
+		leftSide = new Spark(RobotMap.LEFTCUBEMOTOR);
+		rightSide = new Spark(RobotMap.RIGHTCUBEMOTOR);
 	}
 
 	public void initDefaultCommand() {
@@ -26,8 +26,7 @@ public class CubeIntakeSystem extends Subsystem {
 	}
 
 	public void setMotors(double speed) {
-		
-		leftSide.set(speed);
+		leftSide.set(speed*-1);
 		rightSide.set(speed);
 	}
 }

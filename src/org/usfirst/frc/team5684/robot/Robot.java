@@ -1,6 +1,6 @@
 package org.usfirst.frc.team5684.robot;
 
-import org.usfirst.frc.team5684.robot.commands.GuaranteeSwitch;
+import org.usfirst.frc.team5684.robot.commands.GoForSwitch;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
 		gyro.calibrate();
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
-		chooser.addDefault("GuaranteeSwitch", new GuaranteeSwitch());
+		chooser.addDefault("GuaranteeSwitch", new GoForSwitch());
 		chooser.addObject("Second Auto Option", new driveByDistance(10));
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();

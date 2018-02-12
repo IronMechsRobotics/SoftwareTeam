@@ -44,8 +44,8 @@ public class DriveTrain extends Subsystem {
 	private DifferentialDrive drive;
 
 	public DriveTrain() {
-		left = new Victor(RobotMap.leftWheelMotor);
-		right = new Victor(RobotMap.rightWheelMotor);
+		left = new Victor(RobotMap.LEFTWHEELMOTOR);
+		right = new Victor(RobotMap.RIGHTWHEELMOTOR);
 		leftEncoder = new Encoder(RobotMap.LEFTWHEELA, RobotMap.LEFTWHEELB, true, Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);

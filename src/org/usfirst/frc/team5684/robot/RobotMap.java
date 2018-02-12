@@ -2,12 +2,12 @@ package org.usfirst.frc.team5684.robot;
 
 public class RobotMap {
 	//PWM Ports
-	public static int rightWheelMotor = 0;
-	public static int leftWheelMotor = 1;
-	public static int rightSideCubeIntake = 2;
-	public static int leftSideCubeIntake = 3;
-	public static int ELEVATORMOTORRIGHT = 4;
-	public static int ELEVATORMOTORLEFT = 5;
+	public static int RIGHTWHEELMOTOR = 0;
+	public static int LEFTWHEELMOTOR = 1;
+	public static int RIGHTCUBEMOTOR = 2;
+	public static int LEFTCUBEMOTOR = 3;
+	public static int RIGHTELEVATORMOTOR = 4;
+	public static int LEFTELEVATORMOTOR = 5;
 	
 	//DIO ports
 	public static int NEARFARSWITCHb  = 0;
@@ -32,6 +32,5 @@ public class RobotMap {
 	public static double fudgeFactor = 1;
 	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
 	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
-
 
 }

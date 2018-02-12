@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class GuaranteeSwitch extends CommandGroup {
+public class GoForSwitch extends CommandGroup {
 
 	private static final double feet = Math.PI * 6;
 	private static final double inches = feet / 12.0;
@@ -18,7 +18,7 @@ public class GuaranteeSwitch extends CommandGroup {
 	private static final int distanceToPassSwitch = 108;
 	private static final int driveAlongSwitch = 144;
 
-	public GuaranteeSwitch() {
+	public GoForSwitch() {
 		String gameData = DriverStation.getInstance().getGameSpecificMessage();
 		String switchLocation = gameData.substring(0, 1);
 		System.out.println("SwitchLocatoin: " + switchLocation);
