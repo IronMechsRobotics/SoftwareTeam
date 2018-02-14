@@ -7,7 +7,11 @@ public class RtLb extends Button {
 	@Override
 	public boolean get() {
 		// TODO Auto-generated method stub
-		return Robot.io.getJoystick(2).getRawAxis(3) > 0 && Robot.io.getJoystick(2).getRawButton(4);
+		try {
+			return Robot.io.getJoystick(2).getRawAxis(3) > 0 && Robot.io.getJoystick(2).getRawButton(4);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
