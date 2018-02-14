@@ -30,6 +30,9 @@ public class SimpleDrive extends Command {
 		Robot.drivetrain.simpleDrive(-1*map(left.getRawAxis(1),-1,1,-1,1),map(right.getRawAxis(0),-1,1,-1,.1));
 		SmartDashboard.putNumber("LeftWheels",Robot.drivetrain.getLeftEncoder().getRate());
 		SmartDashboard.putNumber("RightWheels",Robot.drivetrain.getRightEncoder().getRate());
+		SmartDashboard.putNumber("Angle X: ",Robot.gyro.getAngleX());
+		SmartDashboard.putNumber("Angle Y: ",Robot.gyro.getAngleY());
+		SmartDashboard.putNumber("Angle Z: ",Robot.gyro.getAngleZ());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
