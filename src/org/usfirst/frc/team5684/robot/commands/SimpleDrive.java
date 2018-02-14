@@ -27,7 +27,7 @@ public class SimpleDrive extends Command {
 	protected void execute() {
 		Joystick left = Robot.io.leftStick;
 		Joystick right = Robot.io.rightStick;
-		Robot.drivetrain.simpleDrive(-1*map(left.getRawAxis(1),-1,1,-.5,.5),map(right.getRawAxis(0),-1,1,-.5,.5));
+		Robot.drivetrain.simpleDrive(-1*map(left.getRawAxis(1),-1,1,-1,1),map(right.getRawAxis(0),-1,1,-1,.1));
 		SmartDashboard.putNumber("LeftWheels",Robot.drivetrain.getLeftEncoder().getRate());
 		SmartDashboard.putNumber("RightWheels",Robot.drivetrain.getRightEncoder().getRate());
 	}

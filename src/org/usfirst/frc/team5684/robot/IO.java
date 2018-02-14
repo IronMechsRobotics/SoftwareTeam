@@ -5,6 +5,7 @@ import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
 import org.usfirst.frc.team5684.robot.commands.FlipAndlower;
 import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
+import org.usfirst.frc.team5684.robot.commands.Turn;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.commands.testDrivetrain;
 import org.usfirst.frc.team5684.robot.commands.testVelPID;
@@ -33,7 +34,7 @@ public class IO {
 	Button ltRb = new LtRb();
 
 	public IO() {
-		radTest.whenPressed(new driveByDistance(10 * Math.PI * 6));
+		radTest.whenPressed(new Turn(90));
 		radTest2.toggleWhenPressed(new testDrivetrain());
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
@@ -46,7 +47,6 @@ public class IO {
 		xboxTwo.whenPressed(new ElevatorUp());
 		rtLb.whenPressed(new OutputCube());
 		ltRb.whenPressed(new IntakeCube());
-		
 	}
 
 	public Joystick getJoystick(int i) {
