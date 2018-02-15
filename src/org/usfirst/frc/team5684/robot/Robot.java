@@ -31,7 +31,6 @@ public class Robot extends IterativeRobot {
 	// make a statement like this for each new subsystem
 	public static DriveTrain drivetrain;
 	public static IO io;
-	public static ADIS16448_IMU gyro;
 	public static TurnSubsystem turn;
 	
 	public static boolean hasSeenAutonmous = false;
@@ -59,11 +58,10 @@ public class Robot extends IterativeRobot {
 		hasCalibrated = false;
 		lastCalibration = 0;
 		//locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
-		//gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
+		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
 		drivetrain = new DriveTrain();
 		elevator = new ElevatorSubsystem();
-		gyro = new ADIS16448_IMU();
-		gyro.calibrate();
+		
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
 		chooser.addDefault("GuaranteeSwitch", new GoForSwitch());
@@ -77,8 +75,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public boolean wantToCalibrate() {
-		//return !gyroCalibrateButton.get();
-		return false;
+		return !gyroCalibrateButton.get();
 	}
 
 	public void robotPeriodic() {
@@ -124,7 +121,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		if (( wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
-			gyro.calibrate();
+			drivetrain.calibrateGyro();
+			elevator.resetEncoder();
 			lastCalibration = System.currentTimeMillis();
 			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
 			System.out.println("We've been here");
@@ -133,7 +131,7 @@ public class Robot extends IterativeRobot {
 		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
 			System.out.println("Recalibrate");
 			time = System.currentTimeMillis();
-			gyro.calibrate();
+			drivetrain.calibrateGyro();
 		}
 	}
 

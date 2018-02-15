@@ -10,7 +10,7 @@ public class RobotMap {
 	public static int LEFTELEVATORMOTOR = 5;
 	
 	//DIO ports
-	public static int NEARFARSWITCH  = 0;
+	public static int GYROCALIBTAIONBUTTON  = 0;
 	public static int LEFTWHEELENCODERA = 1;
 	public static int LEFTWHEELENCODERB = 2;
 	public static int RIGHTWHEELENCODERA = 3;
@@ -18,7 +18,7 @@ public class RobotMap {
 	public static int ELEVATORENCODERA = 5;
 	public static int ELEVATORENCODERB = 6;
 	public static int LOCATIONSWITCH = 7;
-	public static int GYROCALIBTAIONBUTTON = 8;
+	public static int NEARFARSWITCH = 8;
 	
 	//Analog ports
 	public static final int ULTRASONIC = 0;
@@ -32,5 +32,6 @@ public class RobotMap {
 	public static double fudgeFactor = 1;
 	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
 	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
+	public static double SWITCHHEIGHT = 32.0;
 
 }

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team5684.robot.ADIS16448_IMU;
 import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
@@ -42,6 +43,7 @@ public class DriveTrain extends Subsystem {
 	private boolean correcting = false;
 	private boolean driveBySpeed = true;
 	private DifferentialDrive drive;
+	public static ADIS16448_IMU gyro;
 
 	public DriveTrain() {
 		left = new Victor(RobotMap.LEFTWHEELMOTOR);
@@ -61,6 +63,7 @@ public class DriveTrain extends Subsystem {
 		leftEncoder.reset();
 		rightEncoder.reset();
 		drive = new DifferentialDrive(left, right);
+		gyro = new ADIS16448_IMU();
 	}
 
 	// Put methods for controlling this subsystem
@@ -91,8 +94,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void resetGyro() {
-		if (Robot.gyro != null) {
-			Robot.gyro.reset();
+		if (gyro != null) {
+			gyro.reset();
 		}
 	}
 
@@ -155,6 +158,14 @@ public class DriveTrain extends Subsystem {
 	
 	public void turn(double d) {
 		drive.arcadeDrive(0, d, true);
+	}
+
+	public void calibrateGyro() {
+		gyro.calibrate();
+	}
+	public ADIS16448_IMU getGyro()
+	{
+		return gyro;
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot;
 
 import org.usfirst.frc.team5684.robot.commands.ElevatorDown;
+import org.usfirst.frc.team5684.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
 import org.usfirst.frc.team5684.robot.commands.FlipAndlower;
 import org.usfirst.frc.team5684.robot.commands.IntakeCube;
@@ -35,7 +36,7 @@ public class IO {
 
 	public IO() {
 		radTest.whenPressed(new Turn(90));
-		radTest2.toggleWhenPressed(new testDrivetrain());
+		radTest2.toggleWhenPressed(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		cubeIntake.whileHeld(new IntakeCube());

@@ -8,11 +8,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ElevatorUp extends Command {
-	public ElevatorUp() {
+public class ElevatorToHeight extends Command {
+
+	double goalHeight;
+	boolean isGoingUp;
+
+	public ElevatorToHeight(double inputHeight) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.elevator);
+		goalHeight = inputHeight;
+		if (Robot.elevator.getDistance() > goalHeight) {
+			isGoingUp = false;
+		} else {
+			isGoingUp = true;
+		}
 	}
 
 	// Called just before this Command runs the first time
@@ -21,13 +31,27 @@ public class ElevatorUp extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(.5);
-		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		if(isGoingUp)
+		{
+			Robot.elevator.setMotor(.5);
+			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		}
+		else
+		{
+			Robot.elevator.setMotor(-.5);
+			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return false;
+		if (isGoingUp && Robot.elevator.getDistance() > goalHeight) {
+			return true;
+		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	// Called once after isFinished returns true

@@ -39,12 +39,12 @@ public class GoForSwitch extends CommandGroup {
 			// drive long (past switch)
 			this.addSequential(new driveByDistance(distanceToPassSwitch));
 		// Turn
-		this.addSequential(new TurnDegrees(amountToTurn));
+		this.addSequential(new Turn(amountToTurn));
 		if (!matchingSide)
 		// drive horizontal across field
 		{
 			this.addSequential(new driveByDistance(driveAlongSwitch));
-			this.addSequential(new TurnDegrees(amountToTurn));
+			this.addSequential(new Turn(amountToTurn));
 		}
 		// TODO create DriveTillStopped
 		this.addSequential(new driveByDistance(1 * feet));

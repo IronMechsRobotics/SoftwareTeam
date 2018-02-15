@@ -21,7 +21,7 @@ public class TurnSubsystem extends PIDSubsystem {
 	}
 
 	public void initDefaultCommand() {
-		this.setOutputRange(-.66, .66);
+		this.setOutputRange(-.45, .45);
 		this.setAbsoluteTolerance(1);
 
 	}
@@ -30,12 +30,12 @@ public class TurnSubsystem extends PIDSubsystem {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return Robot.gyro.getAngleX();
+		return Robot.drivetrain.getGyro().getAngleY();
 	}
 
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		Robot.drivetrain.turn(output);
+		Robot.drivetrain.turn(-1*output);
 	}
 }
