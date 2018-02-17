@@ -18,7 +18,6 @@ public class setSpeedPID extends PIDSubsystem {
 		super(name, P, I, D, F);
 		this.motor = motor;
 		this.enc = enc;
-		this.setOutputRange(-1, 1);
 	//	this.getPIDController().setContinuous(true);
 
 		// Use these to get going:

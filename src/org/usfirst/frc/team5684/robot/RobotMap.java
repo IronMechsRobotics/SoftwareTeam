@@ -32,6 +32,9 @@ public class RobotMap {
 	public static double fudgeFactor = 1;
 	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
 	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
-	public static double SWITCHHEIGHT = 32.0;
+	public static double SWITCHHEIGHT = 20.0;
+	public static double LOWSCALEHEIGHT = 4*12+3;
+	public static double MIDDLESCALEHEIGHT = 5*12+3;
+	public static double HIGHSCALEHEIGHT = 6*12;
 
 }

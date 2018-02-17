@@ -155,6 +155,10 @@ public class DriveTrain extends Subsystem {
 	public void simpleDrive(double forward, double turn) {
 		drive.arcadeDrive(forward, turn, true);
 	}
+	public void stop()
+	{
+		drive.arcadeDrive(0, 0, true);
+	}
 	
 	public void turn(double d) {
 		drive.arcadeDrive(0, d, true);

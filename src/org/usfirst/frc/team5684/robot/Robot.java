@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static IO io;
 	public static TurnSubsystem turn;
-	
+
 	public static boolean hasSeenAutonmous = false;
 	public static ElevatorSubsystem elevator;
 	public static CubeIntakeSystem cubeIntakeSystem;
@@ -44,6 +44,7 @@ public class Robot extends IterativeRobot {
 	private DigitalInput gyroCalibrateButton;
 	public long lastCalibration;
 	public boolean hasCalibrated;
+	public boolean isRight;
 	public AnalogInput us;
 	public long time;
 
@@ -57,11 +58,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		hasCalibrated = false;
 		lastCalibration = 0;
-		//locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
+		// locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
 		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
+		locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
 		drivetrain = new DriveTrain();
 		elevator = new ElevatorSubsystem();
-		
+
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
 		chooser.addDefault("GuaranteeSwitch", new GoForSwitch());
@@ -80,10 +82,9 @@ public class Robot extends IterativeRobot {
 
 	public void robotPeriodic() {
 
-		
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
-		SmartDashboard.putNumber("us", us.getValue()*.1367-2.7992);
+		SmartDashboard.putNumber("us", us.getValue() * .1367 - 2.7992);
 	}
 
 	/**
@@ -120,19 +121,20 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		if (( wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
+		if ((wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
 			drivetrain.calibrateGyro();
 			elevator.resetEncoder();
 			lastCalibration = System.currentTimeMillis();
 			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
-			System.out.println("We've been here");
+		}
+		isRight = locationSwitch.get();
+		if (isRight) {
+			SmartDashboard.putString("Side", "RIGHT");
+
+		} else {
+			SmartDashboard.putString("Side", "LEFT");
 		}
 		Scheduler.getInstance().run();
-		if (!hasSeenAutonmous && (System.currentTimeMillis() >= time + 30 * 1000)) {
-			System.out.println("Recalibrate");
-			time = System.currentTimeMillis();
-			drivetrain.calibrateGyro();
-		}
 	}
 
 	/**

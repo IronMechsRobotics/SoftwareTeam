@@ -17,7 +17,7 @@ public class ElevatorToHeight extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.elevator);
-		goalHeight = inputHeight;
+		goalHeight = inputHeight+2;
 		if (Robot.elevator.getDistance() > goalHeight) {
 			isGoingUp = false;
 		} else {
@@ -27,24 +27,30 @@ public class ElevatorToHeight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		if (Robot.elevator.getDistance() > goalHeight) {
+			isGoingUp = false;
+		} else {
+			isGoingUp = true;
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if(isGoingUp)
-		{
-			Robot.elevator.setMotor(.5);
+		System.out.println("DISNATNCE");
+		if (isGoingUp) {
+			Robot.elevator.setMotor(.75);
 			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
-		}
-		else
-		{
-			Robot.elevator.setMotor(-.5);
+		} else {
+			Robot.elevator.setMotor(-.75);
 			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		System.out.println("isGoingUp: " + isGoingUp);
+		System.out.println("Robot.elevator.getDistance(): " + Robot.elevator.getDistance());
+		System.out.println("goalHeight: " + goalHeight);
 		if (isGoingUp && Robot.elevator.getDistance() > goalHeight) {
 			return true;
 		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight) {
