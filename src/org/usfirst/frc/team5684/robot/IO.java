@@ -6,7 +6,9 @@ import org.usfirst.frc.team5684.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
 import org.usfirst.frc.team5684.robot.commands.FlipAndlower;
 import org.usfirst.frc.team5684.robot.commands.IntakeCube;
+import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
+import org.usfirst.frc.team5684.robot.commands.RaiseArm;
 import org.usfirst.frc.team5684.robot.commands.Turn;
 import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.commands.testDrivetrain;
@@ -29,6 +31,8 @@ public class IO {
 	Button radTest4 = new JoystickButton(rightStick, 10);
 	Button radTest5 = new JoystickButton(rightStick, 11);
 	Button radTest6 = new JoystickButton(rightStick, 12);
+	Button raiseArm = new JoystickButton(rightStick, 5);
+	Button lowerArm = new JoystickButton(rightStick, 6);
 	Button cubeIntake = new JoystickButton(rightStick, 3);
 	Button cubeOutput = new JoystickButton(rightStick, 4);
 	Button rightTwo = new JoystickButton(rightStick, 2);
@@ -46,7 +50,7 @@ public class IO {
 		radTest3.toggleWhenPressed(new ElevatorToHeight(RobotMap.MIDDLESCALEHEIGHT));
 		radTest4.toggleWhenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
 		radTest5.toggleWhenPressed(new testVelPID(75.0));
-		radTest6.whenPressed(new DriveStraightWithGyro(6*12));
+		radTest6.whenPressed(new DriveStraightWithGyro(6 * 12));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		cubeIntake.whileHeld(new IntakeCube());
@@ -58,6 +62,8 @@ public class IO {
 		xboxTwo.whenPressed(new ElevatorUp());
 		rtLb.whenPressed(new OutputCube());
 		ltRb.whenPressed(new IntakeCube());
+		raiseArm.whileHeld(new RaiseArm());
+		lowerArm.whileHeld(new LowerArm());
 	}
 
 	public Joystick getJoystick(int i) {

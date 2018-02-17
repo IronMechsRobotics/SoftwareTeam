@@ -3,6 +3,7 @@ package org.usfirst.frc.team5684.robot.subsystems;
 import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Victor;
@@ -17,6 +18,7 @@ public class ElevatorSubsystem extends Subsystem {
 	Encoder cim;
 	Victor right;
 	Spark left;
+	DigitalInput limitSwitch;
 
 	public ElevatorSubsystem() {
 		double maxPeriod = .1;
@@ -38,6 +40,11 @@ public class ElevatorSubsystem extends Subsystem {
 		right = new Victor(RobotMap.RIGHTELEVATORMOTOR);
 		left = new Spark(RobotMap.LEFTELEVATORMOTOR);
 		cim.setReverseDirection(false);
+		limitSwitch = new DigitalInput(RobotMap.LIMITSWITCHELEVATOR);
+	}
+
+	public boolean isLimit() {
+		return limitSwitch.get();
 	}
 
 	public void initDefaultCommand() {
