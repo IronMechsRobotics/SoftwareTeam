@@ -15,6 +15,8 @@ public class DriveStraightWithGyro extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.drivetrain);
+		Robot.drivetrain.getLeftEncoder().reset();
+		Robot.drivetrain.getRightEncoder().reset();
 		this.distance = distance;
 	}
 
@@ -24,8 +26,8 @@ public class DriveStraightWithGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double angle = Robot.drivetrain.getGyro().getAngleY();
-		Robot.drivetrain.simpleDrive(-1.0, -angle * kp);
+		double angle = Robot.drivetrain.getGyro().getAngleZ();
+		Robot.drivetrain.simpleDrive(.66, angle * kp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

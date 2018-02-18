@@ -10,13 +10,14 @@ import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.RaiseArm;
 import org.usfirst.frc.team5684.robot.commands.Turn;
-import org.usfirst.frc.team5684.robot.commands.driveByDistance;
 import org.usfirst.frc.team5684.robot.commands.testDrivetrain;
 import org.usfirst.frc.team5684.robot.commands.testVelPID;
+import org.usfirst.frc.team5684.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 public class IO {
 
@@ -36,12 +37,15 @@ public class IO {
 	Button cubeIntake = new JoystickButton(rightStick, 3);
 	Button cubeOutput = new JoystickButton(rightStick, 4);
 	Button rightTwo = new JoystickButton(rightStick, 2);
-	Button xboxFour = new JoystickButton(xbox, 4);
-	Button xboxTwo = new JoystickButton(xbox, 2);
-	Button xboxOne = new JoystickButton(xbox, 1);
-	Button xboxThree = new JoystickButton(xbox, 3);
+	Button climb = new JoystickButton(leftStick, 2);
+	Button yButton = new JoystickButton(xbox, 4);
+	Button xButton = new JoystickButton(xbox, 2);
+	Button aButton = new JoystickButton(xbox, 1);
+	Button bButton = new JoystickButton(xbox, 3);
 	Button rtLb = new RtLb();
 	Button ltRb = new LtRb();
+	Button leftBumper = new JoystickButton(xbox, 5);
+	Button rightBumper = new JoystickButton(xbox, 6);
 
 	public IO() {
 		// radTest.whenPressed(new Turn(90));
@@ -49,21 +53,25 @@ public class IO {
 		radTest2.toggleWhenPressed(new ElevatorToHeight(RobotMap.LOWSCALEHEIGHT));
 		radTest3.toggleWhenPressed(new ElevatorToHeight(RobotMap.MIDDLESCALEHEIGHT));
 		radTest4.toggleWhenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
-		radTest5.toggleWhenPressed(new testVelPID(75.0));
-		radTest6.whenPressed(new DriveStraightWithGyro(6 * 12));
+		radTest5.toggleWhenPressed(new Turn(90));
+		radTest6.toggleWhenPressed(new Turn(-90));
+		// radTest6.whenPressed(new DriveStraightWithGyro(12 * 12));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		cubeIntake.whileHeld(new IntakeCube());
 		cubeOutput.whileHeld(new OutputCube());
 		rightTwo.whenPressed(new FlipAndlower());
-		xboxThree.whenPressed(new ElevatorUp());
-		xboxFour.whenPressed(new ElevatorUp());
-		xboxOne.whenPressed(new ElevatorUp());
-		xboxTwo.whenPressed(new ElevatorUp());
-		rtLb.whenPressed(new OutputCube());
-		ltRb.whenPressed(new IntakeCube());
-		raiseArm.whileHeld(new RaiseArm());
-		lowerArm.whileHeld(new LowerArm());
+		xButton.whenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
+		aButton.whenPressed(new ElevatorToHeight(0));
+		xButton.whenPressed(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
+		xButton.whenPressed(new ElevatorToHeight(RobotMap.MIDDLESCALEHEIGHT));
+		rtLb.whileHeld(new OutputCube());
+		ltRb.whileHeld(new IntakeCube());
+		raiseArm.whileHeld(new LowerArm());
+		lowerArm.whileHeld(new RaiseArm());
+		climb.whileHeld(new Climb());
+		leftBumper.whileHeld(new IntakeCube());
+		rightBumper.whileHeld(new OutputCube());
 	}
 
 	public Joystick getJoystick(int i) {

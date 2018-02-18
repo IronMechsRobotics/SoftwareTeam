@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ElevatorDown extends Command {
+public class Climb extends Command {
 
-	public ElevatorDown() {
+	public Climb() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.elevator);
@@ -22,18 +22,17 @@ public class ElevatorDown extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(-.5);
+		Robot.elevator.setMotor(-.8);
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (Robot.elevator.isLimit())
-		{
+		if (Robot.elevator.isLimit()) {
 			Robot.elevator.resetEncoder();
 			return true;
 		}
-			return false;
+		return false;
 	}
 
 	// Called once after isFinished returns true

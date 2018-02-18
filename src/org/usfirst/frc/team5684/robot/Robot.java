@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5684.robot;
 
 import org.usfirst.frc.team5684.robot.commands.GoForSwitch;
-import org.usfirst.frc.team5684.robot.commands.driveByDistance;
+import org.usfirst.frc.team5684.robot.commands.SimpleAuto;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5684.robot.subsystems.ElevatorSubsystem;
@@ -44,9 +44,11 @@ public class Robot extends IterativeRobot {
 	private DigitalInput gyroCalibrateButton;
 	public long lastCalibration;
 	public boolean hasCalibrated;
-	public boolean isRight;
+	public static boolean isRight;
 	public AnalogInput us;
 	public long time;
+	public boolean switchMatch;
+	public boolean scaleMatch;
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -66,8 +68,10 @@ public class Robot extends IterativeRobot {
 
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
-		chooser.addDefault("GuaranteeSwitch", new GoForSwitch());
-		chooser.addObject("Second Auto Option", new driveByDistance(10));
+		// chooser.addObject("Simple Auto", new SimpleAuto());
+		chooser.addDefault("GoForSwitch", new GoForSwitch());
+		// chooser.addObject("GuaranteeSwitch", new GoForSwitch());
+		// chooser.addObject("GuaranteeSwitch2", new GoForSwitch());
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
 		io = new IO();
@@ -112,7 +116,14 @@ public class Robot extends IterativeRobot {
 		}
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		hasSeenAutonmous = true;
+	}
+
+	public static boolean getIsRight() {
+		return isRight;
+	}
+
+	public static boolean getIsLeft() {
+		return !isRight;
 	}
 
 	public void disabledInit() {
@@ -124,6 +135,7 @@ public class Robot extends IterativeRobot {
 		if ((wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
 			drivetrain.calibrateGyro();
 			elevator.resetEncoder();
+			Robot.drivetrain.resetEncoder();
 			lastCalibration = System.currentTimeMillis();
 			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
 		}
@@ -134,6 +146,7 @@ public class Robot extends IterativeRobot {
 		} else {
 			SmartDashboard.putString("Side", "LEFT");
 		}
+
 		Scheduler.getInstance().run();
 	}
 
@@ -160,17 +173,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 	}
 
-	public static boolean getIsBlue() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public static boolean getIsLeft() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public DriverStation getDS() {
 		return ds;
 	}
+
 }

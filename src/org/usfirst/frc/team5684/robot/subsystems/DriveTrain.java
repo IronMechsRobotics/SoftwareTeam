@@ -48,13 +48,15 @@ public class DriveTrain extends Subsystem {
 	public DriveTrain() {
 		left = new Victor(RobotMap.LEFTWHEELMOTOR);
 		right = new Victor(RobotMap.RIGHTWHEELMOTOR);
-		leftEncoder = new Encoder(RobotMap.LEFTWHEELENCODERA, RobotMap.LEFTWHEELENCODERB, true, Encoder.EncodingType.k4X);
+		leftEncoder = new Encoder(RobotMap.LEFTWHEELENCODERA, RobotMap.LEFTWHEELENCODERB, true,
+				Encoder.EncodingType.k4X);
 		leftEncoder.setMaxPeriod(maxPeriod);
 		leftEncoder.setMinRate(minRate);
 		leftEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseLeft);
 		leftEncoder.setSamplesToAverage(samplesToAverage);
 		leftEncoder.setReverseDirection(true);
-		rightEncoder = new Encoder(RobotMap.RIGHTWHEELENCODERA, RobotMap.RIGHTWHEELENCODERB, true, Encoder.EncodingType.k4X);
+		rightEncoder = new Encoder(RobotMap.RIGHTWHEELENCODERA, RobotMap.RIGHTWHEELENCODERB, true,
+				Encoder.EncodingType.k4X);
 		rightEncoder.setMaxPeriod(maxPeriod);
 		rightEncoder.setMinRate(minRate);
 		rightEncoder.setDistancePerPulse(RobotMap.distancePerWheelPulseRight);
@@ -87,10 +89,10 @@ public class DriveTrain extends Subsystem {
 	 */
 
 	public void driveSpeed(double left, double right) {
-		//leftPID.setSetpoint(left);
-		//rightPID.setSetpoint(right);
-		//leftPID.enable();
-		//rightPID.enable();
+		// leftPID.setSetpoint(left);
+		// rightPID.setSetpoint(right);
+		// leftPID.enable();
+		// rightPID.enable();
 	}
 
 	public void resetGyro() {
@@ -123,6 +125,12 @@ public class DriveTrain extends Subsystem {
 	public void resetEncoder() {
 		leftEncoder.reset();
 		rightEncoder.reset();
+		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
+		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
+		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
+
+		SmartDashboard.putNumber("LeftWheels speed", Robot.drivetrain.getLeftEncoder().getRate());
+		SmartDashboard.putNumber("RightWheels Speed", Robot.drivetrain.getRightEncoder().getRate());
 	}
 
 	public Victor getLeftMotor() {
@@ -155,11 +163,11 @@ public class DriveTrain extends Subsystem {
 	public void simpleDrive(double forward, double turn) {
 		drive.arcadeDrive(forward, turn, true);
 	}
-	public void stop()
-	{
+
+	public void stop() {
 		drive.arcadeDrive(0, 0, true);
 	}
-	
+
 	public void turn(double d) {
 		drive.arcadeDrive(0, d, true);
 	}
@@ -167,8 +175,8 @@ public class DriveTrain extends Subsystem {
 	public void calibrateGyro() {
 		gyro.calibrate();
 	}
-	public ADIS16448_IMU getGyro()
-	{
+
+	public ADIS16448_IMU getGyro() {
 		return gyro;
 	}
 
