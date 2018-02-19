@@ -92,7 +92,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void robotPeriodic() {
-
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
 		SmartDashboard.putNumber("us", us.getValue() * .1367 - 2.7992);
