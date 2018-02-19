@@ -112,13 +112,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		lw.writeLog("Start AutonomusInit");
-		// The very first thing you do is get which color you are.
-		/*
-		 * if (ds.getAlliance() == DriverStation.Alliance.Blue) { isBlue = true;
-		 * } else { isBlue = false; } this.autonomousCommand =
-		 * this.selectedCommand; if (this.autonomousCommand != null) {
-		 * this.autonomousCommand.start(); }
-		 */
 		lw.writeLog("Getting Game data");
 		String gameData = getGameData();
 		lw.writeLog("gameData \t " + gameData);
@@ -139,8 +132,6 @@ public class Robot extends IterativeRobot {
 			lw.writeLog("AutoCrossLine");
 			new AutoCrossLine().start();
 		}
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
 	}
 
 	public static boolean getIsRight() {

@@ -17,6 +17,7 @@ public class RaiseArm extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.lw.writeLog("RaiseArm Init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -32,6 +33,7 @@ public class RaiseArm extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeIntakeSystem.setArmMotor(0);
+		Robot.lw.writeLog("RaiseArm end");
 	}
 
 	// Called when another command which requires one or more of the same

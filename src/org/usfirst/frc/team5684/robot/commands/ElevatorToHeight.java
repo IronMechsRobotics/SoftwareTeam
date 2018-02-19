@@ -27,6 +27,9 @@ public class ElevatorToHeight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.lw.writeLog("ElevatorToHeight Init");
+		Robot.lw.writeLog("\tHeight: \t" + goalHeight);
+		Robot.lw.writeLog("\tisGoingUp: \t" + isGoingUp);
 		if (Robot.elevator.getDistance() > goalHeight) {
 			isGoingUp = false;
 		} else {
@@ -64,6 +67,7 @@ public class ElevatorToHeight extends Command {
 	protected void end() {
 		Robot.elevator.stopMotor();
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		Robot.lw.writeLog("ElevatorToHeight End");
 	}
 
 	// Called when another command which requires one or more of the same
