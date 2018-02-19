@@ -17,11 +17,16 @@ public class DriveStraightWithGyro extends Command {
 		requires(Robot.drivetrain);
 		Robot.drivetrain.getLeftEncoder().reset();
 		Robot.drivetrain.getRightEncoder().reset();
-		this.distance = distance;
+		this.distance=distance;
+		
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.drivetrain.getLeftEncoder().reset();
+		Robot.drivetrain.getRightEncoder().reset();
+		Robot.drivetrain.resetGyro();
+		this.distance = distance;
 	}
 
 	// Called repeatedly when this Command is scheduled to run

@@ -20,39 +20,47 @@ public class GoForSwitch extends CommandGroup {
 	private static final int distanceToPassSwitch = 196 * INCHES + 1 * FEET;
 	private static final int driveAlongSwitch = 13 * FEET;
 
-	public GoForSwitch() {
-		addSequential(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
-		addParallel(new LowerArm(), 1.5);
-		addParallel(new DriveStraightWithGyro(distanceToSideDrop));
+	public GoForSwitch(String gameData, boolean isRight) {
+		String side = isRight ? "R" : "L";
+		String scaleLocation = gameData.substring(1, 2);
+		String switchLocation = gameData.substring(0, 1);
 
-		String gameData = getGameData();
+		boolean imLeft = Robot.getIsLeft();
+		boolean imRight = !imLeft;
+		boolean switchRight = switchLocation.equalsIgnoreCase("R");
+		boolean switchLeft = !switchRight;
+		boolean bothRight = imRight && switchRight;
+		boolean bothLeft = imLeft && switchLeft;
+		boolean matchingSide = bothRight || bothLeft;
+
+		int amountToTurn = imLeft ? 90 : -90;
+		System.out.println("switchLocation\t" + switchLocation);
+		System.out.println("scaleLocation\t" + scaleLocation);
+		System.out.println("matchingSide\t" + matchingSide);
+		System.out.println("GameData\t" + gameData);
+
+		System.out.println("Driving forward 0");
+		addSequential(new DriveStraightWithGyro(distanceToSideDrop));
+		addParallel(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
+		addParallel(new LowerArm(), 1.5);
+
+		// if have gameData
 		if (gameData.length() >= 3) {
-			String switchLocation = gameData.substring(0, 1);
-			String scaleLocation = gameData.substring(1, 2);
-			boolean isRight = Robot.getIsRight();
-			String side = isRight ? "R" : "L";
-			boolean switchMatch = switchLocation.equalsIgnoreCase(side);
-			boolean scaleMatch = scaleLocation.equalsIgnoreCase(side);
-			boolean imLeft = Robot.getIsLeft();
-			boolean imRight = !imLeft;
-			boolean switchRight = switchLocation.equals("R");
-			boolean switchLeft = !switchRight;
-			boolean bothRight = imRight && switchRight;
-			boolean bothLeft = imLeft && switchLeft;
-			boolean matchingSide = bothRight || bothLeft;
-			int amountToTurn = imLeft ? 90 : -90;
-			if (!matchingSide)
-				// drive long (past switch)
-				this.addSequential(new DriveStraightWithGyro(distanceToPassSwitch - distanceToSideDrop));
-			// Turn
-			this.addSequential(new Turn(amountToTurn));
-			if (!matchingSide)
-			// drive horizontal across field
+			if (!matchingSide) // drive long (past switch)
 			{
+				System.out.println("NOT MATCHING SIDE0");
+				this.addSequential(new DriveStraightWithGyro(distanceToPassSwitch - distanceToSideDrop));
+			}
+			System.out.println("TURNING 1");
+			this.addSequential(new Turn(amountToTurn));// Turn
+			if (!matchingSide) {// drive horizontal across field
+				System.out.println("NOT MATCHING SIDE1");
 				this.addSequential(new DriveStraightWithGyro(driveAlongSwitch));
+				System.out.println("TURNING 2");
 				this.addSequential(new Turn(amountToTurn));
 			}
 			// TODO create DriveTillStopped
+			System.out.println("Driving forward1");
 			this.addSequential(new DriveStraightWithGyro(1 * FEET));
 
 			// Drop Cube
@@ -65,13 +73,4 @@ public class GoForSwitch extends CommandGroup {
 		}
 	}
 
-	public String getGameData() {
-		String gameData = "";
-		long stopTime = System.currentTimeMillis() + 3 * 1000;
-		// wait 3 seconds if no data return ""
-		while (gameData.length() < 3 || System.currentTimeMillis() >= stopTime) {
-			gameData = DriverStation.getInstance().getGameSpecificMessage();
-		}
-		return gameData;
-	}
 }

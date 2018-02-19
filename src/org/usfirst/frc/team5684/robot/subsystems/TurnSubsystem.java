@@ -16,12 +16,12 @@ public class TurnSubsystem extends PIDSubsystem {
 		// to
 		// enable() - Enables the PID controller.
 
-		super("Turn", .4, 0, .45);
+		super("Turn", .3, 0, .2);
 
 	}
 
 	public void initDefaultCommand() {
-		this.setOutputRange(-.48, .48);
+		this.setOutputRange(-.75, .75);
 		this.setAbsoluteTolerance(1);
 
 	}

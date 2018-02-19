@@ -1,5 +1,8 @@
 package org.usfirst.frc.team5684.robot;
 
+import org.usfirst.frc.team5684.robot.commands.AutoSwitchLL;
+import org.usfirst.frc.team5684.robot.commands.AutoSwitchLR;
+import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
 import org.usfirst.frc.team5684.robot.commands.GoForSwitch;
 import org.usfirst.frc.team5684.robot.commands.SimpleAuto;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
@@ -69,7 +72,7 @@ public class Robot extends IterativeRobot {
 		time = System.currentTimeMillis();
 		cubeIntakeSystem = new CubeIntakeSystem();
 		// chooser.addObject("Simple Auto", new SimpleAuto());
-		chooser.addDefault("GoForSwitch", new GoForSwitch());
+		chooser.addDefault("GoForSwitch", new DrivebyJoystick());
 		// chooser.addObject("GuaranteeSwitch", new GoForSwitch());
 		// chooser.addObject("GuaranteeSwitch2", new GoForSwitch());
 		SmartDashboard.putData("Auto choices", this.chooser);
@@ -105,15 +108,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		// The very first thing you do is get which color you are.
-		if (ds.getAlliance() == DriverStation.Alliance.Blue) {
-			isBlue = true;
-		} else {
-			isBlue = false;
+		/*
+		 * if (ds.getAlliance() == DriverStation.Alliance.Blue) { isBlue = true;
+		 * } else { isBlue = false; } this.autonomousCommand =
+		 * this.selectedCommand; if (this.autonomousCommand != null) {
+		 * this.autonomousCommand.start(); }
+		 */
+		String gameData = getGameData();
+		if (gameData.substring(0, 1).equalsIgnoreCase("L") && gameData.substring(1, 2).equalsIgnoreCase("L")
+				&& getIsLeft()) {
+			new AutoSwitchLL().start();
 		}
-		this.autonomousCommand = this.selectedCommand;
-		if (this.autonomousCommand != null) {
-			this.autonomousCommand.start();
+		else if (gameData.substring(0, 1).equalsIgnoreCase("R") && gameData.substring(1, 2).equalsIgnoreCase("R")
+				&& getIsLeft()) {
+			new AutoSwitchLR().start();
 		}
+		;
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 	}
@@ -175,6 +185,16 @@ public class Robot extends IterativeRobot {
 
 	public DriverStation getDS() {
 		return ds;
+	}
+
+	public String getGameData() {
+		String gameData = "";
+		long stopTime = System.currentTimeMillis() + 3 * 1000;
+		// wait 3 seconds if no data return ""
+		while (gameData.length() < 3 || System.currentTimeMillis() >= stopTime) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+		}
+		return gameData;
 	}
 
 }
