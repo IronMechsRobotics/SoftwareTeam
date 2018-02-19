@@ -22,10 +22,12 @@ public class Turn extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.lw.writeLog("Turn initialize");
 		Robot.drivetrain.simpleDrive(0, 0);
 		double set = setpoint + Robot.drivetrain.getGyro().getAngleY();
 		Robot.turn.setSetpoint(set);
 		Robot.turn.enable();
+		Robot.lw.writeLog("setPoint: " + set);
 
 	}
 
@@ -46,6 +48,7 @@ public class Turn extends Command {
 	protected void end() {
 		Robot.drivetrain.simpleDrive(0, 0);
 		Robot.turn.disable();
+		Robot.lw.writeLog("Turn end");
 	}
 
 	// Called when another command which requires one or more of the same

@@ -40,8 +40,8 @@ public class ElevatorDown extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.elevator.stopMotor();
-		Robot.lw.writeLog("Elevator Down end");
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		Robot.lw.writeLog("Elevator Down end");
 	}
 
 	// Called when another command which requires one or more of the same

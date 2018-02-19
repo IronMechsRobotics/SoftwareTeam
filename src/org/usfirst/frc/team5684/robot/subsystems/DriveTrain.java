@@ -99,6 +99,7 @@ public class DriveTrain extends Subsystem {
 		if (gyro != null) {
 			gyro.reset();
 		}
+		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
 	}
 
 	public void setVoltage(double voltage) {

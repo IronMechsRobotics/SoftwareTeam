@@ -157,12 +157,19 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		if ((wantToCalibrate() && System.currentTimeMillis() >= (lastCalibration + 5000))) {
-			drivetrain.calibrateGyro();
-			elevator.resetEncoder();
-			Robot.drivetrain.resetEncoder();
-			lastCalibration = System.currentTimeMillis();
-			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
+		if (wantToCalibrate()) {
+			lw.writeLog("wantToCalibrate was pressed");
+			if (System.currentTimeMillis() >= (lastCalibration + 5000)) {
+				lw.writeLog("Calibration started");
+				drivetrain.calibrateGyro();
+				elevator.resetEncoder();
+				Robot.drivetrain.resetEncoder();
+				lastCalibration = System.currentTimeMillis();
+				SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
+				lw.writeLog("Calibration ended");
+			} else {
+				lw.writeLog("Calibration did not happen");
+			}
 		}
 		isRight = locationSwitch.get();
 		if (isRight) {
