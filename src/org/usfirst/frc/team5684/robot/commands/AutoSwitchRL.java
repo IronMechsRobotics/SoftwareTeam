@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutoSwitchLR extends CommandGroup {
+public class AutoSwitchRL extends CommandGroup {
 
-	public AutoSwitchLR() {
+	public AutoSwitchRL() {
 		addSequential(new DriveStraightWithGyro(RobotMap.DISTANCETOPASSSWITCH));
 		addParallel(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
 		addParallel(new LowerArm(), 1.5);
-		addSequential(new Turn(RobotMap.TURNRIGHT));
+		addSequential(new Turn(RobotMap.TURNLEFT));
 		addSequential(new DriveStraightWithGyro(RobotMap.DRIVEALONGSWITCH));
-		addSequential(new Turn(RobotMap.TURNRIGHT));
+		addSequential(new Turn(RobotMap.TURNLEFT));
 		addSequential(new DriveStraightWithGyro(6));
 		addSequential(new OutputCube(), 3);
 	}

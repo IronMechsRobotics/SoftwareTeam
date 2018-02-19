@@ -38,5 +38,15 @@ public class RobotMap {
 	public static double LOWSCALEHEIGHT = 4 * 12 + 3;
 	public static double MIDDLESCALEHEIGHT = 5 * 12 + 3;
 	public static double HIGHSCALEHEIGHT = 6 * 12;
+	public static final int FEET = 12;
+	public static final int INCHES = 1;
+	public static final int TURNRIGHT = -90;
+	public static final int TURNLEFT = 90;
+	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
+	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 1 * FEET;
+	public static final int DRIVEALONGSWITCH = 13 * FEET;
+	public static final String LOGFILE = System.currentTimeMillis() + ".txt";
+	public static final double ELEVATORDOWNSPEED = -.5;
+	public static final double ELEVATORUPSPEED = .9;
 
 }

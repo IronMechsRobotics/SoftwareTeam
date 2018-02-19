@@ -1,10 +1,11 @@
 package org.usfirst.frc.team5684.robot;
 
+import org.usfirst.frc.team5684.robot.commands.AutoCrossLine;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLL;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLR;
+import org.usfirst.frc.team5684.robot.commands.AutoSwitchRL;
+import org.usfirst.frc.team5684.robot.commands.AutoSwitchRR;
 import org.usfirst.frc.team5684.robot.commands.DrivebyJoystick;
-import org.usfirst.frc.team5684.robot.commands.GoForSwitch;
-import org.usfirst.frc.team5684.robot.commands.SimpleAuto;
 import org.usfirst.frc.team5684.robot.subsystems.CubeIntakeSystem;
 import org.usfirst.frc.team5684.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5684.robot.subsystems.ElevatorSubsystem;
@@ -52,6 +53,7 @@ public class Robot extends IterativeRobot {
 	public long time;
 	public boolean switchMatch;
 	public boolean scaleMatch;
+	public static LogWritter lw;
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -61,6 +63,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		LogWritter lw = new LogWritter();
 		hasCalibrated = false;
 		lastCalibration = 0;
 		// locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
@@ -81,6 +84,7 @@ public class Robot extends IterativeRobot {
 		us = new AnalogInput(RobotMap.ULTRASONIC);
 		turn = new TurnSubsystem();
 		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
+		lw.writeLog("Finished robotInit");
 	}
 
 	public boolean wantToCalibrate() {
@@ -107,6 +111,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		lw.writeLog("Start AutonomusInit");
 		// The very first thing you do is get which color you are.
 		/*
 		 * if (ds.getAlliance() == DriverStation.Alliance.Blue) { isBlue = true;
@@ -114,16 +119,26 @@ public class Robot extends IterativeRobot {
 		 * this.selectedCommand; if (this.autonomousCommand != null) {
 		 * this.autonomousCommand.start(); }
 		 */
+		lw.writeLog("Getting Game data");
 		String gameData = getGameData();
-		if (gameData.substring(0, 1).equalsIgnoreCase("L") && gameData.substring(1, 2).equalsIgnoreCase("L")
-				&& getIsLeft()) {
+		lw.writeLog("gameData \t " + gameData);
+		lw.writeLog(gameData.substring(0, 1) + "\t" + getIsLeft());
+		if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+			lw.writeLog("LL");
 			new AutoSwitchLL().start();
-		}
-		else if (gameData.substring(0, 1).equalsIgnoreCase("R") && gameData.substring(1, 2).equalsIgnoreCase("R")
-				&& getIsLeft()) {
+		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
 			new AutoSwitchLR().start();
+			lw.writeLog("LR");
+		} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+			new AutoSwitchRL().start();
+			lw.writeLog("RL");
+		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+			new AutoSwitchRR().start();
+			lw.writeLog("RR");
+		} else {
+			lw.writeLog("AutoCrossLine");
+			new AutoCrossLine().start();
 		}
-		;
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
 	}

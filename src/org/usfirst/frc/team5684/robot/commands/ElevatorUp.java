@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.commands;
 
 import org.usfirst.frc.team5684.robot.Robot;
+import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,11 +18,12 @@ public class ElevatorUp extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.lw.writeLog("Elevator up initialize");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(.9);
+		Robot.elevator.setMotor(RobotMap.ELEVATORUPSPEED);
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 	}
 
@@ -34,6 +36,7 @@ public class ElevatorUp extends Command {
 	protected void end() {
 		Robot.elevator.stopMotor();
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		Robot.lw.writeLog("Elevator up end");
 	}
 
 	// Called when another command which requires one or more of the same
