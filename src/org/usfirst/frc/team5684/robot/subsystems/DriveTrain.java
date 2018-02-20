@@ -31,17 +31,8 @@ public class DriveTrain extends Subsystem {
 	int samplesToAverage = 7;
 	public static final double WHEEL_DIAMETER = 6;
 	public static final double velF = 1.4;
-	private static final double velP = 0.8999999999999999;
-	private static final double velI = 0;
-	private static final double velD = 0.03125000000025;
-	private static final double posP = 0.4;
-	private static final double posI = 0.0;
-	private static final double posD = 0.0;
-	private static final double MAX_SPEED = 130;
 	private Victor left;
 	private Victor right;
-	private boolean correcting = false;
-	private boolean driveBySpeed = true;
 	private DifferentialDrive drive;
 	public static ADIS16448_IMU gyro;
 
@@ -180,6 +171,5 @@ public class DriveTrain extends Subsystem {
 	public ADIS16448_IMU getGyro() {
 		return gyro;
 	}
-	
 
 }

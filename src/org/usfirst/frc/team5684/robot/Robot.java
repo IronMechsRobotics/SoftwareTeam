@@ -15,10 +15,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -43,7 +41,6 @@ public class Robot extends IterativeRobot {
 	public DriverStation ds;
 	public boolean isBlue;
 	private Command selectedCommand;
-	private Command autonomousCommand;
 	private DigitalInput locationSwitch;
 	private DigitalInput gyroCalibrateButton;
 	public long lastCalibration;
@@ -63,7 +60,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		LogWritter lw = new LogWritter();
 		hasCalibrated = false;
 		lastCalibration = 0;
 		// locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
