@@ -19,7 +19,7 @@ public class ElevatorDown extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.lw.writeLog("Elevator Down initialize");
+		RobotMap.writeLog("Elevator Down initialize");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -41,7 +41,7 @@ public class ElevatorDown extends Command {
 	protected void end() {
 		Robot.elevator.stopMotor();
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
-		Robot.lw.writeLog("Elevator Down end");
+		RobotMap.writeLog("Elevator Down end");
 	}
 
 	// Called when another command which requires one or more of the same

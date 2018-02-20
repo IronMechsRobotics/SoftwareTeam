@@ -84,7 +84,7 @@ public class Robot extends IterativeRobot {
 		us = new AnalogInput(RobotMap.ULTRASONIC);
 		turn = new TurnSubsystem();
 		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
-		lw.writeLog("Finished robotInit");
+		RobotMap.writeLog("Finished robotInit");
 	}
 
 	public boolean wantToCalibrate() {
@@ -110,25 +110,25 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		lw.writeLog("Start AutonomusInit");
-		lw.writeLog("Getting Game data");
+		RobotMap.writeLog("Start AutonomusInit");
+		RobotMap.writeLog("Getting Game data");
 		String gameData = getGameData();
-		lw.writeLog("gameData \t " + gameData);
-		lw.writeLog(gameData.substring(0, 1) + "\t" + getIsLeft());
+		RobotMap.writeLog("gameData \t " + gameData);
+		RobotMap.writeLog(gameData.substring(0, 1) + "\t" + getIsLeft());
 		if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-			lw.writeLog("LL");
+			RobotMap.writeLog("LL");
 			new AutoSwitchLL().start();
 		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
 			new AutoSwitchLR().start();
-			lw.writeLog("LR");
+			RobotMap.writeLog("LR");
 		} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
 			new AutoSwitchRL().start();
-			lw.writeLog("RL");
+			RobotMap.writeLog("RL");
 		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
 			new AutoSwitchRR().start();
-			lw.writeLog("RR");
+			RobotMap.writeLog("RR");
 		} else {
-			lw.writeLog("AutoCrossLine");
+			RobotMap.writeLog("AutoCrossLine");
 			new AutoCrossLine().start();
 		}
 	}
@@ -148,17 +148,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		if (wantToCalibrate()) {
-			lw.writeLog("wantToCalibrate was pressed");
+			RobotMap.writeLog("wantToCalibrate was pressed");
 			if (System.currentTimeMillis() >= (lastCalibration + 5000)) {
-				lw.writeLog("Calibration started");
+				RobotMap.writeLog("Calibration started");
 				drivetrain.calibrateGyro();
 				elevator.resetEncoder();
 				Robot.drivetrain.resetEncoder();
 				lastCalibration = System.currentTimeMillis();
 				SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
-				lw.writeLog("Calibration ended");
+				RobotMap.writeLog("Calibration ended");
 			} else {
-				lw.writeLog("Calibration did not happen");
+				RobotMap.writeLog("Calibration did not happen");
 			}
 		}
 		isRight = locationSwitch.get();

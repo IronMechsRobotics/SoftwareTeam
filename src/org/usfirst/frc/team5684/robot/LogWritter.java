@@ -1,7 +1,10 @@
 package org.usfirst.frc.team5684.robot;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,56 +16,36 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 
 public class LogWritter {
-	String path = " /media/sda1/" + RobotMap.LOGFILE;
+	String path = "/u/logs/" + RobotMap.LOGFILE;
 	DriverStation ds;
+	File log;
 
 	public LogWritter() {
-		DriverStation ds = DriverStation.getInstance();
+		ds = DriverStation.getInstance();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String data = timestamp + "\t" + "log file created";
-		FileOutputStream out = null;
-		try {
-			out = new FileOutputStream("path");
-			out.write(data.getBytes());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+		new File("/u/logs").mkdirs();
+		log = new File(path);
+		if (!log.exists()) {
+			System.out.println("Make a new file");
 			try {
-				out.close();
+				log.createNewFile();
+				System.out.println("File created");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("no new file");
+				System.out.println(e);
 				e.printStackTrace();
 			}
+		} else {
+			System.out.println("No need to make a new file");
 		}
-		writeLog("getAlliance" + ds.getAlliance());
-		writeLog("getEventName()" + ds.getEventName());
-		writeLog("getLocation()" + ds.getLocation());
-		writeLog("getMatchNumber()" + ds.getMatchNumber());
-		writeLog("getMatchType()" + ds.getMatchType());
-		writeLog("getReplayNumber()" + ds.getReplayNumber());
-		writeLog("isAutonomous()" + ds.isAutonomous());
-		writeLog("isDisabled()" + ds.isDisabled());
-		writeLog("isEnabled()" + ds.isEnabled());
-		writeLog("getBatteryVoltage()" + RobotController.getBatteryVoltage());
-	}
-
-	public boolean writeLog(String log) {
-		String status = "\t\tisDisabled/isAutonomous/isEnabled()" + ds.isDisabled() + "/" + ds.isEnabled() + "/"
-				+ ds.isEnabled();
-		String voltage ="\t\t" + RobotController.getBatteryVoltage();
-		try {
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			String temp = timestamp + "|" + ds.getMatchTime() + "\t" + log + "\n";
-			Files.write(Paths.get(path), temp.getBytes(), StandardOpenOption.APPEND);
-			Files.write(Paths.get(path), status.getBytes(), StandardOpenOption.APPEND);
-			Files.write(Paths.get(path), voltage.getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-			// exception handling left as an exercise for the reader
-		}
-		return true;
+		ds = DriverStation.getInstance();
+		String temp = "getAlliance\t" + ds.getAlliance();
+		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
+		temp = temp + "\r\n" + "getEventName()\t" + ds.getEventName();
+		temp = temp + "\r\n" + "getLocation()\t" + ds.getLocation();
+		temp = temp + "\r\n" + "getMatchNumber()\t" + ds.getMatchNumber();
+		temp = temp + "\r\n" + "getReplayNumber()\t" + ds.getReplayNumber() + "\r\n";
+		RobotMap.writeLog(temp);
 	}
 }

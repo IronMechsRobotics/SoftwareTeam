@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.commands;
 
 import org.usfirst.frc.team5684.robot.Robot;
+import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,9 +28,9 @@ public class ElevatorToHeight extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.lw.writeLog("ElevatorToHeight Init");
-		Robot.lw.writeLog("\tHeight: \t" + goalHeight);
-		Robot.lw.writeLog("\tisGoingUp: \t" + isGoingUp);
+		RobotMap.writeLog("ElevatorToHeight Init");
+		RobotMap.writeLog("\tHeight: \t" + goalHeight);
+		RobotMap.writeLog("\tisGoingUp: \t" + isGoingUp);
 		if (Robot.elevator.getDistance() > goalHeight) {
 			isGoingUp = false;
 		} else {
@@ -67,7 +68,7 @@ public class ElevatorToHeight extends Command {
 	protected void end() {
 		Robot.elevator.stopMotor();
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
-		Robot.lw.writeLog("ElevatorToHeight End");
+		RobotMap.writeLog("ElevatorToHeight End");
 	}
 
 	// Called when another command which requires one or more of the same

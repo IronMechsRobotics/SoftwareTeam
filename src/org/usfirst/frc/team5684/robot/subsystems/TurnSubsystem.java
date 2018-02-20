@@ -16,7 +16,7 @@ public class TurnSubsystem extends PIDSubsystem {
 		// to
 		// enable() - Enables the PID controller.
 
-		super("Turn", .3, 0, .2);
+		super("Turn", .3, .05, .2);
 
 	}
 

@@ -12,11 +12,11 @@ public class AutoSwitchLR extends CommandGroup {
 	public AutoSwitchLR() {
 		addSequential(new DriveStraightWithGyro(RobotMap.DISTANCETOPASSSWITCH));
 		addParallel(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
-		addParallel(new LowerArm(), 1.5);
 		addSequential(new Turn(RobotMap.TURNRIGHT));
 		addSequential(new DriveStraightWithGyro(RobotMap.DRIVEALONGSWITCH));
 		addSequential(new Turn(RobotMap.TURNRIGHT));
 		addSequential(new DriveStraightWithGyro(6));
+		addParallel(new LowerArm(), 1.5);
 		addSequential(new OutputCube(), 3);
 	}
 }

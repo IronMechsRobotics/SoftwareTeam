@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.commands;
 
 import org.usfirst.frc.team5684.robot.Robot;
+import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,7 +18,7 @@ public class LowerArm extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		Robot.lw.writeLog("LowerArm Init");
+		RobotMap.writeLog("LowerArm Init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -33,7 +34,7 @@ public class LowerArm extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.cubeIntakeSystem.setArmMotor(0);
-		Robot.lw.writeLog("LowerArm end");
+		RobotMap.writeLog("LowerArm end");
 	}
 
 	// Called when another command which requires one or more of the same

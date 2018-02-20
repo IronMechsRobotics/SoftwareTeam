@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.commands;
 
 import org.usfirst.frc.team5684.robot.Robot;
+import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SimpleDrive extends Command {
 	private static double DEAD_BAND = 0.15;
 	private static double ROTATE_DEAD_BAND = 0.15;
+	double maxSpeed = 0;
 
 	public SimpleDrive() {
 		// Use requires() here to declare subsystem dependencies
@@ -21,6 +23,7 @@ public class SimpleDrive extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		SmartDashboard.putNumber("Max_Speed", maxSpeed);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -35,12 +38,20 @@ public class SimpleDrive extends Command {
 		if (Math.abs(rightInput) <= DEAD_BAND) {
 			rightInput = 0;
 		}
+		double temp = 0;
+		double currentSpeed = (Robot.drivetrain.getLeftEncoder().getRate()
+				+ Robot.drivetrain.getRightEncoder().getRate() / 2.0);
+		if (maxSpeed < currentSpeed) {
+			maxSpeed = currentSpeed;
+			SmartDashboard.putNumber("Max_Speed", maxSpeed);
+			RobotMap.writeLog("MaxSpeed is " + maxSpeed);
 
+		}
 		Robot.drivetrain.simpleDrive(-1 * leftInput, rightInput);
 		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
 		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
-		
+
 		SmartDashboard.putNumber("LeftWheels speed", Robot.drivetrain.getLeftEncoder().getRate());
 		SmartDashboard.putNumber("RightWheels Speed", Robot.drivetrain.getRightEncoder().getRate());
 	}

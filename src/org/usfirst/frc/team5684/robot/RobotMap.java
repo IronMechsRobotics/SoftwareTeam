@@ -1,5 +1,13 @@
 package org.usfirst.frc.team5684.robot;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Timestamp;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
+
 public class RobotMap {
 	// PWM Ports
 	public static int RIGHTWHEELMOTOR = 0;
@@ -48,5 +56,26 @@ public class RobotMap {
 	public static final String LOGFILE = System.currentTimeMillis() + ".txt";
 	public static final double ELEVATORDOWNSPEED = -.5;
 	public static final double ELEVATORUPSPEED = .9;
+	public static final DriverStation DS = DriverStation.getInstance();
+	static String path = "/u/logs/" + RobotMap.LOGFILE;
+	public static int rightTrigger = 3;
+	public static int leftTrigger = 2;
 
+	public static boolean writeLog(String log) {
+		String status = "\t\tisDisabled/isAutonomous/isEnabled()" + DS.isDisabled() + "/" + DS.isEnabled() + "/"
+				+ DS.isEnabled() + "\r\n";
+		String voltage = "\t\tVoltaage: " + RobotController.getBatteryVoltage() + "\r\n";
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String temp = timestamp + "|" + DS.getMatchTime() + "\r\n\t" + log + "\r\n";
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+			writer.append(temp);
+			writer.append(status);
+			writer.append(voltage);
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("couldn't write");
+		}
+		return true;
+	}
 }

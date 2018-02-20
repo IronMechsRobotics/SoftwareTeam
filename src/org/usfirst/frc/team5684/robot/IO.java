@@ -46,6 +46,8 @@ public class IO {
 	Button ltRb = new LtRb();
 	Button leftBumper = new JoystickButton(xbox, 5);
 	Button rightBumper = new JoystickButton(xbox, 6);
+	Button rightTrigger = new RightTrigger(xbox);
+	Button leftTrigger = new LeftTrigger(xbox);
 
 	public IO() {
 		// radTest.whenPressed(new Turn(90));
@@ -58,12 +60,10 @@ public class IO {
 		// radTest6.whenPressed(new DriveStraightWithGyro(12 * 12));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
-		cubeIntake.whileHeld(new IntakeCube());
-		cubeOutput.whileHeld(new OutputCube());
 		rightTwo.whenPressed(new FlipAndlower());
-		xButton.whenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
-		aButton.whenPressed(new ElevatorToHeight(0));
-		xButton.whenPressed(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
+		yButton.whenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
+		aButton.whenPressed(new ElevatorToHeight(5.5));
+		bButton.whenPressed(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
 		xButton.whenPressed(new ElevatorToHeight(RobotMap.MIDDLESCALEHEIGHT));
 		rtLb.whileHeld(new OutputCube());
 		ltRb.whileHeld(new IntakeCube());
@@ -72,6 +72,9 @@ public class IO {
 		climb.whileHeld(new Climb());
 		leftBumper.whileHeld(new IntakeCube());
 		rightBumper.whileHeld(new OutputCube());
+		rightTrigger.whileHeld(new RaiseArm());
+		leftTrigger.whileHeld(new LowerArm());
+		
 	}
 
 	public Joystick getJoystick(int i) {
