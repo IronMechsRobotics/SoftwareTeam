@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5684.robot;
 
-import org.usfirst.frc.team5684.robot.commands.DriveStraightWithGyro;
 import org.usfirst.frc.team5684.robot.commands.ElevatorDown;
 import org.usfirst.frc.team5684.robot.commands.ElevatorToHeight;
 import org.usfirst.frc.team5684.robot.commands.ElevatorUp;
@@ -8,15 +7,10 @@ import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.RaiseArm;
-import org.usfirst.frc.team5684.robot.commands.Turn;
-import org.usfirst.frc.team5684.robot.commands.testDrivetrain;
-import org.usfirst.frc.team5684.robot.commands.testVelPID;
 import org.usfirst.frc.team5684.robot.commands.Climb;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 
 public class IO {
 
