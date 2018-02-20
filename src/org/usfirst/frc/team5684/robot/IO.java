@@ -56,15 +56,4 @@ public class IO {
 		
 	}
 
-	public Joystick getJoystick(int i) {
-		if (i == 0) {
-			return leftStick;
-		} else if (i == 1) {
-			return rightStick;
-		} else if (i == 2) {
-			return xbox;
-		} else {
-			return null;
-		}
-	}
 }
