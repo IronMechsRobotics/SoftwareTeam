@@ -6,36 +6,26 @@ import java.sql.Timestamp;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class LogWritter {
-	String path = "/u/logs/" + RobotMap.LOGFILE;
 	DriverStation ds;
 	File log;
+	File log2;
 
 	public LogWritter() {
 		ds = DriverStation.getInstance();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String data = timestamp + "\t" + "log file created";
-		new File("/u/logs").mkdirs();
-		log = new File(path);
+		new File("/u/logs/" + RobotMap.strDate).mkdirs();
+		log = new File(RobotMap.LOGFILE);
+		log2 = new File(RobotMap.LOGFILE2);
 		if (!log.exists()) {
-			System.out.println("Make a new file");
 			try {
 				log.createNewFile();
-				System.out.println("File created");
 			} catch (IOException e) {
-				System.out.println("no new file");
-				System.out.println(e);
-				e.printStackTrace();
+				System.out.println("Erro: " + e);
 			}
 		} else {
-			System.out.println("No need to make a new file");
+
 		}
-		ds = DriverStation.getInstance();
-		String temp = "getAlliance\t" + ds.getAlliance();
-		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
-		temp = temp + "\r\n" + "getEventName()\t" + ds.getEventName();
-		temp = temp + "\r\n" + "getLocation()\t" + ds.getLocation();
-		temp = temp + "\r\n" + "getMatchNumber()\t" + ds.getMatchNumber();
-		temp = temp + "\r\n" + "getReplayNumber()\t" + ds.getReplayNumber() + "\r\n";
-		RobotMap.writeLog(temp);
+		RobotMap.writeLog("Log Created");
 	}
 }

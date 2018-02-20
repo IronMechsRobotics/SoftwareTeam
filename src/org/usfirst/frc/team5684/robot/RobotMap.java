@@ -8,7 +8,11 @@ import java.sql.Timestamp;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RobotMap {
+
 	// PWM Ports
 	public static int RIGHTWHEELMOTOR = 0;
 	public static int LEFTWHEELMOTOR = 1;
@@ -53,26 +57,33 @@ public class RobotMap {
 	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
 	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 1 * FEET;
 	public static final int DRIVEALONGSWITCH = 13 * FEET;
-	public static final String LOGFILE = System.currentTimeMillis() + ".txt";
+	static Date date = new Date();
+	static SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH:mm:ss");
+	static String strDate = formatter.format(date);
+	public static final String LOGFILE = "/u/logs/" + RobotMap.strDate + "/log.txt";
+	public static final String LOGFILE2 = "/u/logs/" + RobotMap.strDate + "/voltage.txt";
 	public static final double ELEVATORDOWNSPEED = -.5;
 	public static final double ELEVATORUPSPEED = .9;
 	public static final DriverStation DS = DriverStation.getInstance();
-	static String path = "/u/logs/" + RobotMap.LOGFILE;
+	static String pathLog = "/u/logs/" + RobotMap.LOGFILE;
+	static String pathVoltage = "/u/logs/v" + RobotMap.LOGFILE;
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;
 
 	public static boolean writeLog(String log) {
-		String status = "\t\tisDisabled/isAutonomous/isEnabled()" + DS.isDisabled() + "/" + DS.isEnabled() + "/"
-				+ DS.isEnabled() + "\r\n";
-		String voltage = "\t\tVoltaage: " + RobotController.getBatteryVoltage() + "\r\n";
+		String status = "\t\tisDisabled:\t " + DS.isDisabled() + "\r\n" + "\t\t isAutonomous\t " + DS.isEnabled()
+				+ "\r\n" + "\t\tisEnabled()\t " + DS.isEnabled() + "\r\n \r\n \r\n";
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String voltage = System.currentTimeMillis() + "\t" + RobotController.getBatteryVoltage() + "\r\n";
 		String temp = timestamp + "|" + DS.getMatchTime() + "\r\n\t" + log + "\r\n";
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(LOGFILE, true));
+			BufferedWriter writer2 = new BufferedWriter(new FileWriter(LOGFILE2, true));
 			writer.append(temp);
 			writer.append(status);
-			writer.append(voltage);
+			writer2.append(voltage);
 			writer.close();
+			writer2.close();
 		} catch (IOException e) {
 			System.out.println("couldn't write");
 		}

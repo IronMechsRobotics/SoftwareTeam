@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
-	// make a statement like this for each new subsystem
 	public static DriveTrain drivetrain;
 	public static IO io;
 	public static TurnSubsystem turn;
@@ -41,30 +40,31 @@ public class Robot extends IterativeRobot {
 	public DriverStation ds;
 	public boolean isBlue;
 	private Command selectedCommand;
+	private DigitalInput nearFarSwitch;
 	private DigitalInput locationSwitch;
 	private DigitalInput gyroCalibrateButton;
 	public long lastCalibration;
 	public boolean hasCalibrated;
 	public static boolean isRight;
+	public static boolean isFar;
 	public AnalogInput us;
 	public long time;
-	public boolean switchMatch;
-	public boolean scaleMatch;
 	public static LogWritter lw;
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
+		lw = new LogWritter();
 		hasCalibrated = false;
 		lastCalibration = 0;
-		// locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
 		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
 		locationSwitch = new DigitalInput(RobotMap.LOCATIONSWITCH);
+		nearFarSwitch = new DigitalInput(RobotMap.NEARFARSWITCH);
 		drivetrain = new DriveTrain();
 		elevator = new ElevatorSubsystem();
 
@@ -77,10 +77,12 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", this.chooser);
 		ds = DriverStation.getInstance();
 		io = new IO();
-		us = new AnalogInput(RobotMap.ULTRASONIC);
 		turn = new TurnSubsystem();
 		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
+		SmartDashboard.putString("Near/Far", "RAD");
+		System.out.println("HELLO");
 		RobotMap.writeLog("Finished robotInit");
+		isFar = false;
 	}
 
 	public boolean wantToCalibrate() {
@@ -88,6 +90,19 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void robotPeriodic() {
+		isRight = locationSwitch.get();
+		isFar = nearFarSwitch.get();
+		if (isFar) {
+			SmartDashboard.putString("Near/Far", "Far");
+		} else {
+			SmartDashboard.putString("Near/Far", "Near");
+		}
+		if (isRight) {
+			SmartDashboard.putString("Side", "RIGHT");
+
+		} else {
+			SmartDashboard.putString("Side", "LEFT");
+		}
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
 		SmartDashboard.putNumber("us", us.getValue() * .1367 - 2.7992);
@@ -95,38 +110,54 @@ public class Robot extends IterativeRobot {
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString line to get the
+	 * auto name from the text box below the Gyro
 	 *
 	 * You can add additional auto modes by adding additional comparisons to the
-	 * switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * switch structure below with additional strings. If using the SendableChooser
+	 * make sure to add them to the chooser code above as well.
 	 */
 	@Override
 	public void autonomousInit() {
 		RobotMap.writeLog("Start AutonomusInit");
+		ds = DriverStation.getInstance();
+		String temp = "getAlliance\t" + ds.getAlliance();
+		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
+		temp = temp + "\r\n" + "getEventName()\t" + ds.getEventName();
+		temp = temp + "\r\n" + "getLocation()\t" + ds.getLocation();
+		temp = temp + "\r\n" + "getMatchNumber()\t" + ds.getMatchNumber();
+		temp = temp + "\r\n" + "getReplayNumber()\t" + ds.getReplayNumber() + "\r\n";
+		RobotMap.writeLog(temp);
 		RobotMap.writeLog("Getting Game data");
 		String gameData = getGameData();
 		RobotMap.writeLog("gameData \t " + gameData);
-		RobotMap.writeLog(gameData.substring(0, 1) + "\t" + getIsLeft());
-		if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-			RobotMap.writeLog("LL");
-			new AutoSwitchLL().start();
-		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-			new AutoSwitchLR().start();
-			RobotMap.writeLog("LR");
-		} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-			new AutoSwitchRL().start();
-			RobotMap.writeLog("RL");
-		} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-			new AutoSwitchRR().start();
-			RobotMap.writeLog("RR");
+		RobotMap.writeLog("gameData.substring(0, 1): " + gameData.substring(0, 1) + "\t getIsLeft()" + getIsLeft());
+		if (getFar()) {
+			RobotMap.writeLog("We are going far");
+			if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+				RobotMap.writeLog("Auto Method: LL");
+				new AutoSwitchLL().start();
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+				new AutoSwitchLR().start();
+				RobotMap.writeLog("Auto Method: LR");
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+				new AutoSwitchRL().start();
+				RobotMap.writeLog("Auto Method: RL");
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+				new AutoSwitchRR().start();
+				RobotMap.writeLog("Auto Method: RR");
+			} else {
+				RobotMap.writeLog("Auto Method: AutoCrossLine");
+				new AutoCrossLine().start();
+			}
 		} else {
+			RobotMap.writeLog("We are going close");
 			RobotMap.writeLog("AutoCrossLine");
 			new AutoCrossLine().start();
 		}
+
 	}
 
 	public static boolean getIsRight() {
@@ -135,6 +166,14 @@ public class Robot extends IterativeRobot {
 
 	public static boolean getIsLeft() {
 		return !isRight;
+	}
+
+	public static boolean getFar() {
+		return isFar;
+	}
+
+	public static boolean getNear() {
+		return !isFar;
 	}
 
 	public void disabledInit() {
@@ -156,13 +195,6 @@ public class Robot extends IterativeRobot {
 			} else {
 				RobotMap.writeLog("Calibration did not happen");
 			}
-		}
-		isRight = locationSwitch.get();
-		if (isRight) {
-			SmartDashboard.putString("Side", "RIGHT");
-
-		} else {
-			SmartDashboard.putString("Side", "LEFT");
 		}
 
 		Scheduler.getInstance().run();
@@ -201,6 +233,7 @@ public class Robot extends IterativeRobot {
 		// wait 3 seconds if no data return ""
 		while (gameData.length() < 3 || System.currentTimeMillis() >= stopTime) {
 			gameData = DriverStation.getInstance().getGameSpecificMessage();
+			RobotMap.writeLog("Getting Game data attempt");
 		}
 		return gameData;
 	}
