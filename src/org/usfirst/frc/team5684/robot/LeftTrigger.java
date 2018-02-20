@@ -4,7 +4,6 @@ import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  *
