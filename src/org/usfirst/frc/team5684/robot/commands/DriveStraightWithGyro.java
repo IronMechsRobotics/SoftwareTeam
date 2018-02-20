@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraightWithGyro extends Command {
 	double distance;
-	double kp = .3;
+	double kp = .45;
 
 	public DriveStraightWithGyro(double distance) {
 		// Use requires() here to declare subsystem dependencies

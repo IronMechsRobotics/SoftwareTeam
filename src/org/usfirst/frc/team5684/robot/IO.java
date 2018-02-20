@@ -55,9 +55,9 @@ public class IO {
 		radTest2.toggleWhenPressed(new ElevatorToHeight(RobotMap.LOWSCALEHEIGHT));
 		radTest3.toggleWhenPressed(new ElevatorToHeight(RobotMap.MIDDLESCALEHEIGHT));
 		radTest4.toggleWhenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
-		radTest5.toggleWhenPressed(new Turn(90));
-		radTest6.toggleWhenPressed(new Turn(-90));
-		// radTest6.whenPressed(new DriveStraightWithGyro(12 * 12));
+		radTest5.toggleWhenPressed(new Turn(360));
+		//radTest6.toggleWhenPressed(new Turn(-360));
+		radTest6.whenPressed(new DriveStraightWithGyro(3*12));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		rightTwo.whenPressed(new FlipAndlower());

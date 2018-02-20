@@ -44,7 +44,6 @@ public class SimpleDrive extends Command {
 		if (maxSpeed < currentSpeed) {
 			maxSpeed = currentSpeed;
 			SmartDashboard.putNumber("Max_Speed", maxSpeed);
-			RobotMap.writeLog("MaxSpeed is " + maxSpeed);
 
 		}
 		Robot.drivetrain.simpleDrive(-1 * leftInput, rightInput);
