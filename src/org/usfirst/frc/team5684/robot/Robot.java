@@ -1,6 +1,9 @@
 package org.usfirst.frc.team5684.robot;
 
 import org.usfirst.frc.team5684.robot.commands.AutoCrossLine;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideDumpCube;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideHoldCubeLeft;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideHoldCubeRight;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLL;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLR;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchRL;
@@ -112,7 +115,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		RobotMap.writeLog("Start AutonomusInit");
-		ds = DriverStation.getInstance();
+		/*if (!hasCalibrated) {
+			SmartDashboard.putString("Gyro", "starting to calibrate");
+			RobotMap.writeLog("Calibration started");
+			drivetrain.calibrateGyro();
+			elevator.resetEncoder();
+			Robot.drivetrain.resetEncoder();
+			lastCalibration = System.currentTimeMillis();
+			SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
+			RobotMap.writeLog("Calibration ended");
+		}*/
+		ds = RobotMap.DS;
 		String temp = "getAlliance\t" + ds.getAlliance();
 		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
 		temp = temp + "\r\n" + "getEventName()\t" + ds.getEventName();
@@ -143,9 +156,22 @@ public class Robot extends IterativeRobot {
 				new AutoCrossLine().start();
 			}
 		} else {
-			RobotMap.writeLog("We are going close");
-			RobotMap.writeLog("AutoCrossLine");
-			new AutoCrossLine().start();
+			if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+				RobotMap.writeLog("Auto Method: close LL");
+				new AutoInsideDumpCube().start();
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+				new AutoInsideHoldCubeLeft().start();
+				RobotMap.writeLog("Auto Method: close LR");
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+				new AutoInsideHoldCubeRight().start();
+				RobotMap.writeLog("Auto Method: close RL");
+			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+				RobotMap.writeLog("Auto Method: close RR");
+				new AutoInsideDumpCube().start();
+			} else {
+				RobotMap.writeLog("Auto Method: AutoCrossLine CLOSE");
+				new AutoCrossLine().start();
+			}
 		}
 
 	}

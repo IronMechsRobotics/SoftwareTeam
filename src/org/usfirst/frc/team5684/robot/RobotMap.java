@@ -54,9 +54,9 @@ public class RobotMap {
 	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
-	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
-	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 1 * FEET;
-	public static final int DRIVEALONGSWITCH = 13 * FEET;
+	public static final int DISTANCETOSIDEDROP = 12 * FEET ;
+	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES;
+	public static final int DRIVEALONGSWITCH = 12 * FEET;
 	static final Date date = new Date();
 	static final SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH-mm-ss");
 	static final String strDate = formatter.format(date);
