@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5684.robot;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -38,54 +40,85 @@ public class RobotMap {
 	public static final int ULTRASONIC = 0;
 
 	// CONSTANTS
-	public static double wheelDiameter = 6;
+	public static final double WHEELDIAMETER = 6;
 	public static double pulsePerRevolutionLeft = 360;
 	public static double pulsePerRevolutionRight = 250;
-	public static double encoderGearRatio = 1;
-	public static double gearRatio = 1;
-	public static double fudgeFactor = 1;
-	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
-	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
-	public static double SWITCHHEIGHT = 20.0;
-	public static double LOWSCALEHEIGHT = 4 * 12 + 3;
-	public static double MIDDLESCALEHEIGHT = 5 * 12 + 3;
-	public static double HIGHSCALEHEIGHT = 6 * 12;
+	public static final double distancePerWheelPulseLeft = Math.PI * WHEELDIAMETER / pulsePerRevolutionLeft;
+	public static final double distancePerWheelPulseRight = Math.PI * WHEELDIAMETER / pulsePerRevolutionRight;
+	public static final double SWITCHHEIGHT = 20.0;
+	public static final double LOWSCALEHEIGHT = 4 * 12 + 3;
+	public static final double MIDDLESCALEHEIGHT = 5 * 12 + 3;
+	public static final double HIGHSCALEHEIGHT = 6 * 12;
 	public static final int FEET = 12;
 	public static final int INCHES = 1;
+	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
 	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
 	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 1 * FEET;
 	public static final int DRIVEALONGSWITCH = 13 * FEET;
-	static Date date = new Date();
-	static SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH:mm:ss");
-	static String strDate = formatter.format(date);
-	public static final String LOGFILE = "/u/logs/" + RobotMap.strDate + "/log.txt";
-	public static final String LOGFILE2 = "/u/logs/" + RobotMap.strDate + "/voltage.txt";
-	public static final double ELEVATORDOWNSPEED = -.5;
-	public static final double ELEVATORUPSPEED = .9;
+	static final Date date = new Date();
+	static final SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH-mm-ss");
+	static final String strDate = formatter.format(date);
+	public static final String folderPath = "/u/log/" + RobotMap.strDate;
+	public static final String LOGFILE = folderPath + "/log.txt";
+	public static final String LOGVOLTAGE = folderPath + "/voltage.txt";
+	public static boolean fileCreated = false;
+	public static final double ELEVATORDOWNSPEED = -.65;
+	public static final double ELEVATORUPSPEED = .85;
 	public static final DriverStation DS = DriverStation.getInstance();
-	static String pathLog = "/u/logs/" + RobotMap.LOGFILE;
-	static String pathVoltage = "/u/logs/v" + RobotMap.LOGFILE;
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;
 
 	public static boolean writeLog(String log) {
-		String status = "\t\tisDisabled:\t " + DS.isDisabled() + "\r\n" + "\t\t isAutonomous\t " + DS.isEnabled()
+		if (!fileCreated) {
+			File dir = new File(folderPath);
+			System.out.println(folderPath);
+			boolean successful = dir.mkdirs();
+			if (successful) {
+				System.out.println("We did it");
+			} else {
+				System.out.println("We didn't do it");
+			}
+
+			File tempLog;
+			FileOutputStream fos = null;
+			try {
+				tempLog = new File(LOGFILE);
+				fos = new FileOutputStream(tempLog);
+				if (!tempLog.exists()) {
+					tempLog.createNewFile();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			fileCreated = true;
+		}
+
+		String status = "\t\tisDisabled:\t " + DS.isDisabled() + "\r\n" + "\t\t isAutonomous\t " + DS.isAutonomous()
 				+ "\r\n" + "\t\tisEnabled()\t " + DS.isEnabled() + "\r\n \r\n \r\n";
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String voltage = System.currentTimeMillis() + "\t" + RobotController.getBatteryVoltage() + "\r\n";
 		String temp = timestamp + "|" + DS.getMatchTime() + "\r\n\t" + log + "\r\n";
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(LOGFILE, true));
-			BufferedWriter writer2 = new BufferedWriter(new FileWriter(LOGFILE2, true));
-			writer.append(temp);
-			writer.append(status);
-			writer2.append(voltage);
-			writer.close();
-			writer2.close();
+			BufferedWriter logFile = new BufferedWriter(new FileWriter(LOGFILE, true));
+			logFile.append(temp);
+			logFile.append(status);
+			logFile.close();
 		} catch (IOException e) {
-			System.out.println("couldn't write");
+			System.out.println(e);
+			System.out.println("couldn't write log");
+			return false;
+		}
+		try {
+			BufferedWriter logFile = new BufferedWriter(new FileWriter(LOGVOLTAGE, true));
+			logFile.append(voltage);
+			logFile.close();
+		} catch (IOException e) {
+			System.out.println(e);
+			System.out.println("couldn't write voltage log");
+			return false;
 		}
 		return true;
 	}

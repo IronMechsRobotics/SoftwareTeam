@@ -49,7 +49,6 @@ public class Robot extends IterativeRobot {
 	public static boolean isFar;
 	public AnalogInput us;
 	public long time;
-	public static LogWritter lw;
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -59,7 +58,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		lw = new LogWritter();
+		SmartDashboard.delete("Inside/Outside");
+		SmartDashboard.delete("Left/Right");
+		SmartDashboard.updateValues();
+		System.out.println("Hello");
 		hasCalibrated = false;
 		lastCalibration = 0;
 		gyroCalibrateButton = new DigitalInput(RobotMap.GYROCALIBTAIONBUTTON);
@@ -79,9 +81,11 @@ public class Robot extends IterativeRobot {
 		io = new IO();
 		turn = new TurnSubsystem();
 		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
-		SmartDashboard.putString("Near/Far", "RAD");
-		System.out.println("HELLO");
+		SmartDashboard.putString("Inside/Outside", "RAD");
+		SmartDashboard.putString("Left/Right", "RAD");
 		RobotMap.writeLog("Finished robotInit");
+		SmartDashboard.updateValues();
+
 		isFar = false;
 	}
 
@@ -90,22 +94,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void robotPeriodic() {
-		isRight = locationSwitch.get();
-		isFar = nearFarSwitch.get();
-		if (isFar) {
-			SmartDashboard.putString("Near/Far", "Far");
-		} else {
-			SmartDashboard.putString("Near/Far", "Near");
-		}
-		if (isRight) {
-			SmartDashboard.putString("Side", "RIGHT");
-
-		} else {
-			SmartDashboard.putString("Side", "LEFT");
-		}
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
-		SmartDashboard.putNumber("us", us.getValue() * .1367 - 2.7992);
 	}
 
 	/**
@@ -185,6 +175,7 @@ public class Robot extends IterativeRobot {
 		if (wantToCalibrate()) {
 			RobotMap.writeLog("wantToCalibrate was pressed");
 			if (System.currentTimeMillis() >= (lastCalibration + 5000)) {
+				SmartDashboard.putString("Gyro", "starting to calibrate");
 				RobotMap.writeLog("Calibration started");
 				drivetrain.calibrateGyro();
 				elevator.resetEncoder();
@@ -196,7 +187,22 @@ public class Robot extends IterativeRobot {
 				RobotMap.writeLog("Calibration did not happen");
 			}
 		}
+		isRight = locationSwitch.get();
+		isFar = nearFarSwitch.get();
+		if (isFar) {
+			SmartDashboard.putString("A", "Outside");
+		} else {
+			SmartDashboard.putString("A", "Inside");
+		}
+		if (isRight) {
+			SmartDashboard.putString("B", "RIGHT");
 
+		} else {
+			SmartDashboard.putString("B", "LEFT");
+		}
+		SmartDashboard.updateValues();
+		this.selectedCommand = this.chooser.getSelected();
+		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
 		Scheduler.getInstance().run();
 	}
 

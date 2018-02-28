@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5684.robot.commands;
 
 import org.usfirst.frc.team5684.robot.Robot;
+import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,12 +19,14 @@ public class Climb extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		RobotMap.writeLog("Climb Init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.elevator.setMotor(-.8);
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
+		RobotMap.writeLog("CLIMBING");
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -37,6 +40,7 @@ public class Climb extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
+		RobotMap.writeLog("climbing done");
 		Robot.elevator.stopMotor();
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 	}

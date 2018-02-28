@@ -7,6 +7,7 @@ import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.RaiseArm;
+import org.usfirst.frc.team5684.robot.commands.RecalibrateElevator;
 import org.usfirst.frc.team5684.robot.commands.Turn;
 import org.usfirst.frc.team5684.robot.commands.Climb;
 import org.usfirst.frc.team5684.robot.commands.DriveStraightWithGyro;
@@ -35,6 +36,7 @@ public class IO {
 	Button rightBumper = new JoystickButton(xbox, 6);
 	Button rightTrigger = new RightTrigger(xbox);
 	Button leftTrigger = new LeftTrigger(xbox);
+	Button rightThumbPad = new JoystickButton(xbox, 10);
 	
 	Button rad1 = new JoystickButton(rightStick, 11);
 	Button rad2 = new JoystickButton(rightStick, 12);
@@ -55,6 +57,7 @@ public class IO {
 		rightBumper.whileHeld(new OutputCube());
 		rightTrigger.whileHeld(new RaiseArm());
 		leftTrigger.whileHeld(new LowerArm());
+		rightThumbPad.whenPressed(new RecalibrateElevator());
 		
 	}
 
