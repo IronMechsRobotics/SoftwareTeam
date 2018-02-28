@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	public long time;
 	public boolean switchMatch;
 	public boolean scaleMatch;
-	public static LogWritter lw;
+
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
