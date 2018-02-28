@@ -9,7 +9,13 @@ import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.RaiseArm;
 import org.usfirst.frc.team5684.robot.commands.RecalibrateElevator;
+<<<<<<< HEAD
+=======
+import org.usfirst.frc.team5684.robot.commands.Turn;
+>>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
 import org.usfirst.frc.team5684.robot.commands.Climb;
+import org.usfirst.frc.team5684.robot.commands.DriveStraightWithGyro;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -27,6 +33,7 @@ public class IO {
 	Button cubeIntake = new JoystickButton(rightStick, 3);
 	Button cubeOutput = new JoystickButton(rightStick, 4);
 	Button climb = new JoystickButton(leftStick, 2);
+<<<<<<< HEAD
 	Button support5 = new JoystickButton(supportStick, 5);
 	Button support6 = new JoystickButton(supportStick, 6);
 	Button support7= new JoystickButton(supportStick, 7);
@@ -38,13 +45,30 @@ public class IO {
 	Button supportFire= new JoystickButton(supportStick, 1);
 	Button support2= new JoystickButton(supportStick, 2);
 	
+=======
+	Button yButton = new JoystickButton(xbox, 4);
+	Button xButton = new JoystickButton(xbox, 2);
+	Button aButton = new JoystickButton(xbox, 1);
+	Button bButton = new JoystickButton(xbox, 3);
+	Button leftBumper = new JoystickButton(xbox, 5);
+	Button rightBumper = new JoystickButton(xbox, 6);
+	Button rightTrigger = new RightTrigger(xbox);
+	Button leftTrigger = new LeftTrigger(xbox);
+	Button rightThumbPad = new JoystickButton(xbox, 10);
+	
+	Button rad1 = new JoystickButton(rightStick, 11);
+	Button rad2 = new JoystickButton(rightStick, 12);
+>>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
 
 	public IO() {
+		rad1.whenPressed(new DriveStraightWithGyro(8*4));
+		rad2.whenPressed(new Turn(-360));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		raiseArm.whileHeld(new LowerArm());
 		lowerArm.whileHeld(new RaiseArm());
 		climb.whileHeld(new Climb());
+<<<<<<< HEAD
 		support5.whileHeld(new RaiseArm());
 		support6.whileHeld(new LowerArm());
 		support11.whenPressed(new ElevatorToHeight(5.5));
@@ -55,6 +79,14 @@ public class IO {
 		support7.whenPressed(new RecalibrateElevator());
 		supportFire.whileHeld(new ElevatorDown());
 		support2.whileHeld(new IntakeOuttakeCube());
+=======
+		leftBumper.whileHeld(new IntakeCube());
+		rightBumper.whileHeld(new OutputCube());
+		rightTrigger.whileHeld(new RaiseArm());
+		leftTrigger.whileHeld(new LowerArm());
+		rightThumbPad.whenPressed(new RecalibrateElevator());
+		
+>>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
 	}
 
 }

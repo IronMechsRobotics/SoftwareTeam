@@ -16,8 +16,8 @@ public class AutoSwitchLR extends CommandGroup {
 		addSequential(new DriveStraightWithGyro(RobotMap.DRIVEALONGSWITCH));
 		addSequential(new Turn(RobotMap.TURNRIGHT));
 		this.setTimeout(.25);
-		addSequential(new DriveStraightWithGyro(6));
-		addParallel(new LowerArm(), 1.5);
+		addSequential(new DriveStraightWithGyro(8 * RobotMap.INCHES));
+		addSequential(new LowerArm(), 1.5);
 		addSequential(new OutputCube(), 3);
 	}
 }

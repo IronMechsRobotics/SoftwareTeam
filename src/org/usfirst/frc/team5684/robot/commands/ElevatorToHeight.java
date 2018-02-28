@@ -41,10 +41,10 @@ public class ElevatorToHeight extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (isGoingUp) {
-			Robot.elevator.setMotor(.9);
+			Robot.elevator.setMotor(.98);
 			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 		} else {
-			Robot.elevator.setMotor(-.9);
+			Robot.elevator.setMotor(-.98);
 			SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 		}
 	}
@@ -57,7 +57,7 @@ public class ElevatorToHeight extends Command {
 		}
 		if (isGoingUp && Robot.elevator.getDistance() > goalHeight) {
 			return true;
-		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight) {
+		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight-3) {
 			return true;
 		} else {
 			return false;
