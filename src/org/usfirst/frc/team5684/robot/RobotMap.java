@@ -49,8 +49,13 @@ public class RobotMap {
 	public static double fudgeFactor = 1;
 	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
 	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
+	public static double SWITCHHEIGHT = 20.0;
+	public static double LOWSCALEHEIGHT = 4 * 12 + 3;
+	public static double MIDDLESCALEHEIGHT = 5 * 12 + 3;
+	public static double HIGHSCALEHEIGHT = 6 * 12;
 	public static final int FEET = 12;
 	public static final int INCHES = 1;
+<<<<<<< HEAD
 	public static double SWITCHHEIGHT = 20.0 * INCHES;
 	public static double LOWSCALEHEIGHT = 4 * FEET + 3 * INCHES;
 	public static double MIDDLESCALEHEIGHT = 5 * FEET + 3 * INCHES;
@@ -66,6 +71,8 @@ public class RobotMap {
 	public static final int INCHES = 1;
 	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
 >>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
+=======
+>>>>>>> parent of 2468ed5... Added control for the cube intake based on the support joystick/
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
 	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
@@ -83,13 +90,6 @@ public class RobotMap {
 	public static final DriverStation DS = DriverStation.getInstance();
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;
-
-	public static double map(double x, double minInput, double maxInput, double minOutput, double maxOutput) {
-		double slope = (maxOutput - maxInput) / (minOutput - minInput);
-		double b = maxOutput - slope * x;
-		return slope * x + b;
-
-	}
 
 	public static boolean writeLog(String log) {
 		if (!fileCreated) {

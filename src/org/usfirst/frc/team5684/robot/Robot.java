@@ -52,9 +52,13 @@ public class Robot extends IterativeRobot {
 <<<<<<< HEAD
 	public boolean switchMatch;
 	public boolean scaleMatch;
+<<<<<<< HEAD
 
 =======
 >>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
+=======
+	public static LogWritter lw;
+>>>>>>> parent of 2468ed5... Added control for the cube intake based on the support joystick/
 
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
