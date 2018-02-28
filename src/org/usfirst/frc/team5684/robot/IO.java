@@ -7,7 +7,11 @@ import org.usfirst.frc.team5684.robot.commands.IntakeCube;
 import org.usfirst.frc.team5684.robot.commands.LowerArm;
 import org.usfirst.frc.team5684.robot.commands.OutputCube;
 import org.usfirst.frc.team5684.robot.commands.RaiseArm;
+import org.usfirst.frc.team5684.robot.commands.RecalibrateElevator;
+import org.usfirst.frc.team5684.robot.commands.Turn;
 import org.usfirst.frc.team5684.robot.commands.Climb;
+import org.usfirst.frc.team5684.robot.commands.DriveStraightWithGyro;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -32,8 +36,14 @@ public class IO {
 	Button rightBumper = new JoystickButton(xbox, 6);
 	Button rightTrigger = new RightTrigger(xbox);
 	Button leftTrigger = new LeftTrigger(xbox);
+	Button rightThumbPad = new JoystickButton(xbox, 10);
+	
+	Button rad1 = new JoystickButton(rightStick, 11);
+	Button rad2 = new JoystickButton(rightStick, 12);
 
 	public IO() {
+		rad1.whenPressed(new DriveStraightWithGyro(8*4));
+		rad2.whenPressed(new Turn(-360));
 		leftFire.whileHeld(new ElevatorDown());
 		rightFire.whileHeld(new ElevatorUp());
 		yButton.whenPressed(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
@@ -47,6 +57,7 @@ public class IO {
 		rightBumper.whileHeld(new OutputCube());
 		rightTrigger.whileHeld(new RaiseArm());
 		leftTrigger.whileHeld(new LowerArm());
+		rightThumbPad.whenPressed(new RecalibrateElevator());
 		
 	}
 
