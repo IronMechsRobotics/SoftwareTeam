@@ -116,19 +116,9 @@ public class RobotMap {
 			}
 			fileCreated = true;
 		}
-		String status ="";
-		if(DS.isDisabled())
-		{
-			status = "\t\tDisabled:\t ";
-		}
-		else if (DS.isAutonomous())
-		{
-			status = "\t\tisAutonomous:\t ";
-		}
-		else if (DS.isEnabled())
-		{
-			status = "\t\tisEnabled:\t ";
-		}
+
+		String status = "\t\tisDisabled:\t " + DS.isDisabled() + "\r\n" + "\t\t isAutonomous\t " + DS.isAutonomous()
+				+ "\r\n" + "\t\tisEnabled()\t " + DS.isEnabled() + "\r\n \r\n \r\n";
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String voltage = System.currentTimeMillis() + "\t" + RobotController.getBatteryVoltage() + "\r\n";
 		String temp = timestamp + "|" + DS.getMatchTime() + "\r\n\t" + log + "\r\n";
