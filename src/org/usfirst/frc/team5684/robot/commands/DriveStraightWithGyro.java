@@ -4,6 +4,7 @@ import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -32,11 +33,16 @@ public class DriveStraightWithGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
+		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
+		SmartDashboard.putNumber("X: ", Robot.drivetrain.getGyro().getAngleX());
+		SmartDashboard.putNumber("Y: ", Robot.drivetrain.getGyro().getAngleY());
+		SmartDashboard.putNumber("Z: ", Robot.drivetrain.getGyro().getAngleZ());
 		double angle = -1*Robot.drivetrain.getGyro().getAngleX();
 		if (distance >= 0)
-			Robot.drivetrain.simpleDrive(.75, angle * kp);
+			Robot.drivetrain.simpleDrive(.66, angle * kp);
 		else
-			Robot.drivetrain.simpleDrive(-.75, -1 * angle * kp);
+			Robot.drivetrain.simpleDrive(-.66, -1 * angle * kp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

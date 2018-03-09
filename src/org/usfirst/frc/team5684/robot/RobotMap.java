@@ -53,8 +53,8 @@ public class RobotMap {
 	public static final int FEET = 12;
 	public static final int INCHES = 1;
 	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
-	public static final int TURNRIGHT = -90;
-	public static final int TURNLEFT = 90;
+	public static final int TURNRIGHT = 90;
+	public static final int TURNLEFT = -90;
 	public static final int DISTANCETOSIDEDROP = 12 * FEET ;
 	public static final int DISTANCETOSCALE= 16 * FEET ;
 	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES;

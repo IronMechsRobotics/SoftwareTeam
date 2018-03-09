@@ -42,6 +42,8 @@ public class IO {
 	Button support2= new JoystickButton(supportStick, 2);
 	Button support4= new JoystickButton(supportStick, 4);
 	Button support3= new JoystickButton(supportStick, 3);
+	Button rad= new JoystickButton(rightStick, 11);
+	Button rad1= new JoystickButton(rightStick, 12);
 
 
 	public IO() {
@@ -63,7 +65,9 @@ public class IO {
 		support2.whileHeld(new IntakeOuttakeCube());
 		support4.whenPressed(new ElevatorToHeight(50));
 		support3.whileHeld(new OutputCube());
-
+		
+		rad.whenPressed(new Turn(90));
+		rad1.whenPressed(new Turn(-90));
 	}
 
 }
