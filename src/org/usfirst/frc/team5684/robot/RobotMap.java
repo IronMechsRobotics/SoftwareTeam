@@ -34,7 +34,6 @@ public class RobotMap {
 	public static int ELEVATORENCODERB = 6;
 	public static int LOCATIONSWITCH = 7;
 	public static int NEARFARSWITCH = 8;
-	public static int LIMITSWITCHELEVATOR = 9;
 
 	// Analog ports
 	public static final int ULTRASONIC = 0;
@@ -64,8 +63,8 @@ public class RobotMap {
 	public static final String LOGFILE = folderPath + "/log.txt";
 	public static final String LOGVOLTAGE = folderPath + "/voltage.txt";
 	public static boolean fileCreated = false;
-	public static final double ELEVATORDOWNSPEED = -.65;
-	public static final double ELEVATORUPSPEED = .85;
+	public static final double ELEVATORDOWNSPEED = -0.80;
+	public static final double ELEVATORUPSPEED = 1;
 	public static final DriverStation DS = DriverStation.getInstance();
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;

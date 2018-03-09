@@ -51,13 +51,9 @@ public class ElevatorToHeight extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (Robot.elevator.isLimit()) {
-			Robot.elevator.resetEncoder();
-			return true;
-		}
 		if (isGoingUp && Robot.elevator.getDistance() > goalHeight) {
 			return true;
-		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight-3) {
+		} else if (!isGoingUp && Robot.elevator.getDistance() < goalHeight - 3) {
 			return true;
 		} else {
 			return false;

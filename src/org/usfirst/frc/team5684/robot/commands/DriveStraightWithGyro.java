@@ -36,12 +36,13 @@ public class DriveStraightWithGyro extends Command {
 		if (distance >= 0)
 			Robot.drivetrain.simpleDrive(.66, angle * kp);
 		else
-			Robot.drivetrain.simpleDrive(-.66, angle * kp);
+			Robot.drivetrain.simpleDrive(-.66, -1 * angle * kp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (((Robot.drivetrain.getRightDistance() + Robot.drivetrain.getLeftDistance()) / 2.0) >= distance)
+		if ((Math.abs(Robot.drivetrain.getRightDistance() + Robot.drivetrain.getLeftDistance()) / 2.0) >= Math
+				.abs(distance))
 			return true;
 		else
 			return false;

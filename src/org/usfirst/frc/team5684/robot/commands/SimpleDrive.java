@@ -32,6 +32,10 @@ public class SimpleDrive extends Command {
 		Joystick right = Robot.io.rightStick;
 		double leftInput = left.getRawAxis(1);
 		double rightInput = right.getRawAxis(0);
+		// THIS CHANGE IS TEMPEORY AND SHOULD BE UNDONE FOR COMP
+		rightInput = left.getRawAxis(0);
+		//END OF TEMPORAY CHANGES
+		
 		if (Math.abs(leftInput) <= DEAD_BAND) {
 			leftInput = 0;
 		}
@@ -46,7 +50,11 @@ public class SimpleDrive extends Command {
 			SmartDashboard.putNumber("Max_Speed", maxSpeed);
 
 		}
-		Robot.drivetrain.simpleDrive(-1 * leftInput, rightInput);
+		if (right.getRawButtonPressed(4)) {
+			Robot.drivetrain.simpleDrive(-1 * leftInput/2.0, rightInput/2.0);
+		} else {
+			Robot.drivetrain.simpleDrive(-1 * leftInput, rightInput);
+		}
 		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
 		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
 		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
