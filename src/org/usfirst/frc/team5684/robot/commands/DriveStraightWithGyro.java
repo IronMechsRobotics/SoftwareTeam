@@ -32,11 +32,11 @@ public class DriveStraightWithGyro extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double angle = Robot.drivetrain.getGyro().getAngleZ();
+		double angle = -1*Robot.drivetrain.getGyro().getAngleX();
 		if (distance >= 0)
-			Robot.drivetrain.simpleDrive(.66, angle * kp);
+			Robot.drivetrain.simpleDrive(.75, angle * kp);
 		else
-			Robot.drivetrain.simpleDrive(-.66, -1 * angle * kp);
+			Robot.drivetrain.simpleDrive(-.75, -1 * angle * kp);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

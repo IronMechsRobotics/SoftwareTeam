@@ -18,11 +18,13 @@ public class RobotMap {
 	// PWM Ports
 	public static int RIGHTWHEELMOTOR = 0;
 	public static int LEFTWHEELMOTOR = 1;
-	public static int RIGHTCUBEMOTOR = 2;
-	public static int LEFTCUBEMOTOR = 3;
-	public static int RIGHTELEVATORMOTOR = 4;
+	public static int RIGHTCUBEMOTOR = 4;
+	public static int LEFTCUBEMOTOR = 2;
+	public static int RIGHTELEVATORMOTOR = 3;
 	public static int LEFTELEVATORMOTOR = 5;
 	public static int COLLECTORRASIEMOTOR = 6;
+	
+	//switch right cube with right elvator
 
 	// DIO ports
 	public static int GYROCALIBTAIONBUTTON = 0;
@@ -54,6 +56,7 @@ public class RobotMap {
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
 	public static final int DISTANCETOSIDEDROP = 12 * FEET ;
+	public static final int DISTANCETOSCALE= 16 * FEET ;
 	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES;
 	public static final int DRIVEALONGSWITCH = 12 * FEET;
 	static final Date date = new Date();

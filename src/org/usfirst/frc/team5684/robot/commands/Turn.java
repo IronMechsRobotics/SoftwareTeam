@@ -26,7 +26,7 @@ public class Turn extends Command {
 		RobotMap.writeLog("Turn initialize");
 		Robot.drivetrain.simpleDrive(0, 0);
 		Robot.drivetrain.resetGyro();
-		double set = setpoint + Robot.drivetrain.getGyro().getAngleY();
+		double set = setpoint + Robot.drivetrain.getGyro().getAngleX();
 		Robot.turn.setSetpoint(set);
 		Robot.turn.enable();
 		RobotMap.writeLog("setPoint: " + set);

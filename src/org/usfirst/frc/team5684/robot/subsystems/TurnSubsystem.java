@@ -30,7 +30,7 @@ public class TurnSubsystem extends PIDSubsystem {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return Robot.drivetrain.getGyro().getAngleY();
+		return Robot.drivetrain.getGyro().getAngleX();
 	}
 
 	protected void usePIDOutput(double output) {

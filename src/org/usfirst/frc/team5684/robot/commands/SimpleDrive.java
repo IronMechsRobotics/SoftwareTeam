@@ -32,10 +32,7 @@ public class SimpleDrive extends Command {
 		Joystick right = Robot.io.rightStick;
 		double leftInput = left.getRawAxis(1);
 		double rightInput = right.getRawAxis(0);
-		// THIS CHANGE IS TEMPEORY AND SHOULD BE UNDONE FOR COMP
-		rightInput = left.getRawAxis(0);
-		//END OF TEMPORAY CHANGES
-		
+	
 		if (Math.abs(leftInput) <= DEAD_BAND) {
 			leftInput = 0;
 		}
