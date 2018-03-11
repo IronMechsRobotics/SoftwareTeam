@@ -118,15 +118,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		RobotMap.writeLog("Start AutonomusInit");
-		/*
-		 * if (!hasCalibrated) { SmartDashboard.putString("Gyro",
-		 * "starting to calibrate"); RobotMap.writeLog("Calibration started");
-		 * drivetrain.calibrateGyro(); elevator.resetEncoder();
-		 * Robot.drivetrain.resetEncoder(); lastCalibration =
-		 * System.currentTimeMillis(); SmartDashboard.putString("Gyro",
-		 * "We have calibrated the Gyro... GOOD JOB");
-		 * RobotMap.writeLog("Calibration ended"); }
-		 */
 		ds = RobotMap.DS;
 		String temp = "getAlliance\t" + ds.getAlliance();
 		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
@@ -228,11 +219,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public static boolean getIsRight() {
-		return !isRight;
+		return isRight;
 	}
 
 	public static boolean getIsLeft() {
-		return isRight;
+		return !isRight;
 	}
 
 	public static boolean getFar() {
@@ -259,6 +250,7 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.putString("Gyro", gyroString);
 				RobotMap.writeLog("Calibration started");
 				drivetrain.calibrateGyro();
+				drivetrain.resetGyro();
 				elevator.resetEncoder();
 				Robot.drivetrain.resetEncoder();
 				lastCalibration = System.currentTimeMillis();

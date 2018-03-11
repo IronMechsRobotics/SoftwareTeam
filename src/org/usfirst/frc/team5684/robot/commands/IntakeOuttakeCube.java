@@ -27,9 +27,9 @@ public class IntakeOuttakeCube extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (stick.getRawAxis(1) <= -1 * DEADBAND) {
-			Robot.cubeIntakeSystem.setMotors(1);
+			Robot.cubeIntakeSystem.setMotors(RobotMap.map(stick.getRawAxis(1), DEADBAND, 1, .45, .65));
 		} else if (stick.getRawAxis(1) >= DEADBAND) {
-			Robot.cubeIntakeSystem.setMotors(RobotMap.map(stick.getRawAxis(1), DEADBAND, 1, -.45, -.95));
+			Robot.cubeIntakeSystem.setMotors(RobotMap.map(stick.getRawAxis(1), DEADBAND, 1, -.45, -.65));
 		}
 	}
 

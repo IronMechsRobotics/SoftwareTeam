@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class OutputCube extends Command {
-
-    public OutputCube() {
+	double speed;
+    public OutputCube(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.cubeIntakeSystem);
+    	this.speed=speed;
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +23,7 @@ public class OutputCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.cubeIntakeSystem.setMotors(-1);
+    	Robot.cubeIntakeSystem.setMotors(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

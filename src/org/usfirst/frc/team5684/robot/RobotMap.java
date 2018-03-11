@@ -53,12 +53,12 @@ public class RobotMap {
 	public static final int FEET = 12;
 	public static final int INCHES = 1;
 	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
-	public static final int TURNRIGHT = 90;
-	public static final int TURNLEFT = -90;
-	public static final int DISTANCETOSIDEDROP = 12 * FEET ;
+	public static final int TURNRIGHT = -90;
+	public static final int TURNLEFT = 90;
+	public static final double DISTANCETOSIDEDROP = (131 * INCHES + 187.5 * INCHES) /2 - 2 * FEET;
 	public static final int DISTANCETOSCALE= 16 * FEET ;
-	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES;
-	public static final int DRIVEALONGSWITCH = 12 * FEET;
+	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES ;
+	public static final int DRIVEALONGSWITCH = 12 * FEET + 6 * INCHES;
 	static final Date date = new Date();
 	static final SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH-mm-ss");
 	static final String strDate = formatter.format(date);
@@ -69,6 +69,7 @@ public class RobotMap {
 	public static final double ELEVATORDOWNSPEED = -0.80;
 	public static final double ELEVATORUPSPEED = 1;
 	public static final DriverStation DS = DriverStation.getInstance();
+	public static final double LOWERARMTIME = .75;
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;
 

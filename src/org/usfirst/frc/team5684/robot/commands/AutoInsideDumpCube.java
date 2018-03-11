@@ -13,6 +13,6 @@ public class AutoInsideDumpCube extends CommandGroup {
 		addSequential(new DriveStraightWithGyro(8 * RobotMap.FEET + 6 * RobotMap.INCHES));
 		addParallel(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
 		addParallel(new LowerArm(), 1.3);
-		addSequential(new OutputCube(), 3);
+		addSequential(new OutputCube(.5), 3);
     }
 }

@@ -15,6 +15,6 @@ public class AutoLeftScale extends CommandGroup {
 		addParallel(new LowerArm(), 1);
 		addSequential(new Turn(RobotMap.TURNRIGHT));
 		addSequential(new DriveStraightWithGyro(8 * RobotMap.INCHES));
-		addSequential(new OutputCube(), 3);
+		addSequential(new OutputCube(.5), 3);
     }
 }

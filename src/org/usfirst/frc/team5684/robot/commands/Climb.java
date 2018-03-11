@@ -24,7 +24,7 @@ public class Climb extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(-.8);
+		Robot.elevator.setMotor(-1);
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 		RobotMap.writeLog("CLIMBING");
 	}

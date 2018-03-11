@@ -63,11 +63,8 @@ public class IO {
 		support7.whenPressed(new RecalibrateElevator());
 		supportFire.whileHeld(new ElevatorDown());
 		support2.whileHeld(new IntakeOuttakeCube());
-		support4.whenPressed(new ElevatorToHeight(50));
-		support3.whileHeld(new OutputCube());
-		
-		rad.whenPressed(new Turn(90));
-		rad1.whenPressed(new Turn(-90));
+		support4.whileHeld(new OutputCube(-1));
+		support3.whileHeld(new OutputCube(1));
 	}
 
 }

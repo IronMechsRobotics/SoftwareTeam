@@ -54,14 +54,9 @@ public class SimpleDrive extends Command {
 		}
 		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
 		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
-		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
 
 		SmartDashboard.putNumber("LeftWheels speed", Robot.drivetrain.getLeftEncoder().getRate());
 		SmartDashboard.putNumber("RightWheels Speed", Robot.drivetrain.getRightEncoder().getRate());
-		
-		SmartDashboard.putNumber("X: ", Robot.drivetrain.getGyro().getAngleX());
-		SmartDashboard.putNumber("Y: ", Robot.drivetrain.getGyro().getAngleY());
-		SmartDashboard.putNumber("Z: ", Robot.drivetrain.getGyro().getAngleZ());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
