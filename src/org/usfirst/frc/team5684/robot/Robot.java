@@ -55,7 +55,10 @@ public class Robot extends IterativeRobot {
 	public AnalogInput us;
 	public long time;
 	public String gyroString;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	public boolean switchMatch;
+	public boolean scaleMatch;
+	public static LogWritter lw;
+
 
 	/**
 	 * This function is run when the robot is first started up and should be used

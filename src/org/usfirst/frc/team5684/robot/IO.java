@@ -12,7 +12,6 @@ import org.usfirst.frc.team5684.robot.commands.RecalibrateElevator;
 import org.usfirst.frc.team5684.robot.commands.Turn;
 import org.usfirst.frc.team5684.robot.commands.Climb;
 import org.usfirst.frc.team5684.robot.commands.DriveStraightWithGyro;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -63,7 +62,7 @@ public class IO {
 		support7.whenPressed(new RecalibrateElevator());
 		supportFire.whileHeld(new ElevatorDown());
 		support2.whileHeld(new IntakeOuttakeCube());
-		support4.whileHeld(new OutputCube(-1));
+    support4.whileHeld(new OutputCube(-1));
 		support3.whileHeld(new OutputCube(1));
 	}
 

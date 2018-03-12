@@ -44,6 +44,24 @@ public class RobotMap {
 	public static final double WHEELDIAMETER = 6;
 	public static double pulsePerRevolutionLeft = 360;
 	public static double pulsePerRevolutionRight = 250;
+<<<<<<< HEAD
+	public static double encoderGearRatio = 1;
+	public static double gearRatio = 1;
+	public static double fudgeFactor = 1;
+	public static double distancePerWheelPulseLeft = Math.PI * wheelDiameter / pulsePerRevolutionLeft;
+	public static double distancePerWheelPulseRight = Math.PI * wheelDiameter / pulsePerRevolutionRight;
+	public static double SWITCHHEIGHT = 20.0;
+	public static double LOWSCALEHEIGHT = 4 * 12 + 3;
+	public static double MIDDLESCALEHEIGHT = 5 * 12 + 3;
+	public static double HIGHSCALEHEIGHT = 6 * 12;
+	public static final int FEET = 12;
+	public static final int INCHES = 1;
+<<<<<<< HEAD
+	public static double SWITCHHEIGHT = 20.0 * INCHES;
+	public static double LOWSCALEHEIGHT = 4 * FEET + 3 * INCHES;
+	public static double MIDDLESCALEHEIGHT = 5 * FEET + 3 * INCHES;
+	public static double HIGHSCALEHEIGHT = 6 * FEET;
+=======
 	public static final double distancePerWheelPulseLeft = Math.PI * WHEELDIAMETER / pulsePerRevolutionLeft;
 	public static final double distancePerWheelPulseRight = Math.PI * WHEELDIAMETER / pulsePerRevolutionRight;
 	public static final double SWITCHHEIGHT = 20.0;
@@ -53,6 +71,9 @@ public class RobotMap {
 	public static final int FEET = 12;
 	public static final int INCHES = 1;
 	public static final double WHEELROTATION = Math.PI * WHEELDIAMETER;
+>>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
+=======
+>>>>>>> parent of 2468ed5... Added control for the cube intake based on the support joystick/
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
 	public static final double DISTANCETOSIDEDROP = (131 * INCHES + 187.5 * INCHES) /2 - 2 * FEET;
@@ -98,19 +119,9 @@ public class RobotMap {
 			}
 			fileCreated = true;
 		}
-		String status ="";
-		if(DS.isDisabled())
-		{
-			status = "\t\tDisabled:\t ";
-		}
-		else if (DS.isAutonomous())
-		{
-			status = "\t\tisAutonomous:\t ";
-		}
-		else if (DS.isEnabled())
-		{
-			status = "\t\tisEnabled:\t ";
-		}
+
+		String status = "\t\tisDisabled:\t " + DS.isDisabled() + "\r\n" + "\t\t isAutonomous\t " + DS.isAutonomous()
+				+ "\r\n" + "\t\tisEnabled()\t " + DS.isEnabled() + "\r\n \r\n \r\n";
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String voltage = System.currentTimeMillis() + "\t" + RobotController.getBatteryVoltage() + "\r\n";
 		String temp = timestamp + "|" + DS.getMatchTime() + "\r\n\t" + log + "\r\n";
