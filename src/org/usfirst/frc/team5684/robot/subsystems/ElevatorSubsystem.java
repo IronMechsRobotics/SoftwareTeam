@@ -40,12 +40,8 @@ public class ElevatorSubsystem extends Subsystem {
 		right = new Victor(RobotMap.RIGHTELEVATORMOTOR);
 		left = new Spark(RobotMap.LEFTELEVATORMOTOR);
 		cim.setReverseDirection(false);
-		limitSwitch = new DigitalInput(RobotMap.LIMITSWITCHELEVATOR);
 	}
 
-	public boolean isLimit() {
-		return limitSwitch.get();
-	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

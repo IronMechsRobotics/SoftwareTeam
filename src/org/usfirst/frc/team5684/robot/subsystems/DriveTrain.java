@@ -90,7 +90,7 @@ public class DriveTrain extends Subsystem {
 		if (gyro != null) {
 			gyro.reset();
 		}
-		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
+		SmartDashboard.putNumber("Angle x: ", Robot.drivetrain.getGyro().getAngleX());
 	}
 
 	public void setVoltage(double voltage) {
@@ -119,7 +119,10 @@ public class DriveTrain extends Subsystem {
 		rightEncoder.reset();
 		SmartDashboard.putNumber("LeftWheels", Robot.drivetrain.getLeftEncoder().getDistance());
 		SmartDashboard.putNumber("RightWheels", Robot.drivetrain.getRightEncoder().getDistance());
+		
+		SmartDashboard.putNumber("Angle X: ", Robot.drivetrain.getGyro().getAngleX());
 		SmartDashboard.putNumber("Angle Y: ", Robot.drivetrain.getGyro().getAngleY());
+		SmartDashboard.putNumber("Angle Z: ", Robot.drivetrain.getGyro().getAngleZ());
 
 		SmartDashboard.putNumber("LeftWheels speed", Robot.drivetrain.getLeftEncoder().getRate());
 		SmartDashboard.putNumber("RightWheels Speed", Robot.drivetrain.getRightEncoder().getRate());

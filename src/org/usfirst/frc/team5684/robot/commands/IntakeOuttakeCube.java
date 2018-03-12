@@ -3,60 +3,49 @@ package org.usfirst.frc.team5684.robot.commands;
 import org.usfirst.frc.team5684.robot.Robot;
 import org.usfirst.frc.team5684.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class Turn extends Command {
+public class IntakeOuttakeCube extends Command {
+	Joystick stick;
+	double DEADBAND = .05;
 
-	private double setpoint;
-
-	public Turn(double setpoint) {
+	public IntakeOuttakeCube() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		this.setpoint = setpoint;
-		requires(Robot.drivetrain);
-		// setTimeout(3);
+		requires(Robot.cubeIntakeSystem);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		RobotMap.writeLog("Turn initialize");
-		Robot.drivetrain.simpleDrive(0, 0);
-		Robot.drivetrain.resetGyro();
-		double set = setpoint + Robot.drivetrain.getGyro().getAngleX();
-		Robot.turn.setSetpoint(set);
-		Robot.turn.enable();
-		RobotMap.writeLog("setPoint: " + set);
-
+		stick = Robot.io.supportStick;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		if (stick.getRawAxis(1) <= -1 * DEADBAND) {
+			Robot.cubeIntakeSystem.setMotors(RobotMap.map(stick.getRawAxis(1), DEADBAND, 1, .45, .65));
+		} else if (stick.getRawAxis(1) >= DEADBAND) {
+			Robot.cubeIntakeSystem.setMotors(RobotMap.map(stick.getRawAxis(1), DEADBAND, 1, -.45, -.65));
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (Robot.turn.onTarget())
-			return true;
-		else
-			return false;
-
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.drivetrain.simpleDrive(0, 0);
-		Robot.turn.disable();
-		RobotMap.writeLog("Turn end");
+		Robot.cubeIntakeSystem.setMotors(0);
 	}
 
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-
-		end();
+		this.end();
 	}
 }

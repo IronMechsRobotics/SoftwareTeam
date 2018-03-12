@@ -1,6 +1,11 @@
 package org.usfirst.frc.team5684.robot;
 
 import org.usfirst.frc.team5684.robot.commands.AutoCrossLine;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideDumpCube;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideHoldCubeLeft;
+import org.usfirst.frc.team5684.robot.commands.AutoInsideHoldCubeRight;
+import org.usfirst.frc.team5684.robot.commands.AutoLeftScale;
+import org.usfirst.frc.team5684.robot.commands.AutoRightScale;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLL;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchLR;
 import org.usfirst.frc.team5684.robot.commands.AutoSwitchRL;
@@ -49,18 +54,11 @@ public class Robot extends IterativeRobot {
 	public static boolean isFar;
 	public AnalogInput us;
 	public long time;
-<<<<<<< HEAD
+	public String gyroString;
 	public boolean switchMatch;
 	public boolean scaleMatch;
-<<<<<<< HEAD
-
-=======
->>>>>>> 1b3449fd1c7d7b990530d66289d9261b7d1957d5
-=======
 	public static LogWritter lw;
->>>>>>> parent of 2468ed5... Added control for the cube intake based on the support joystick/
 
-	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -68,6 +66,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		gyroString = "Loading";
 		SmartDashboard.delete("Inside/Outside");
 		SmartDashboard.delete("Left/Right");
 		SmartDashboard.updateValues();
@@ -90,9 +89,8 @@ public class Robot extends IterativeRobot {
 		ds = DriverStation.getInstance();
 		io = new IO();
 		turn = new TurnSubsystem();
-		SmartDashboard.putString("Gyro", "YOU FORGOT SOMETHING DRIVE TEAM");
-		SmartDashboard.putString("Inside/Outside", "RAD");
-		SmartDashboard.putString("Left/Right", "RAD");
+		gyroString = "YOU FORGOT SOMETHING DRIVE TEAM";
+		SmartDashboard.putString("Gyro", gyroString);
 		RobotMap.writeLog("Finished robotInit");
 		SmartDashboard.updateValues();
 
@@ -106,6 +104,7 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		this.selectedCommand = this.chooser.getSelected();
 		SmartDashboard.putString("Selected Autonomous", this.selectedCommand.getName());
+		SmartDashboard.putString("Gyro", gyroString);
 	}
 
 	/**
@@ -122,7 +121,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		RobotMap.writeLog("Start AutonomusInit");
-		ds = DriverStation.getInstance();
+		ds = RobotMap.DS;
 		String temp = "getAlliance\t" + ds.getAlliance();
 		temp = temp + "\r\n" + "getAlliance\t" + ds.getAlliance();
 		temp = temp + "\r\n" + "getEventName()\t" + ds.getEventName();
@@ -134,28 +133,99 @@ public class Robot extends IterativeRobot {
 		String gameData = getGameData();
 		RobotMap.writeLog("gameData \t " + gameData);
 		RobotMap.writeLog("gameData.substring(0, 1): " + gameData.substring(0, 1) + "\t getIsLeft()" + getIsLeft());
-		if (getFar()) {
-			RobotMap.writeLog("We are going far");
-			if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-				RobotMap.writeLog("Auto Method: LL");
-				new AutoSwitchLL().start();
-			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-				new AutoSwitchLR().start();
-				RobotMap.writeLog("Auto Method: LR");
-			} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-				new AutoSwitchRL().start();
-				RobotMap.writeLog("Auto Method: RL");
-			} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-				new AutoSwitchRR().start();
-				RobotMap.writeLog("Auto Method: RR");
-			} else {
-				RobotMap.writeLog("Auto Method: AutoCrossLine");
-				new AutoCrossLine().start();
+		boolean goForScale = false;
+		if (goForScale) {
+			RobotMap.writeLog("We are going for the scale");
+			if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
+				RobotMap.writeLog("The Scale is on the left");
+				if (getIsLeft()) {
+					new AutoLeftScale().start();
+				} else {
+					if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+						RobotMap.writeLog("Auto Method: LL");
+						new AutoSwitchLL().start();
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+						new AutoSwitchLR().start();
+						RobotMap.writeLog("Auto Method: LR");
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+						new AutoSwitchRL().start();
+						RobotMap.writeLog("Auto Method: RL");
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+						new AutoSwitchRR().start();
+						RobotMap.writeLog("Auto Method: RR");
+					} else {
+						RobotMap.writeLog("Auto Method: AutoCrossLine");
+						new AutoCrossLine().start();
+					}
+				}
+			} else if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
+				RobotMap.writeLog("The Scale is on the right");
+				if (getIsLeft()) {
+					new AutoRightScale().start();
+				} else {
+					if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+						RobotMap.writeLog("Auto Method: LL");
+						new AutoSwitchLL().start();
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+						new AutoSwitchLR().start();
+						RobotMap.writeLog("Auto Method: LR");
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+						new AutoSwitchRL().start();
+						RobotMap.writeLog("Auto Method: RL");
+					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+						new AutoSwitchRR().start();
+						RobotMap.writeLog("Auto Method: RR");
+					} else {
+						RobotMap.writeLog("Auto Method: AutoCrossLine");
+						new AutoCrossLine().start();
+					}
+				}
 			}
 		} else {
-			RobotMap.writeLog("We are going close");
-			RobotMap.writeLog("AutoCrossLine");
-			new AutoCrossLine().start();
+			if (getFar()) {
+				RobotMap.writeLog("We are going far");
+				if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+					RobotMap.writeLog("Auto Method: LL");
+					new AutoSwitchLL().start();
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+
+					if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
+						new AutoLeftScale().start();
+					} else {
+						new AutoCrossLine().start();
+					}
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+					if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
+						new AutoLeftScale().start();
+					} else {
+						new AutoCrossLine().start();
+					}
+					RobotMap.writeLog("Auto Method: RL");
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+					new AutoSwitchRR().start();
+					RobotMap.writeLog("Auto Method: RR");
+				} else {
+					RobotMap.writeLog("Auto Method: AutoCrossLine");
+					new AutoCrossLine().start();
+				}
+			} else {
+				if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
+					RobotMap.writeLog("Auto Method: close LL");
+					new AutoInsideDumpCube().start();
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
+					new AutoInsideHoldCubeLeft().start();
+					RobotMap.writeLog("Auto Method: close LR");
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
+					new AutoInsideHoldCubeRight().start();
+					RobotMap.writeLog("Auto Method: close RL");
+				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
+					RobotMap.writeLog("Auto Method: close RR");
+					new AutoInsideDumpCube().start();
+				} else {
+					RobotMap.writeLog("Auto Method: AutoCrossLine CLOSE");
+					new AutoCrossLine().start();
+				}
+			}
 		}
 
 	}
@@ -182,16 +252,22 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
+		SmartDashboard.putNumber("X: ", Robot.drivetrain.getGyro().getAngleX());
+		SmartDashboard.putNumber("Y: ", Robot.drivetrain.getGyro().getAngleY());
+		SmartDashboard.putNumber("Z: ", Robot.drivetrain.getGyro().getAngleZ());
 		if (wantToCalibrate()) {
 			RobotMap.writeLog("wantToCalibrate was pressed");
 			if (System.currentTimeMillis() >= (lastCalibration + 5000)) {
-				SmartDashboard.putString("Gyro", "starting to calibrate");
+				gyroString = "starting to calibrate";
+				SmartDashboard.putString("Gyro", gyroString);
 				RobotMap.writeLog("Calibration started");
 				drivetrain.calibrateGyro();
+				drivetrain.resetGyro();
 				elevator.resetEncoder();
 				Robot.drivetrain.resetEncoder();
 				lastCalibration = System.currentTimeMillis();
-				SmartDashboard.putString("Gyro", "We have calibrated the Gyro... GOOD JOB");
+				gyroString = "We have calibrated the Gyro... GOOD JOB";
+				SmartDashboard.putString("Gyro", gyroString);
 				RobotMap.writeLog("Calibration ended");
 			} else {
 				RobotMap.writeLog("Calibration did not happen");
@@ -200,15 +276,15 @@ public class Robot extends IterativeRobot {
 		isRight = locationSwitch.get();
 		isFar = nearFarSwitch.get();
 		if (isFar) {
-			SmartDashboard.putString("A", "Outside");
+			SmartDashboard.putString("Switch One", "Outside");
 		} else {
-			SmartDashboard.putString("A", "Inside");
+			SmartDashboard.putString("Switch One", "Inside");
 		}
 		if (isRight) {
-			SmartDashboard.putString("B", "RIGHT");
+			SmartDashboard.putString("Switch Two", "RIGHT");
 
 		} else {
-			SmartDashboard.putString("B", "LEFT");
+			SmartDashboard.putString("Switch Two", "LEFT");
 		}
 		SmartDashboard.updateValues();
 		this.selectedCommand = this.chooser.getSelected();

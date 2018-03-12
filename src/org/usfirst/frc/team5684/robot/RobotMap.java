@@ -18,11 +18,13 @@ public class RobotMap {
 	// PWM Ports
 	public static int RIGHTWHEELMOTOR = 0;
 	public static int LEFTWHEELMOTOR = 1;
-	public static int RIGHTCUBEMOTOR = 2;
-	public static int LEFTCUBEMOTOR = 3;
-	public static int RIGHTELEVATORMOTOR = 4;
+	public static int RIGHTCUBEMOTOR = 4;
+	public static int LEFTCUBEMOTOR = 2;
+	public static int RIGHTELEVATORMOTOR = 3;
 	public static int LEFTELEVATORMOTOR = 5;
 	public static int COLLECTORRASIEMOTOR = 6;
+	
+	//switch right cube with right elvator
 
 	// DIO ports
 	public static int GYROCALIBTAIONBUTTON = 0;
@@ -34,7 +36,6 @@ public class RobotMap {
 	public static int ELEVATORENCODERB = 6;
 	public static int LOCATIONSWITCH = 7;
 	public static int NEARFARSWITCH = 8;
-	public static int LIMITSWITCHELEVATOR = 9;
 
 	// Analog ports
 	public static final int ULTRASONIC = 0;
@@ -75,9 +76,10 @@ public class RobotMap {
 >>>>>>> parent of 2468ed5... Added control for the cube intake based on the support joystick/
 	public static final int TURNRIGHT = -90;
 	public static final int TURNLEFT = 90;
-	public static final int DISTANCETOSIDEDROP = 160 * INCHES;
-	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 1 * FEET;
-	public static final int DRIVEALONGSWITCH = 13 * FEET;
+	public static final double DISTANCETOSIDEDROP = (131 * INCHES + 187.5 * INCHES) /2 - 2 * FEET;
+	public static final int DISTANCETOSCALE= 16 * FEET ;
+	public static final int DISTANCETOPASSSWITCH = 196 * INCHES + 7 * INCHES ;
+	public static final int DRIVEALONGSWITCH = 12 * FEET + 6 * INCHES;
 	static final Date date = new Date();
 	static final SimpleDateFormat formatter = new SimpleDateFormat("YYY-MM-dd_HH-mm-ss");
 	static final String strDate = formatter.format(date);
@@ -85,9 +87,10 @@ public class RobotMap {
 	public static final String LOGFILE = folderPath + "/log.txt";
 	public static final String LOGVOLTAGE = folderPath + "/voltage.txt";
 	public static boolean fileCreated = false;
-	public static final double ELEVATORDOWNSPEED = -.65;
-	public static final double ELEVATORUPSPEED = .85;
+	public static final double ELEVATORDOWNSPEED = -0.80;
+	public static final double ELEVATORUPSPEED = 1;
 	public static final DriverStation DS = DriverStation.getInstance();
+	public static final double LOWERARMTIME = .75;
 	public static int rightTrigger = 3;
 	public static int leftTrigger = 2;
 
@@ -142,5 +145,12 @@ public class RobotMap {
 			return false;
 		}
 		return true;
+	}
+	
+	public static double map(double x, double minInput, double maxInput, double minOutput, double maxOutput)
+	{
+		double slope =(maxOutput-minOutput)/(maxInput-minInput);
+		double yInt=maxOutput-slope*x;
+		return slope*x+yInt;
 	}
 }

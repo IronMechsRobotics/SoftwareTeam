@@ -24,18 +24,14 @@ public class Climb extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.elevator.setMotor(-.8);
+		Robot.elevator.setMotor(-1);
 		SmartDashboard.putNumber("Elevator distance", Robot.elevator.getDistance());
 		RobotMap.writeLog("CLIMBING");
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (Robot.elevator.isLimit()) {
-			Robot.elevator.resetEncoder();
-			return true;
-		}
-		return false;
+			return false;
 	}
 
 	// Called once after isFinished returns true
