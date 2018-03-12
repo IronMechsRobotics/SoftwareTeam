@@ -185,10 +185,18 @@ public class Robot extends IterativeRobot {
 					RobotMap.writeLog("Auto Method: LL");
 					new AutoSwitchLL().start();
 				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-					new AutoSwitchLR().start();
-					RobotMap.writeLog("Auto Method: LR");
+
+					if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
+						new AutoLeftScale().start();
+					} else {
+						new AutoCrossLine().start();
+					}
 				} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-					new AutoSwitchRL().start();
+					if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
+						new AutoLeftScale().start();
+					} else {
+						new AutoCrossLine().start();
+					}
 					RobotMap.writeLog("Auto Method: RL");
 				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
 					new AutoSwitchRR().start();
@@ -216,6 +224,7 @@ public class Robot extends IterativeRobot {
 				}
 			}
 		}
+
 	}
 
 	public static boolean getIsRight() {
