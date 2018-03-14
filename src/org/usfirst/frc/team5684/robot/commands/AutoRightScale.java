@@ -11,10 +11,14 @@ public class AutoRightScale extends CommandGroup {
 
     public AutoRightScale() {
     	addSequential(new DriveStraightWithGyro(RobotMap.DISTANCETOSCALE));
-		addParallel(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
-		addParallel(new LowerArm(), 1);
+    	addSequential(new Turn(RobotMap.TURNLEFT));
+    	addSequential(new ElevatorToHeight(RobotMap.HIGHSCALEHEIGHT));
+    	addSequential(new LowerArm(), 1);
+		addSequential(new DriveStraightWithGyro(8 * RobotMap.INCHES));
+		addSequential(new OutputCube(.5), 1);
+		addSequential(new DriveStraightWithGyro(-8 * RobotMap.INCHES));
+		addSequential(new ElevatorToHeight(RobotMap.SWITCHHEIGHT));
 		addSequential(new Turn(RobotMap.TURNLEFT));
 		addSequential(new DriveStraightWithGyro(8 * RobotMap.INCHES));
-		addSequential(new OutputCube(.5), 3);
     }
 }
