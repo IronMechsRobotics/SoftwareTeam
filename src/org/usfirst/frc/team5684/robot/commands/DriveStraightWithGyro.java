@@ -49,6 +49,8 @@ public class DriveStraightWithGyro extends Command {
 			} else {
 				speed = speed + DELTA;
 			}
+			speed = Math.min(speed, 1);
+			speed = Math.max(speed, -1);
 			Robot.drivetrain.simpleDrive(speed, angle * kp);
 		} else {
 			if (Math.abs(getTraveledDistance()) >= Math.abs(distance / 2.0)) {
@@ -56,6 +58,8 @@ public class DriveStraightWithGyro extends Command {
 			} else {
 				speed = speed + DELTA;
 			}
+			speed = Math.min(speed, 1);
+			speed = Math.max(speed, -1);
 			Robot.drivetrain.simpleDrive(-1 * speed, -1 * angle * kp);
 		}
 	}
