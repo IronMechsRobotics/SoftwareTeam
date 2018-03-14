@@ -131,97 +131,33 @@ public class Robot extends IterativeRobot {
 		RobotMap.writeLog("gameData \t " + gameData);
 		RobotMap.writeLog("gameData.substring(0, 1): " + gameData.substring(0, 1) + "\t getIsLeft()" + getIsLeft());
 		boolean goForScale = false;
-		if (goForScale) {
-			RobotMap.writeLog("We are going for the scale");
-			if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
-				RobotMap.writeLog("The Scale is on the left");
-				if (getIsLeft()) {
-					new AutoLeftScale().start();
-				} else {
-					if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-						RobotMap.writeLog("Auto Method: LL");
-						new AutoSwitchLL().start();
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-						new AutoSwitchLR().start();
-						RobotMap.writeLog("Auto Method: LR");
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-						new AutoSwitchRL().start();
-						RobotMap.writeLog("Auto Method: RL");
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-						new AutoSwitchRR().start();
-						RobotMap.writeLog("Auto Method: RR");
-					} else {
-						RobotMap.writeLog("Auto Method: AutoCrossLine");
-						new AutoCrossLine().start();
-					}
-				}
-			} else if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
-				RobotMap.writeLog("The Scale is on the right");
-				if (getIsLeft()) {
-					new AutoRightScale().start();
-				} else {
-					if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-						RobotMap.writeLog("Auto Method: LL");
-						new AutoSwitchLL().start();
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-						new AutoSwitchLR().start();
-						RobotMap.writeLog("Auto Method: LR");
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-						new AutoSwitchRL().start();
-						RobotMap.writeLog("Auto Method: RL");
-					} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-						new AutoSwitchRR().start();
-						RobotMap.writeLog("Auto Method: RR");
-					} else {
-						RobotMap.writeLog("Auto Method: AutoCrossLine");
-						new AutoCrossLine().start();
-					}
-				}
+		if (getIsLeft()) {
+			RobotMap.writeLog("We are on the Left side");
+			if (gameData.substring(0, 1).equalsIgnoreCase("L")) {
+				RobotMap.writeLog("The switch is on the left side");
+				RobotMap.writeLog("Auto Method: LL");
+				new AutoSwitchLL().start();
+			} else if (gameData.substring(1, 0).equalsIgnoreCase("L")) {
+				RobotMap.writeLog("The scale is on the left side");
+				RobotMap.writeLog("Auto Method: AutoLeftScale");
+				new AutoLeftScale().start();
+			} else {
+				RobotMap.writeLog("Auto Method: AutoCrossLine");
+				new AutoCrossLine().start();
 			}
 		} else {
-			if (getFar()) {
-				RobotMap.writeLog("We are going far");
-				if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-					RobotMap.writeLog("Auto Method: LL");
-					new AutoSwitchLL().start();
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-
-					if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
-						new AutoLeftScale().start();
-					} else {
-						new AutoCrossLine().start();
-					}
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-					if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
-						new AutoLeftScale().start();
-					} else {
-						new AutoCrossLine().start();
-					}
-					RobotMap.writeLog("Auto Method: RL");
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-					new AutoSwitchRR().start();
-					RobotMap.writeLog("Auto Method: RR");
-				} else {
-					RobotMap.writeLog("Auto Method: AutoCrossLine");
-					new AutoCrossLine().start();
-				}
+			RobotMap.writeLog("We are on the RIGHT side");
+			if (gameData.substring(0, 1).equalsIgnoreCase("R")) {
+				RobotMap.writeLog("The switch is on the left side");
+				RobotMap.writeLog("Auto Method: RR");
+				new AutoSwitchRR().start();
+			} else if (gameData.substring(1, 0).equalsIgnoreCase("R")) {
+				RobotMap.writeLog("The scale is on the Right side");
+				RobotMap.writeLog("Auto Method: AutoRightScale");
+				new AutoRightScale().start();
 			} else {
-				if (gameData.substring(0, 1).equalsIgnoreCase("L") && getIsLeft()) {
-					RobotMap.writeLog("Auto Method: close LL");
-					new AutoInsideDumpCube().start();
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && getIsLeft()) {
-					new AutoInsideHoldCubeLeft().start();
-					RobotMap.writeLog("Auto Method: close LR");
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("L") && !getIsLeft()) {
-					new AutoInsideHoldCubeRight().start();
-					RobotMap.writeLog("Auto Method: close RL");
-				} else if (gameData.substring(0, 1).equalsIgnoreCase("R") && !getIsLeft()) {
-					RobotMap.writeLog("Auto Method: close RR");
-					new AutoInsideDumpCube().start();
-				} else {
-					RobotMap.writeLog("Auto Method: AutoCrossLine CLOSE");
-					new AutoCrossLine().start();
-				}
+				RobotMap.writeLog("Auto Method: AutoCrossLine");
+				new AutoCrossLine().start();
 			}
 		}
 
