@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  */
 public class TurnSubsystem extends PIDSubsystem {
 
+	private final double DELTA = .05;
+	private double currentSpeed;
+
 	// Initialize your subsystem here
 	public TurnSubsystem() {
 		// Use these to get going:
@@ -17,11 +20,12 @@ public class TurnSubsystem extends PIDSubsystem {
 		// enable() - Enables the PID controller.
 
 		super("Turn", .25, .05, .75);
+		currentSpeed = 0;
 
 	}
 
 	public void initDefaultCommand() {
-		this.setOutputRange(-.55, .55);
+		this.setOutputRange(-1, 1);
 		this.setAbsoluteTolerance(1);
 
 	}
@@ -30,12 +34,14 @@ public class TurnSubsystem extends PIDSubsystem {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		return -1*Robot.drivetrain.getGyro().getAngleX();
+		double temp = -1 * Robot.drivetrain.getGyro().getAngleX();
+		currentSpeed = Math.max(Math.min(temp, currentSpeed + DELTA), currentSpeed - DELTA);
+		return currentSpeed;
 	}
 
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		Robot.drivetrain.turn(-1*output);
+		Robot.drivetrain.turn(-1 * output);
 	}
 }
