@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraightWithGyro extends Command {
 	double distance;
 	double kp = .25;
+	double speed;
+	final double DELTA = .05;
 
 	public DriveStraightWithGyro(double distance) {
 		// Use requires() here to declare subsystem dependencies
@@ -20,6 +22,7 @@ public class DriveStraightWithGyro extends Command {
 		Robot.drivetrain.getLeftEncoder().reset();
 		Robot.drivetrain.getRightEncoder().reset();
 		this.distance = distance;
+		speed = 0;
 
 	}
 
@@ -38,11 +41,27 @@ public class DriveStraightWithGyro extends Command {
 		SmartDashboard.putNumber("X: ", Robot.drivetrain.getGyro().getAngleX());
 		SmartDashboard.putNumber("Y: ", Robot.drivetrain.getGyro().getAngleY());
 		SmartDashboard.putNumber("Z: ", Robot.drivetrain.getGyro().getAngleZ());
-		double angle = -1*Robot.drivetrain.getGyro().getAngleX();
-		if (distance >= 0)
-			Robot.drivetrain.simpleDrive(.75, angle * kp);
-		else
-			Robot.drivetrain.simpleDrive(-.75, -1 * angle * kp);
+		double angle = -1 * Robot.drivetrain.getGyro().getAngleX();
+		if (distance >= 0) {
+
+			if (getTraveledDistance() >= distance / 2.0) {
+				speed = Math.max(speed - DELTA, .65);
+			} else {
+				speed = speed + DELTA;
+			}
+			Robot.drivetrain.simpleDrive(speed, angle * kp);
+		} else {
+			if (Math.abs(getTraveledDistance()) >= Math.abs(distance / 2.0)) {
+				speed = Math.max(speed - DELTA, .65);
+			} else {
+				speed = speed + DELTA;
+			}
+			Robot.drivetrain.simpleDrive(-1 * speed, -1 * angle * kp);
+		}
+	}
+
+	private double getTraveledDistance() {
+		return (Math.abs(Robot.drivetrain.getRightDistance() + Robot.drivetrain.getLeftDistance()) / 2.0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
