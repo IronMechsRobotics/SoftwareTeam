@@ -34,14 +34,13 @@ public class TurnSubsystem extends PIDSubsystem {
 		// Return your input value for the PID loop
 		// e.g. a sensor, like a potentiometer:
 		// yourPot.getAverageVoltage() / kYourMaxVoltage;
-		double temp = -1 * Robot.drivetrain.getGyro().getAngleX();
-		currentSpeed = Math.max(Math.min(temp, currentSpeed + DELTA), currentSpeed - DELTA);
-		return currentSpeed;
+		return -1 * Robot.drivetrain.getGyro().getAngleX();
 	}
 
 	protected void usePIDOutput(double output) {
 		// Use output to drive your system, like a motor
 		// e.g. yourMotor.set(output);
-		Robot.drivetrain.turn(-1 * output);
+		currentSpeed = Math.max(Math.min(output, currentSpeed + DELTA), currentSpeed - DELTA);
+		Robot.drivetrain.turn(-1 * currentSpeed);
 	}
 }
