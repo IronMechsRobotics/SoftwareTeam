@@ -137,13 +137,13 @@ public class Robot extends IterativeRobot {
 				RobotMap.writeLog("The switch is on the left side");
 				RobotMap.writeLog("Auto Method: LL");
 				new AutoSwitchLL().start();
-			} else if (gameData.substring(1, 0).equalsIgnoreCase("L")) {
+			} else if (gameData.substring(1, 2).equalsIgnoreCase("L")) {
 				RobotMap.writeLog("The scale is on the left side");
 				RobotMap.writeLog("Auto Method: AutoLeftScale");
 				new AutoLeftScale().start();
 			} else {
 				RobotMap.writeLog("Auto Method: AutoCrossLine");
-				new AutoCrossLine().start();
+				new AutoSwitchLR().start();
 			}
 		} else {
 			RobotMap.writeLog("We are on the RIGHT side");
@@ -151,13 +151,13 @@ public class Robot extends IterativeRobot {
 				RobotMap.writeLog("The switch is on the left side");
 				RobotMap.writeLog("Auto Method: RR");
 				new AutoSwitchRR().start();
-			} else if (gameData.substring(1, 0).equalsIgnoreCase("R")) {
+			} else if (gameData.substring(1, 2).equalsIgnoreCase("R")) {
 				RobotMap.writeLog("The scale is on the Right side");
 				RobotMap.writeLog("Auto Method: AutoRightScale");
 				new AutoRightScale().start();
 			} else {
 				RobotMap.writeLog("Auto Method: AutoCrossLine");
-				new AutoCrossLine().start();
+				new AutoSwitchRL().start();
 			}
 		}
 
